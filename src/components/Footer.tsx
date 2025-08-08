@@ -155,6 +155,9 @@ const Footer = () => {
               <Heart className="h-4 w-4 text-olive mx-1 fill-current" />
               <span>for beautiful people.</span>
             </div>
+            <div className="text-gray-400 text-xs mt-2 md:mt-0 order-last md:order-none">
+              <div>Fonts made from <a href="http://www.onlinewebfonts.com" target="_blank" rel="noopener noreferrer" className="hover:text-olive transition-colors duration-200">Web Fonts</a> is licensed by CC BY 4.0</div>
+            </div>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <a href="#" className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm">
                 Privacy Policy
