@@ -1,4 +1,26 @@
 /* Complete CSS reset and optimization */
+
+/* Custom Font Import - Allrounder Monument Regular */
+@font-face {
+  font-family: 'Allrounder Monument';
+  src: url('/fonts/AllrounderMonument-Regular.woff2') format('woff2'),
+       url('/fonts/AllrounderMonument-Regular.woff') format('woff'),
+       url('/fonts/AllrounderMonument-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Header Typography Override */
+h1, h2, h3, h4, h5, h6,
+.header-title,
+header .text-3xl,
+header .text-4xl,
+header .text-5xl,
+.font-bold {
+  font-family: 'Allrounder Monument', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif !important;
+}
+
 * {
   margin: 0 !important;
   padding: 0 !important;
