@@ -256,7 +256,7 @@ const Header = () => {
           <div className="font-playfair font-bold text-olive relative w-full flex justify-center ml-24">
             <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl tracking-wider leading-none flex items-end">
               BE YOU
-              <div className="text-base sm:text-lg lg:text-xl tracking-wide opacity-70 ml-1">
+              <div className="text-base sm:text-lg lg:text-xl tracking-wide opacity-70 ml-0">
                 BeautyHub
               </div>
             </div>
