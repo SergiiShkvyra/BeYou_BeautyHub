@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Phone, MapPin } from 'lucide-react';
 
 const Header = () => {
+  const [scrollY, setScrollY] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   // Function to handle phone number click
   const handlePhoneClick = (phoneNumber: string) => {
@@ -43,6 +45,29 @@ const Header = () => {
   };
   // ULTIMATE NUCLEAR OPTION: Force header to be visible at all times
   useEffect(() => {
+    // Scroll animation handler
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setScrollY(currentScrollY);
+      
+      // Set animation state based on scroll position
+      setIsAnimating(currentScrollY > 50);
+    };
+
+    // Add scroll event listener with throttling for performance
+    let ticking = false;
+    const throttledScrollHandler = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', throttledScrollHandler, { passive: true });
+
     const forceHeaderVisible = () => {
       const header = document.querySelector('header');
       if (header) {
@@ -122,6 +147,7 @@ const Header = () => {
 
     // Cleanup
     return () => {
+      window.removeEventListener('scroll', throttledScrollHandler);
       clearInterval(interval1);
       clearInterval(interval2);
       clearInterval(interval3);
@@ -139,6 +165,18 @@ const Header = () => {
     }
   };
 
+  // Calculate animation values based on scroll position
+  // Animation starts at 50px scroll and completes at 200px scroll
+  const scrollThreshold = 50;
+  const animationRange = 150; // 200px - 50px
+  const scrollProgress = Math.min(Math.max((scrollY - scrollThreshold) / animationRange, 0), 1);
+  
+  // Calculate opacity for "BeautyHub" (1 to 0)
+  const beautyHubOpacity = 1 - scrollProgress;
+  
+  // Calculate transform for "BE YOU" (moves to center)
+  // This creates a smooth transition from left-aligned to center-aligned
+  const beYouTransform = scrollProgress * 20; // Adjust this value to control movement distance
   return (
     <header 
       className="bg-warm fixed top-0 left-0 right-0 w-full shadow-sm z-[99999] will-change-transform"
@@ -215,8 +253,37 @@ const Header = () => {
       {/* Main navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ margin: '0 auto', width: '100%' }}>
         <div className="flex justify-center items-center py-2 sm:py-3 lg:py-4">
-          <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-olive text-center">
-            BE YOU BeautyHub
+          <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-olive text-center relative overflow-hidden">
+            {/* BE YOU text - moves to center during scroll */}
+            <span 
+              className="inline-block transition-transform duration-300 ease-out"
+              style={{
+                transform: `translateX(${beYouTransform}px)`,
+                transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+              }}
+            >
+              BE YOU
+            </span>
+            {/* Space between text parts */}
+            <span 
+              className="inline-block transition-opacity duration-300 ease-out"
+              style={{
+                opacity: beautyHubOpacity,
+                transition: 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+              }}
+            >
+              {' '}
+            </span>
+            {/* BeautyHub text - fades out during scroll */}
+            <span 
+              className="inline-block transition-opacity duration-300 ease-out"
+              style={{
+                opacity: beautyHubOpacity,
+                transition: 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+              }}
+            >
+              BeautyHub
+            </span>
           </div>
         </div>
 
