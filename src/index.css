@@ -1,0 +1,368 @@
+/* Complete CSS reset and optimization */
+* {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Eliminate all potential white space sources */
+html {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  height: 100% !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
+  scroll-behavior: smooth !important;
+  scroll-padding-top: 140px !important;
+}
+
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  height: 100% !important;
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  -webkit-overflow-scrolling: touch !important;
+  scroll-behavior: smooth !important;
+}
+
+#root {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  min-height: 100vh !important;
+  width: 100% !important;
+  max-width: 100vw !important;
+}
+
+/* Aggressive header positioning */
+header {
+  position: fixed !important;
+  top: 0 !important;
+  bottom: auto !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 2147483647 !important;
+  transform: translateZ(0) !important;
+  backface-visibility: hidden !important;
+  will-change: transform !important;
+  box-sizing: border-box !important;
+  -webkit-transform: translateZ(0) !important;
+  -webkit-backface-visibility: hidden !important;
+  contain: layout style paint !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  overflow-y: visible !important;
+  overflow-x: hidden !important;
+  pointer-events: auto !important;
+  transition: none !important;
+  animation: none !important;
+  transform-style: preserve-3d !important;
+  perspective: 1000px !important;
+  isolation: isolate !important;
+  mix-blend-mode: normal !important;
+  -webkit-position: fixed !important;
+}
+
+/* ULTIMATE NUCLEAR OPTION - Force header visibility with maximum specificity */
+header,
+header.bg-warm,
+.bg-warm,
+header[class*="bg-warm"],
+*[class*="Header"],
+header[style],
+header[class],
+div[class*="header"],
+div[class*="Header"] {
+  position: fixed !important;
+  top: 0 !important;
+  bottom: auto !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  z-index: 2147483647 !important;
+  transform: translate3d(0, 0, 0) !important;
+  -webkit-transform: translate3d(0, 0, 0) !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+  contain: layout style paint !important;
+  will-change: transform !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transition: none !important;
+  animation: none !important;
+  transform-style: preserve-3d !important;
+  isolation: isolate !important;
+  mix-blend-mode: normal !important;
+}
+
+/* Prevent any parent elements from hiding the header */
+body, html, #root, main, section, div {
+  transform: none !important;
+}
+
+/* Force header to always be on top of everything */
+header::before,
+header::after {
+  content: '' !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 0 !important;
+  z-index: 2147483646 !important;
+  pointer-events: none !important;
+}
+
+/* Prevent any element from overriding header position */
+header * {
+  position: relative !important;
+  z-index: inherit !important;
+}
+
+/* Prevent scroll-based transforms from affecting header */
+@keyframes keepHeaderVisible {
+  0%, 100% {
+    position: fixed !important;
+    top: 0 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 2147483647 !important;
+  }
+}
+
+header {
+  animation: keepHeaderVisible 0.1s infinite !important;
+}
+
+/* Browser-specific overrides */
+@-moz-document url-prefix() {
+  /* Firefox specific */
+  header {
+    position: fixed !important;
+    top: 0 !important;
+    z-index: 99999 !important;
+  }
+}
+
+/* Safari specific */
+@supports (-webkit-appearance: none) {
+  header {
+    position: fixed !important;
+    top: 0 !important;
+    -webkit-transform: translate3d(0, 0, 0) !important;
+  }
+}
+
+/* Chrome/Edge specific */
+@supports (background: -webkit-named-image(i)) {
+  header {
+    position: fixed !important;
+    top: 0 !important;
+    transform: translate3d(0, 0, 0) !important;
+  }
+}
+
+/* Internet Explorer fallback */
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  header {
+    position: fixed !important;
+    top: 0 !important;
+    z-index: 99999 !important;
+  }
+}
+
+/* Mobile-specific sticky header fixes */
+@media screen and (max-width: 768px) {
+  header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    z-index: 9999 !important;
+    -webkit-transform: translate3d(0, 0, 0) !important;
+    transform: translate3d(0, 0, 0) !important;
+    -webkit-backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
+  }
+  
+  /* iOS Safari specific fixes */
+  @supports (-webkit-overflow-scrolling: touch) {
+    header {
+      position: fixed !important;
+      -webkit-transform: translate3d(0, 0, 0) !important;
+      transform: translate3d(0, 0, 0) !important;
+    }
+  }
+}
+
+/* Android Chrome specific fixes */
+@media screen and (max-width: 768px) and (-webkit-min-device-pixel-ratio: 1) {
+  header {
+    position: fixed !important;
+    top: 0 !important;
+    transform: translateZ(0) !important;
+  }
+}
+
+/* Hardware acceleration for smooth scrolling */
+* {
+  -webkit-transform: translateZ(0) !important;
+  -moz-transform: translateZ(0) !important;
+  -ms-transform: translateZ(0) !important;
+  -o-transform: translateZ(0) !important;
+  transform: translateZ(0) !important;
+}
+
+/* Optimize images for better scroll performance */
+img {
+  will-change: transform !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+}
+
+/* Optimize animations and transitions */
+.transition-all,
+.transition-colors,
+.transition-transform {
+  will-change: transform, opacity !important;
+}
+
+/* Fix for responsive mode white screen */
+@media screen and (max-width: 1024px) {
+  html, body, #root {
+    min-height: 100vh !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    outline: 0 !important;
+  }
+  
+  body {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+  
+  html {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+  
+  #root {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+}
+
+/* Ensure all containers respect viewport width */
+.container, .max-w-7xl {
+  max-width: 100% !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+  margin: 0 !important;
+}
+
+@media (max-width: 640px) {
+  .container, .max-w-7xl {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    margin: 0 !important;
+  }
+  
+  body {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    min-height: 100vh !important;
+    background: transparent !important;
+  }
+  
+  html {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+  
+  #root {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+}
+
+/* Fix for responsive preview issues */
+@media (max-width: 768px) {
+  .min-h-screen {
+    min-height: 100vh !important;
+  }
+  
+  section {
+    width: 100% !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+  }
+  
+  body {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+  
+  html {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+  
+  #root {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+}
+
+/* Additional reset for iframe environments */
+html[data-iframe] {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+body[data-iframe] {
+  margin: 0 !important;
+  padding-top: 120px !important;
+  border: 0 !important;
+}
+
+/* Tailwind base styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
