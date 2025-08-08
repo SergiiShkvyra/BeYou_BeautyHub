@@ -200,7 +200,7 @@ const Header = () => {
       }}
     >
       {/* Top contact bar */}
-      <div className="py-2 px-4 w-full" style={{ margin: '0', padding: '0.5rem 1rem', width: '100%' }}>
+      <div className="py-1 px-4 w-full" style={{ margin: '0', padding: '0.25rem 1rem', width: '100%' }}>
         <div className="max-w-7xl mx-auto flex justify-between items-center text-sm text-olive">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1">
