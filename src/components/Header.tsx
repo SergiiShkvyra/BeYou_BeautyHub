@@ -254,7 +254,7 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ margin: '0 auto', width: '100%' }}>
         <div className="flex justify-center items-center py-0.5 sm:py-1 lg:py-1">
           <div className="font-playfair font-bold text-olive relative w-full flex justify-center ml-12 sm:ml-24">
-            <div className="text-5xl sm:text-5xl lg:text-6xl xl:text-7xl tracking-wider leading-none flex items-end">
+            <div className="text-5xl sm:text-5xl lg:text-6xl xl:text-8xl tracking-wider leading-none flex items-end">
               <span className="whitespace-nowrap">BE YOU</span>
               <div className="text-base sm:text-lg lg:text-xl tracking-wide opacity-70 ml-0">
                 BeautyHub
