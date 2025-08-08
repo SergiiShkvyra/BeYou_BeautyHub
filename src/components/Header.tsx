@@ -253,14 +253,14 @@ const Header = () => {
       {/* Main navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ margin: '0 auto', width: '100%' }}>
         <div className="flex justify-center items-center py-2 sm:py-3 lg:py-4">
-          <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-olive text-center relative">
+          <div className="text-3xl sm:text-4xl lg:text-5xl font-playfair font-bold text-olive text-center relative tracking-wide">
             BE YOU BeautyHub
           </div>
         </div>
 
         {/* Horizontal Navigation Bar */}
         <div className="border-t border-olive/20 py-1 sm:py-1.5 lg:py-2">
-          <nav className="flex justify-center items-center gap-1 sm:gap-4 lg:gap-6 max-w-4xl mx-auto px-1 py-1 sm:py-0 overflow-x-auto">
+          <nav className="flex justify-center items-center gap-1 sm:gap-4 lg:gap-6 max-w-4xl mx-auto px-1 py-1 sm:py-0 overflow-x-auto font-montserrat">
             {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => (
               <button
                 key={item}
