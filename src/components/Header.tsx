@@ -254,29 +254,7 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ margin: '0 auto', width: '100%' }}>
         <div className="flex justify-center items-center py-2 sm:py-3 lg:py-4">
           <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-olive text-center relative">
-            <div className="flex items-center justify-center">
-              {/* BE YOU text - moves to center during scroll */}
-              <span 
-                className="inline-block will-change-transform"
-                style={{
-                  transform: `translateX(${beYouTransform}px)`,
-                  transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  transformOrigin: 'center'
-                }}
-              >
-                BE YOU
-              </span>
-              {/* Space and BeautyHub text - fades out during scroll */}
-              <span 
-                className="inline-block will-change-transform"
-                style={{
-                  opacity: beautyHubOpacity,
-                  transition: 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-                }}
-              >
-                {' '}BeautyHub
-              </span>
-            </div>
+            BE YOU BeautyHub
           </div>
         </div>
 

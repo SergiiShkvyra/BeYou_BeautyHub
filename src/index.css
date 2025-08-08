@@ -367,28 +367,3 @@ body[data-iframe] {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Scroll animation styles for header text */
-@layer components {
-  .header-text-animation {
-    /* Ensure smooth transitions for all transform and opacity changes */
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  /* Optimize performance for scroll animations */
-  .scroll-optimized {
-    will-change: transform, opacity;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-  }
-  
-  /* Fallback for browsers that don't support smooth scrolling */
-  @media (prefers-reduced-motion: reduce) {
-    .header-text-animation {
-      transition: none !important;
-    }
-  }
-}
