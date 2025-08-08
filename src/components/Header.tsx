@@ -215,7 +215,7 @@ const Header = () => {
       {/* Main navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ margin: '0 auto', width: '100%' }}>
         <div className="flex justify-center items-center py-2 sm:py-3 lg:py-4">
-          <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-olive text-center header-title" style={{ fontFamily: "'International Regular', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" }}>
+          <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-olive text-center">
             BeYou BeautyHub
           </div>
         </div>

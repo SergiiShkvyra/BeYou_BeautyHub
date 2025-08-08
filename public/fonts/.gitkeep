@@ -1,8 +1,0 @@
-# Font Files Directory
-
-Place your International Regular font files here:
-- International-Regular.woff2 (recommended for modern browsers)
-- International-Regular.woff (for broader browser support)
-- International-Regular.ttf (fallback for older browsers)
-
-The font files should be named exactly as referenced in the CSS @font-face declaration.
