@@ -200,7 +200,7 @@ const Header = () => {
       }}
     >
       {/* Top contact bar */}
-      <div className="py-1 px-4 w-full" style={{ margin: '0', padding: '0.25rem 1rem', width: '100%' }}>
+      <div className="py-0.5 px-4 w-full" style={{ margin: '0', padding: '0.125rem 1rem', width: '100%' }}>
         <div className="max-w-7xl mx-auto flex justify-between items-center text-sm text-olive">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1">
@@ -252,20 +252,20 @@ const Header = () => {
 
       {/* Main navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ margin: '0 auto', width: '100%' }}>
-        <div className="flex justify-center items-center py-1 sm:py-2 lg:py-2">
+        <div className="flex justify-center items-center py-0.5 sm:py-1 lg:py-1">
           <div className="font-playfair font-bold text-olive text-center relative flex flex-row items-center space-x-4">
-            <div className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-wider leading-none self-end">
+            <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl tracking-wider leading-none self-end">
               BE YOU
             </div>
-            <div className="text-lg sm:text-xl lg:text-2xl tracking-wide opacity-90 self-end">
+            <div className="text-base sm:text-lg lg:text-xl tracking-wide opacity-90 self-end">
               BeautyHub
             </div>
           </div>
         </div>
 
         {/* Horizontal Navigation Bar */}
-        <div className="border-t border-olive/20 py-0.5 sm:py-1 lg:py-1">
-          <nav className="flex justify-center items-center gap-1 sm:gap-4 lg:gap-6 max-w-4xl mx-auto px-1 py-1 sm:py-0 overflow-x-auto font-montserrat">
+        <div className="border-t border-olive/20 py-0 sm:py-0.5 lg:py-0.5">
+          <nav className="flex justify-center items-center gap-1 sm:gap-4 lg:gap-6 max-w-4xl mx-auto px-1 py-0.5 sm:py-0 overflow-x-auto font-montserrat">
             {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => (
               <button
                 key={item}
@@ -281,8 +281,7 @@ const Header = () => {
                   userSelect: 'none',
                   WebkitUserSelect: 'none'
                 }}
-                className="text-gray-700 hover:text-olive active:text-olive active:bg-olive/20 transition-colors duration-200 font-medium cursor-pointer px-1 sm:px-3 py-1 sm:py-1.5 rounded-lg hover:bg-olive/10 focus:outline-none focus:ring-2 focus:ring-olive focus:ring-opacity-50 text-xs sm:text-base whitespace-nowrap flex-shrink-0 select-none"
-                className="text-gray-700 hover:text-olive active:text-olive active:bg-olive/20 transition-colors duration-200 font-medium cursor-pointer px-1 sm:px-3 py-1 sm:py-1.5 rounded-lg hover:bg-olive/10 focus:outline-none focus:text-olive text-xs sm:text-base whitespace-nowrap flex-shrink-0 select-none"
+                className="text-gray-700 hover:text-olive active:text-olive active:bg-olive/20 transition-colors duration-200 font-medium cursor-pointer px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg hover:bg-olive/10 focus:outline-none focus:text-olive text-xs sm:text-base whitespace-nowrap flex-shrink-0 select-none min-h-[44px] flex items-center"
               >
                 {item}
               </button>
