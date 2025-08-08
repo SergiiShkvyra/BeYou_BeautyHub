@@ -371,9 +371,7 @@ body[data-iframe] {
 /* International Regular Font */
 @font-face {
   font-family: 'International Regular';
-  src: url('/fonts/International-Regular.woff2') format('woff2'),
-       url('/fonts/International-Regular.woff') format('woff'),
-       url('/fonts/International-Regular.ttf') format('truetype');
+  src: url('/fonts/International-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -381,5 +379,11 @@ body[data-iframe] {
 
 /* Apply International Regular to the main header title */
 .header-title {
-  font-family: 'International Regular', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'International Regular', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  font-weight: normal !important;
+}
+/* Force the font on the specific header element */
+header .header-title {
+  font-family: 'International Regular', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  font-weight: normal !important;
 }
