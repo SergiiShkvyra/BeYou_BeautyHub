@@ -254,7 +254,7 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ margin: '0 auto', width: '100%' }}>
         <div className="flex justify-center items-center py-2 sm:py-3 lg:py-4">
           <div className="font-playfair font-bold text-olive text-center relative flex flex-row items-center space-x-4">
-            <div className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-wider leading-none mb-1">
+            <div className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-wider leading-none mr-2">
               BE YOU
             </div>
             <div className="text-lg sm:text-xl lg:text-2xl tracking-wide opacity-90 self-end">
