@@ -252,7 +252,7 @@ const Header = () => {
 
       {/* Main navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ margin: '0 auto', width: '100%' }}>
-        <div className="flex justify-center items-center py-2 sm:py-3 lg:py-4">
+        <div className="flex justify-center items-center py-1 sm:py-2 lg:py-2">
           <div className="font-playfair font-bold text-olive text-center relative flex flex-row items-center space-x-4">
             <div className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-wider leading-none self-end">
               BE YOU
@@ -264,7 +264,7 @@ const Header = () => {
         </div>
 
         {/* Horizontal Navigation Bar */}
-        <div className="border-t border-olive/20 py-1 sm:py-1.5 lg:py-2">
+        <div className="border-t border-olive/20 py-0.5 sm:py-1 lg:py-1">
           <nav className="flex justify-center items-center gap-1 sm:gap-4 lg:gap-6 max-w-4xl mx-auto px-1 py-1 sm:py-0 overflow-x-auto font-montserrat">
             {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => (
               <button
