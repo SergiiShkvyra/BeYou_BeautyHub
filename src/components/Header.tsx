@@ -253,11 +253,11 @@ const Header = () => {
       {/* Main navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ margin: '0 auto', width: '100%' }}>
         <div className="flex justify-center items-center py-0.5 sm:py-1 lg:py-1">
-          <div className="font-playfair font-bold text-olive relative flex items-end justify-center w-full">
-            <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl tracking-wider leading-none">
+          <div className="font-playfair font-bold text-olive relative w-full flex justify-center">
+            <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl tracking-wider leading-none absolute left-1/2 transform -translate-x-1/2">
               BE YOU
             </div>
-            <div className="text-base sm:text-lg lg:text-xl tracking-wide opacity-70 ml-4">
+            <div className="text-base sm:text-lg lg:text-xl tracking-wide opacity-70 absolute left-1/2 transform -translate-x-1/2 ml-32 sm:ml-40 lg:ml-48 xl:ml-56 self-end">
               BeautyHub
             </div>
           </div>
