@@ -253,7 +253,7 @@ const Header = () => {
       {/* Main navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ margin: '0 auto', width: '100%' }}>
         <div className="flex justify-center items-center py-0.5 sm:py-1 lg:py-1">
-          <div className="font-playfair font-bold text-olive relative w-full flex justify-center">
+          <div className="font-playfair font-bold text-olive relative w-full flex justify-center ml-24">
             <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl tracking-wider leading-none flex items-end">
               BE YOU
               <div className="text-base sm:text-lg lg:text-xl tracking-wide opacity-70 ml-1">
