@@ -30,7 +30,7 @@ const Hero = () => {
           <span className="text-warm block">BE YOU.</span>
         </h1>
         <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto opacity-90">
-          Professional eyelash extensions and eyebrow services that make you feel confident and beautiful every day
+          Professional eyelash and eyebrow services that make you feel confident and beautiful every day
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
