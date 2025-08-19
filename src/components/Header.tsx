@@ -244,7 +244,7 @@ const Header = () => {
             </span>
           </div>
           <div className="text-right">
-            <span className="hidden sm:inline">Mon-Sat: 9AM-7PM | Sun: 11AM-5PM</span>
+            <span className="hidden sm:inline">Tue-Thur: 10AM-7PM | Sat: 10AM-5PM</span>
             <span className="sm:hidden">9AM-7PM</span>
           </div>
         </div>
