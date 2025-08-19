@@ -50,9 +50,8 @@ const About = () => {
               Your Beauty, Our Passion
             </h2>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-              At Bella Beauty Studio, we believe that everyone deserves to feel beautiful and confident. 
-              Our team of experienced professionals is dedicated to enhancing your natural beauty through 
-              expertly applied eyelash extensions and precision eyebrow services.
+              Welcome to BeYou — not just a beauty studio, but a space where you’re treated the way we treat ourselves:
+              with care, honesty, love, and deep respect.
             </p>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
               We take pride in creating a relaxing, luxurious experience while delivering results that 
