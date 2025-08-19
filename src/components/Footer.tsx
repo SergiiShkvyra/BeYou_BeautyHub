@@ -116,7 +116,7 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className="text-gray-300 text-sm hover:text-olive transition-colors duration-200 cursor-pointer"
                 >
-                  424 Maple Ave E<br />
+                  424 Maple Ave E Suite 3<br />
                   Vienna, VA 22180
                 </a>
               </div>
