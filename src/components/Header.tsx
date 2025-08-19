@@ -220,7 +220,7 @@ const Header = () => {
                 rel="noopener noreferrer"
                 className="hover:underline transition-all duration-200"
               >
-                <span>424 Maple Ave E, Vienna, VA 22180</span>
+                <span>424 Maple Ave E Suite 3, Vienna, VA 22180</span>
               </a>
             </div>
           </div>
