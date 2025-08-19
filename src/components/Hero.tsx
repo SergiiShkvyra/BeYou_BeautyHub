@@ -58,7 +58,7 @@ const Hero = () => {
           <div className="flex items-center justify-center space-x-3">
             <Users className="h-8 w-8 text-olive" />
             <div className="text-left">
-              <div className="text-3xl font-bold">400+</div>
+              <div className="text-3xl font-bold">1400+</div>
               <div className="text-sm opacity-80">Happy Clients</div>
             </div>
           </div>
