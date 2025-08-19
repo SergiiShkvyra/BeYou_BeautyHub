@@ -54,9 +54,8 @@ const About = () => {
               with care, honesty, love, and deep respect.
             </p>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-              We take pride in creating a relaxing, luxurious experience while delivering results that 
-              exceed your expectations. Every service is performed with meticulous attention to detail 
-              and a commitment to safety and hygiene.
+              Here, you’re more than just a client. You’re part of something real.
+              We see your natural beauty, and we help it shine — with every lash, every brow, and every genuine conversation
             </p>
 
             {/* Features */}
