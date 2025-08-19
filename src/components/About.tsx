@@ -39,7 +39,7 @@ const About = () => {
               decoding="async"
             />
             <div className="absolute -bottom-8 -right-8 bg-olive text-white p-6 rounded-2xl shadow-xl">
-              <div className="text-3xl font-bold">400+</div>
+              <div className="text-3xl font-bold">1400+</div>
               <div className="text-sm">Happy Clients</div>
             </div>
           </div>
