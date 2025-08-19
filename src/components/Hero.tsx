@@ -25,7 +25,7 @@ const Hero = () => {
 
       {/* Content */}
       <div className="relative z-10 max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-warm w-full">
-        <h1 className="text-4xl md:text-6xl font-inter mb-6 leading-tight">
+        <h1 className="text-4xl md:text-6xl font-playfair font-bold mb-6 leading-tight tracking-wider">
           BE NATURAL. BE REAL.
           <span className="text-warm block">BE YOU.</span>
         </h1>
