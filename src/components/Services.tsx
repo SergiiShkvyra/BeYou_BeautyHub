@@ -50,7 +50,7 @@ const Services = () => {
     },
     {
       icon: <Clock className="h-8 w-8" />,
-      title: 'Lash Lift & Tint',
+      title: 'And Many More...',
       description: 'Natural lash enhancement without extensions',
       price: 'From $75',
       duration: '45-60 minutes',
