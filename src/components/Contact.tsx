@@ -150,48 +150,49 @@ const Contact = () => {
                   const isIOS = /iphone|ipad|ipod/.test(userAgent);
                   const isMobile = isAndroid || isIOS || /mobile/.test(userAgent);
                   
-                  // Android-specific fix for ERR_UNKNOWN_URL_SCHEME
-                  if (isAndroid) {
-                    // Use window.open instead of window.location.href for Android
-                    // This prevents the ERR_UNKNOWN_URL_SCHEME error
-                    try {
-                      const smsUrl = `sms:${phoneNumber}`;
-                      const newWindow = window.open(smsUrl, '_self');
-                      
-                      // Fallback if window.open fails
-                      if (!newWindow) {
-                        // Try creating a temporary link with user interaction
-                        const link = document.createElement('a');
-                        link.href = smsUrl;
-                        link.style.display = 'none';
-                        document.body.appendChild(link);
-                        
-                        // Trigger click programmatically
-                        link.click();
-                        
-                        // Clean up
-                        setTimeout(() => {
-                          document.body.removeChild(link);
-                        }, 100);
+                  if (isMobile) {
+                    // Create a proper link element for mobile devices
+                    // This avoids the ERR_UNKNOWN_URL_SCHEME error on Android
+                    const smsUrl = `sms:${phoneNumber}`;
+                    
+                    // Create temporary link element
+                    const link = document.createElement('a');
+                    link.href = smsUrl;
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                    
+                    // Add to DOM temporarily (required for some browsers)
+                    link.style.position = 'absolute';
+                    link.style.left = '-9999px';
+                    link.style.top = '-9999px';
+                    document.body.appendChild(link);
+                    
+                    // Simulate user click (this bypasses security restrictions)
+                    const clickEvent = new MouseEvent('click', {
+                      bubbles: true,
+                      cancelable: true,
+                      view: window
+                    });
+                    
+                    // Dispatch the click event
+                    const success = link.dispatchEvent(clickEvent);
+                    
+                    // Clean up
+                    setTimeout(() => {
+                      if (document.body.contains(link)) {
+                        document.body.removeChild(link);
                       }
-                    } catch (error) {
-                      // If all methods fail, show manual instructions
-                      alert(`Please text us at: ${formattedNumber}\n\nTo send a message:\n1. Open your messaging app\n2. Create a new message\n3. Enter this number: ${formattedNumber}`);
+                    }, 100);
+                    
+                    // Fallback if the link click didn't work
+                    if (!success) {
+                      // Show manual instructions
+                      alert(`Please text us at: ${formattedNumber}\n\nIf your messaging app didn't open, please manually open your SMS app and send a message to this number.`);
                       
-                      // Try to copy number to clipboard
+                      // Try to copy to clipboard as backup
                       if (navigator.clipboard && navigator.clipboard.writeText) {
                         navigator.clipboard.writeText(formattedNumber).catch(() => {});
                       }
-                    }
-                  } else if (isIOS) {
-                    // iOS - use standard sms: scheme
-                    window.location.href = `sms:${phoneNumber}`;
-                  } else if (isMobile) {
-                    // Other mobile devices
-                    try {
-                      window.location.href = `sms:${phoneNumber}`;
-                    } catch (error) {
-                      alert(`Please text us at: ${formattedNumber}`);
                     }
                   } else {
                     // Desktop - copy to clipboard
