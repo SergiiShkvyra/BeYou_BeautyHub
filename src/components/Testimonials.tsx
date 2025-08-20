@@ -19,9 +19,9 @@ const Testimonials = () => {
     },
     {
       name: 'Jessica Chen',
-      service: 'Classic Lash Extensions',
+      service: 'Lash Lift + Tinting',
       rating: 5,
-      text: 'Perfect for someone who wanted a natural enhancement. The lashes are comfortable and look amazing. The service was relaxing and the results exceeded my expectations.',
+      text: 'Perfect for someone who wanted a natural enhancement. The lash lift gave me beautiful curl and the tinting added just the right amount of definition. The service was relaxing and the results exceeded my expectations.',
       image: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg'
     },
     {

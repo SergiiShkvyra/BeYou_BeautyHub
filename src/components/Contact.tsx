@@ -213,7 +213,7 @@ const Contact = () => {
                     className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:ring-2 focus:ring-olive focus:border-olive transition-colors"
                   >
                     <option value="">Select a service</option>
-                    <option value="classic-lashes">Classic Lash Extensions</option>
+                    <option value="lash-lift-tint">Lash Lift + Tinting</option>
                     <option value="volume-lashes">Volume Lash Extensions</option>
                     <option value="hybrid-lashes">Hybrid Lash Extensions</option>
                     <option value="lash-lift">Lash Lift & Tint</option>

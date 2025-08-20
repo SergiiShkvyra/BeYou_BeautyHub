@@ -5,11 +5,11 @@ const Services = () => {
   const services = [
     {
       icon: <Eye className="h-8 w-8" />,
-      title: 'Classic Lash Extensions',
-      description: 'One extension per natural lash for a natural, enhanced look',
-      price: 'From $120',
-      duration: '2-3 hours',
-      features: ['Natural enhancement', 'Lightweight feel', 'Perfect for beginners', '6-8 week touch-ups']
+      title: 'Lash Lift + Tinting',
+      description: 'Natural lash enhancement with curl and color for beautiful definition',
+      price: 'From $75',
+      duration: '45-60 minutes',
+      features: ['Natural curl', 'Color enhancement', 'No maintenance needed', '6-8 week results']
     },
     {
       icon: <Sparkles className="h-8 w-8" />,
