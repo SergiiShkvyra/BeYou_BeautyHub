@@ -151,6 +151,7 @@ const Contact = () => {
                   const isMobile = isAndroid || isIOS || /mobile/.test(userAgent);
                   
                   if (isMobile) {
+                  }
                   if (isMobile) {
                     // SOLUTION: Use proper link creation with user-initiated click
                     // This bypasses Android's ERR_UNKNOWN_URL_SCHEME restriction
