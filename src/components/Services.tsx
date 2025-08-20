@@ -43,8 +43,8 @@ const Services = () => {
       icon: <Shield className="h-8 w-8" />,
       title: 'Lash Tint + Eyebrow Tweezing + Tinting',
       description: 'A complete service for expressive lashes and perfect eyebrows.',
-      price: 'From $85',
-      duration: '60-75 minutes',
+      price: 'From $70',
+      duration: '50 minutes',
       features: ['Fuller appearance', 'Long-lasting results', 'Low maintenance', '6-8 week results'],
       bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh'
     },
