@@ -48,6 +48,8 @@ const Hero = () => {
               }
             }}
             className="border-2 border-white text-white hover:bg-warm hover:text-olive px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200"
+            aria-label="Scroll to Our Most Popular Services section"
+            type="button"
           >
             View Services
           </button>
