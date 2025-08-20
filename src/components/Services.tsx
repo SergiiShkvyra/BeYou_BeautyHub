@@ -73,42 +73,48 @@ const Services = () => {
           {services.map((service, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 will-change-transform"
+              className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 will-change-transform flex flex-col h-full"
             >
-              <div className="text-olive mb-4">{service.icon}</div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">{service.title}</h3>
-              <p className="text-gray-600 mb-4">{service.description}</p>
-              
-              <div className="flex justify-between items-center mb-6">
-                <span className="text-2xl font-bold text-olive">{service.price}</span>
-                <span className="text-sm text-gray-500 flex items-center">
-                  {service.duration}
-                </span>
+              {/* Content container that grows to fill available space */}
+              <div className="flex-grow">
+                <div className="text-olive mb-4">{service.icon}</div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">{service.title}</h3>
+                <p className="text-gray-600 mb-4">{service.description}</p>
+                
+                <div className="flex justify-between items-center mb-6">
+                  <span className="text-2xl font-bold text-olive">{service.price}</span>
+                  <span className="text-sm text-gray-500 flex items-center">
+                    {service.duration}
+                  </span>
+                </div>
+
+                <ul className="space-y-2 mb-6">
+                  {service.features.map((feature, idx) => (
+                    <li key={idx} className="text-sm text-gray-600 flex items-center">
+                      <div className="h-2 w-2 bg-olive rounded-full mr-3 flex-shrink-0"></div>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
               </div>
 
-              <ul className="space-y-2 mb-6">
-                {service.features.map((feature, idx) => (
-                  <li key={idx} className="text-sm text-gray-600 flex items-center">
-                    <div className="h-2 w-2 bg-olive rounded-full mr-3 flex-shrink-0"></div>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-
-              <button 
-                onClick={() => window.open(service.bookingUrl, '_blank')}
-               onMouseDown={(e) => {
-                 // Handle middle-click (scroll wheel click)
-                 if (e.button === 1) {
-                   e.preventDefault();
-                   window.open(service.bookingUrl, '_blank');
-                 }
-               }}
-                className="w-full bg-olive text-white py-3 rounded-full hover:bg-warm hover:text-olive transition-colors duration-200 font-semibold"
-                aria-label="Book appointment at Be You Beauty Hub"
-              >
-                Book This Service
-              </button>
+              {/* Button container that stays at bottom */}
+              <div className="mt-auto">
+                <button 
+                  onClick={() => window.open(service.bookingUrl, '_blank')}
+                 onMouseDown={(e) => {
+                   // Handle middle-click (scroll wheel click)
+                   if (e.button === 1) {
+                     e.preventDefault();
+                     window.open(service.bookingUrl, '_blank');
+                   }
+                 }}
+                  className="w-full bg-olive text-white py-3 rounded-full hover:bg-warm hover:text-olive transition-colors duration-200 font-semibold"
+                  aria-label="Book appointment at Be You Beauty Hub"
+                >
+                  Book This Service
+                </button>
+              </div>
             </div>
           ))}
         </div>
