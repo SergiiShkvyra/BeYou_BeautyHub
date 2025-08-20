@@ -31,7 +31,7 @@ const Services = () => {
       bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?service=s%3A19894672'
     },
     {
-      icon: <Sparkles className="h-8 w-8" />,
+      icon: <Eye className="h-8 w-8" />,
       title: 'L&L Combo Deluxe',
       description: 'Professional brow design and color enhancement',
       price: 'From $190',
