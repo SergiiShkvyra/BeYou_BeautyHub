@@ -4,6 +4,26 @@ import { X } from 'lucide-react';
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
+  // Close modal function
+  const closeModal = () => {
+    setSelectedImage(null);
+  };
+
+  // Handle keyboard events for accessibility
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      closeModal();
+    }
+  };
+
+  // Handle click outside to close modal
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    // Only close if clicking on the overlay itself, not the image
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
+
   const images = [
     {
       src: 'https://images.pexels.com/photos/7755468/pexels-photo-7755468.jpeg',
@@ -74,18 +94,39 @@ const Gallery = () => {
 
         {/* Modal */}
         {selectedImage !== null && (
-          <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4">
-            <div className="relative max-w-4xl max-h-full">
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4 cursor-pointer"
+            onClick={handleOverlayClick}
+            onKeyDown={handleKeyDown}
+            tabIndex={0}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Image gallery modal"
+          >
+            <div className="relative max-w-4xl max-h-full cursor-default">
+              {/* Enhanced X button with better positioning and touch targets */}
               <button
-                onClick={() => setSelectedImage(null)}
-                className="absolute top-4 right-4 text-white hover:text-olive z-10"
+                onClick={closeModal}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    closeModal();
+                  }
+                }}
+                className="absolute -top-2 -right-2 bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-800 hover:text-olive rounded-full p-3 z-20 transition-all duration-200 shadow-lg backdrop-blur-sm min-w-[48px] min-h-[48px] flex items-center justify-center"
+                aria-label="Close image modal"
+                type="button"
               >
-                <X className="h-8 w-8" />
+                <X className="h-6 w-6" />
               </button>
+              
+              {/* Image container with click prevention */}
               <img
                 src={images[selectedImage].src}
                 alt={images[selectedImage].alt}
-                className="max-w-full max-h-full object-contain rounded-lg"
+                className="max-w-full max-h-full object-contain rounded-lg cursor-default"
+                onClick={(e) => e.stopPropagation()}
+                draggable={false}
               />
             </div>
           </div>
