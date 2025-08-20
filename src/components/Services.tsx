@@ -14,7 +14,7 @@ const Services = () => {
     {
       icon: <Sparkles className="h-8 w-8" />,
       title: 'Brow Lamination + Tweezing',
-      description: 'Multiple lightweight extensions for dramatic, full lashes',
+      description: 'Lamination combined with tweezing for a well-groomed look.',
       price: 'From $180',
       duration: '3-4 hours',
       features: ['Dramatic volume', 'Customizable fullness', 'Lightweight comfort', '4-6 week touch-ups']
