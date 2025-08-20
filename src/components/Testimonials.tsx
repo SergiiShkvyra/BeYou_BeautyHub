@@ -70,7 +70,7 @@ const Testimonials = () => {
                   />
                   <div>
                     <h4 className="font-semibold text-gray-900">{testimonial.name}</h4>
-                    <p className="text-sm text-olive">{testimonial.service}</p>
+                    <p className="text-sm text-warm">{testimonial.service}</p>
                   </div>
                 </div>
               </div>
