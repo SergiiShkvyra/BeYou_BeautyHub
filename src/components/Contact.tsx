@@ -141,23 +141,84 @@ const Contact = () => {
               </button>
               <button 
                 onClick={() => {
-                  const phoneNumber = '5712767014'; // Remove formatting for SMS URL
+                  const phoneNumber = '5712767014'; // Clean phone number for SMS URL
+                  const formattedNumber = '(571)-276-7014'; // Formatted for display
                   const userAgent = navigator.userAgent.toLowerCase();
                   
-                  // Detect platform and use appropriate SMS URL scheme
-                  if (/iphone|ipad|ipod/.test(userAgent)) {
-                    // iOS devices - use sms: scheme
-                    window.location.href = `sms:${phoneNumber}`;
-                  } else if (/android/.test(userAgent)) {
-                    // Android devices - use sms: scheme (works on modern Android)
-                    window.location.href = `sms:${phoneNumber}`;
-                  } else {
-                    // Desktop or other devices - try SMS scheme, fallback to showing number
+                  // Enhanced Android detection and handling
+                  const isAndroid = /android/.test(userAgent);
+                  const isIOS = /iphone|ipad|ipod/.test(userAgent);
+                  const isMobile = isAndroid || isIOS || /mobile/.test(userAgent);
+                  
+                  if (isMobile) {
                     try {
-                      window.location.href = `sms:${phoneNumber}`;
+                      if (isAndroid) {
+                        // Android-specific handling with multiple fallbacks
+                        // Try different SMS URL schemes for better Android compatibility
+                        const smsUrls = [
+                          `sms:${phoneNumber}`,
+                          `sms:${formattedNumber}`,
+                          `smsto:${phoneNumber}`,
+                          `mms:${phoneNumber}`
+                        ];
+                        
+                        // Try the first URL scheme
+                        let smsOpened = false;
+                        
+                        // Create a hidden link and click it (more reliable on Android)
+                        const link = document.createElement('a');
+                        link.href = smsUrls[0];
+                        link.style.display = 'none';
+                        document.body.appendChild(link);
+                        
+                        // Set up a timeout to check if SMS app opened
+                        const timeout = setTimeout(() => {
+                          if (!smsOpened) {
+                            // If first attempt failed, try alternative methods
+                            try {
+                              // Try direct window.location approach
+                              window.location.href = smsUrls[1];
+                            } catch (error) {
+                              // Final fallback - show instructions
+                              alert(`Please text us at: ${formattedNumber}\n\nIf your messaging app didn't open automatically, you can manually open your SMS app and send a message to this number.`);
+                            }
+                          }
+                          document.body.removeChild(link);
+                        }, 1000);
+                        
+                        // Attempt to open SMS app
+                        link.click();
+                        smsOpened = true;
+                        clearTimeout(timeout);
+                        
+                      } else if (isIOS) {
+                        // iOS devices - use sms: scheme (works reliably on iOS)
+                        window.location.href = `sms:${phoneNumber}`;
+                      } else {
+                        // Other mobile devices
+                        window.location.href = `sms:${phoneNumber}`;
+                      }
                     } catch (error) {
-                      // Fallback for devices without SMS capability
-                      alert('SMS not supported on this device. Please text us at: (571)-276-7014');
+                      // Enhanced error handling with helpful message
+                      alert(`Unable to open messaging app automatically.\n\nPlease manually text us at: ${formattedNumber}\n\nYou can copy this number and paste it into your messaging app.`);
+                      
+                      // Try to copy number to clipboard as backup
+                      if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(formattedNumber).catch(() => {
+                          // Clipboard failed, but we already showed the alert with the number
+                        });
+                      }
+                    }
+                  } else {
+                    // Desktop devices - copy to clipboard and show instructions
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                      navigator.clipboard.writeText(formattedNumber).then(() => {
+                        alert(`Phone number copied to clipboard: ${formattedNumber}\n\nYou can paste this into your preferred messaging application.`);
+                      }).catch(() => {
+                        alert(`Please text us at: ${formattedNumber}`);
+                      });
+                    } else {
+                      alert(`Please text us at: ${formattedNumber}`);
                     }
                   }
                 }}
