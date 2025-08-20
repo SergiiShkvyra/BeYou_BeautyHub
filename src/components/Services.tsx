@@ -40,7 +40,7 @@ const Services = () => {
       bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?service=s%3A19895121'
     },
     {
-      icon: <Shield className="h-8 w-8" />,
+      icon: <Sparkles className="h-8 w-8" />,
       title: 'Lash Tint + Eyebrow Tweezing + Tinting',
       description: 'A complete service for expressive lashes and perfect eyebrows.',
       price: 'From $70',
