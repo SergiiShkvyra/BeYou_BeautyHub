@@ -15,8 +15,8 @@ const Services = () => {
       icon: <Sparkles className="h-8 w-8" />,
       title: 'Brow Lamination + Tweezing',
       description: 'Lamination combined with tweezing for a well-groomed look.',
-      price: 'From $180',
-      duration: '3-4 hours',
+      price: 'From $75',
+      duration: '45-60 minutes',
       features: ['Dramatic volume', 'Customizable fullness', 'Lightweight comfort', '4-6 week touch-ups']
     },
     {
