@@ -91,7 +91,7 @@ const Services = () => {
               </ul>
 
               <button 
-                onClick={() => window.location.href = 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?service=s%3A19894830'}
+                onClick={() => window.open('https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?service=s%3A19894830', '_blank')}
                onMouseDown={(e) => {
                  // Handle middle-click (scroll wheel click)
                  if (e.button === 1) {
