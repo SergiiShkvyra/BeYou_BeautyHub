@@ -33,7 +33,8 @@ const Services = () => {
     {
       icon: <Eye className="h-8 w-8" />,
       title: 'L&L Combo Deluxe',
-      description: 'Professional brow design and color enhancement',
+      description: 'Elevating your look with premium lash and brow treatments.
+',
       price: 'From $190',
       duration: '1 hour 45 minutes',
       features: ['Say goodbye to mascara! Get naturally lifted, darker, and healthier lashes with a nourishing Botox boost for extra shine and strength.', 'Transform your brows with a fuller, perfectly shaped, and defined look. Symmetry, smoothness, and rich color — all in one treatment.'],
