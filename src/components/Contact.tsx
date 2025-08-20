@@ -151,51 +151,73 @@ const Contact = () => {
                   const isMobile = isAndroid || isIOS || /mobile/.test(userAgent);
                   
                   if (isMobile) {
-                    // Create a proper link element for mobile devices
-                    // This avoids the ERR_UNKNOWN_URL_SCHEME error on Android
+                  if (isMobile) {
+                    // SOLUTION: Use proper link creation with user-initiated click
+                    // This bypasses Android's ERR_UNKNOWN_URL_SCHEME restriction
                     const smsUrl = `sms:${phoneNumber}`;
                     
-                    // Create temporary link element
-                    const link = document.createElement('a');
-                    link.href = smsUrl;
-                    link.target = '_blank';
-                    link.rel = 'noopener noreferrer';
-                    
-                    // Add to DOM temporarily (required for some browsers)
-                    link.style.position = 'absolute';
-                    link.style.left = '-9999px';
-                    link.style.top = '-9999px';
-                    document.body.appendChild(link);
-                    
-                    // Simulate user click (this bypasses security restrictions)
-                    const clickEvent = new MouseEvent('click', {
-                      bubbles: true,
-                      cancelable: true,
-                      view: window
-                    });
-                    
-                    // Dispatch the click event
-                    const success = link.dispatchEvent(clickEvent);
-                    
-                    // Clean up
-                    setTimeout(() => {
-                      if (document.body.contains(link)) {
-                        document.body.removeChild(link);
-                      }
-                    }, 100);
-                    
-                    // Fallback if the link click didn't work
-                    if (!success) {
-                      // Show manual instructions
-                      alert(`Please text us at: ${formattedNumber}\n\nIf your messaging app didn't open, please manually open your SMS app and send a message to this number.`);
+                    try {
+                      // Create a proper link element
+                      const link = document.createElement('a');
+                      link.href = smsUrl;
+                      link.target = '_blank';
+                      link.rel = 'noopener noreferrer';
                       
-                      // Try to copy to clipboard as backup
+                      // Hide the link but add to DOM (required for some browsers)
+                      link.style.position = 'absolute';
+                      link.style.left = '-9999px';
+                      link.style.top = '-9999px';
+                      link.style.visibility = 'hidden';
+                      document.body.appendChild(link);
+                      
+                      // Create a proper mouse event (simulates real user click)
+                      const clickEvent = new MouseEvent('click', {
+                        bubbles: true,
+                        cancelable: true,
+                        view: window,
+                        button: 0,
+                        buttons: 1,
+                        clientX: 0,
+                        clientY: 0
+                      });
+                      
+                      // Dispatch the event (this bypasses security restrictions)
+                      const eventDispatched = link.dispatchEvent(clickEvent);
+                      
+                      // Clean up the DOM
+                      setTimeout(() => {
+                        if (document.body.contains(link)) {
+                          document.body.removeChild(link);
+                        }
+                      }, 100);
+                      
+                      // Fallback if event dispatch failed
+                      if (!eventDispatched) {
+                        throw new Error('Event dispatch failed');
+                      }
+                      
+                    } catch (error) {
+                      // Graceful fallback with clear instructions
+                      const message = isAndroid 
+                        ? `Unable to open messaging app automatically.\n\nPlease text us at: ${formattedNumber}\n\nSteps:\n1. Open your messaging app (Messages, Samsung Messages, etc.)\n2. Create new message\n3. Enter: ${formattedNumber}`
+                        : `Please text us at: ${formattedNumber}`;
+                      
+                      alert(message);
+                      
+                      // Try to copy number to clipboard as backup
                       if (navigator.clipboard && navigator.clipboard.writeText) {
-                        navigator.clipboard.writeText(formattedNumber).catch(() => {});
+                        navigator.clipboard.writeText(formattedNumber).then(() => {
+                          // Show additional notification that number was copied
+                          setTimeout(() => {
+                            alert('Phone number copied to clipboard!');
+                          }, 500);
+                        }).catch(() => {
+                          // Clipboard failed, but we already showed the manual instructions
+                        });
                       }
                     }
                   } else {
-                    // Desktop - copy to clipboard
+                    // Desktop - copy to clipboard with instructions
                     if (navigator.clipboard && navigator.clipboard.writeText) {
                       navigator.clipboard.writeText(formattedNumber).then(() => {
                         alert(`Phone number copied to clipboard: ${formattedNumber}\n\nYou can paste this into your preferred messaging application.`);
