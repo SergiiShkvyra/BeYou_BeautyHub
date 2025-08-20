@@ -53,7 +53,6 @@ const Services = () => {
       title: 'And Many More...',
       description: 'Explore our full range of beauty services including individual treatments and consultations.',
       price: 'From $25',
-      duration: 'Varies',
       features: ['Lash Titing', 'Brow Tinting', 'Tweezing', 'Free Consultation'],
       bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh'
     }
