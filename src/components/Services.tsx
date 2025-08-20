@@ -41,7 +41,7 @@ const Services = () => {
     },
     {
       icon: <Shield className="h-8 w-8" />,
-      title: 'Brow Lamination',
+      title: 'Lash Tint + Eyebrow Tweezing + Tinting',
       description: 'Creates fuller, more defined brows with a sleek finish',
       price: 'From $85',
       duration: '60-75 minutes',
