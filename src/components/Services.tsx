@@ -13,7 +13,7 @@ const Services = () => {
     },
     {
       icon: <Sparkles className="h-8 w-8" />,
-      title: 'Eyebrow Lamination + Tweezing',
+      title: 'Brow Lamination + Tweezing',
       description: 'Multiple lightweight extensions for dramatic, full lashes',
       price: 'From $180',
       duration: '3-4 hours',
