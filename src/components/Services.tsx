@@ -80,7 +80,6 @@ const Services = () => {
               <div className="flex justify-between items-center mb-6">
                 <span className="text-2xl font-bold text-olive">{service.price}</span>
                 <span className="text-sm text-gray-500 flex items-center">
-                  <Clock className="h-4 w-4 mr-1" />
                   {service.duration}
                 </span>
               </div>
