@@ -24,7 +24,7 @@ const Services = () => {
     {
       icon: <Eye className="h-8 w-8" />,
       title: 'Mapping + tweezing + tinting',
-      description: 'Perfect blend of classic and volume for texture and fullness',
+      description: 'A combination of mapping, tweezing, and tinting for flawless eyebrows.',
       price: 'From $150',
       duration: '2.5-3.5 hours',
       features: ['Best of both worlds', 'Natural texture', 'Medium volume', '5-7 week touch-ups'],
