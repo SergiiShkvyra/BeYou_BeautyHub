@@ -27,7 +27,7 @@ const Services = () => {
       description: 'A technique for defining the perfect shape with precise tweezing for symmetry.',
       price: 'From $40',
       duration: '40-45 minutes',
-      features: ['Best of both worlds', 'Natural texture', 'Medium volume', '5-7 week touch-ups'],
+      features: ['Ensures perfectly balanced and symmetrical brows', 'Defines the ideal shape to suit your facial features', 'Gentle tweezing for a clean and precise result', 'Enhances your natural beauty without over-plucking'],
       bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh'
     },
     {
