@@ -102,13 +102,28 @@ const Services = () => {
               <div className="mt-auto">
                 <button 
                   onClick={() => window.open(service.bookingUrl, '_blank')}
-                 onMouseDown={(e) => {
-                   // Handle middle-click (scroll wheel click)
-                   if (e.button === 1) {
-                     e.preventDefault();
-                     window.open(service.bookingUrl, '_blank');
-                   }
-                 }}
+                  onMouseDown={(e) => {
+                    // Handle middle-click (scroll wheel click)
+                    if (e.button === 1) {
+                      e.preventDefault();
+                      // Open in new tab without shifting focus from current page
+                      const newWindow = window.open(service.bookingUrl, '_blank', 'noopener,noreferrer');
+                      if (newWindow) {
+                        // Ensure current window stays focused
+                        window.focus();
+                      }
+                    }
+                  }}
+                  onAuxClick={(e) => {
+                    // Additional handler for auxiliary clicks (middle-click on some browsers)
+                    if (e.button === 1) {
+                      e.preventDefault();
+                      const newWindow = window.open(service.bookingUrl, '_blank', 'noopener,noreferrer');
+                      if (newWindow) {
+                        window.focus();
+                      }
+                    }
+                  }}
                   className="w-full bg-olive text-white py-3 rounded-full hover:bg-warm hover:text-olive transition-colors duration-200 font-semibold"
                   aria-label="Book appointment at Be You Beauty Hub"
                 >
