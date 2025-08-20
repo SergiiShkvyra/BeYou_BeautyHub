@@ -42,7 +42,7 @@ const Services = () => {
     {
       icon: <Shield className="h-8 w-8" />,
       title: 'Lash Tint + Eyebrow Tweezing + Tinting',
-      description: 'Creates fuller, more defined brows with a sleek finish',
+      description: 'A complete service for expressive lashes and perfect eyebrows.',
       price: 'From $85',
       duration: '60-75 minutes',
       features: ['Fuller appearance', 'Long-lasting results', 'Low maintenance', '6-8 week results'],
