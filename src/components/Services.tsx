@@ -32,7 +32,7 @@ const Services = () => {
     },
     {
       icon: <Sparkles className="h-8 w-8" />,
-      title: 'Eyebrow Shaping & Tinting',
+      title: 'L&L Combo Deluxe',
       description: 'Professional brow design and color enhancement',
       price: 'From $65',
       duration: '45-60 minutes',
