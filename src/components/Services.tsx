@@ -70,7 +70,7 @@ const Services = () => {
               className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 will-change-transform"
             >
               <div className="text-olive mb-4">{service.icon}</div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">{service.title}</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">{service.title}</h3>
               <p className="text-gray-600 mb-4">{service.description}</p>
               
               <div className="flex justify-between items-center mb-6">
