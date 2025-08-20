@@ -91,8 +91,9 @@ const Services = () => {
               </ul>
 
               <button 
-                onClick={() => window.open('https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-gt6tu55b', '_blank')}
+                onClick={() => window.location.href = 'https://www.fresha.com/uk/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh'}
                 className="w-full bg-olive text-white py-3 rounded-full hover:bg-warm hover:text-olive transition-colors duration-200 font-semibold"
+                aria-label="Book appointment at Be You Beauty Hub"
               >
                 Book This Service
               </button>
