@@ -143,74 +143,58 @@ const Contact = () => {
                 onClick={() => {
                   const phoneNumber = '5712767014'; // Clean phone number for SMS URL
                   const formattedNumber = '(571)-276-7014'; // Formatted for display
-                  const userAgent = navigator.userAgent.toLowerCase();
                   
-                  // Enhanced Android detection and handling
+                  // Detect device type
+                  const userAgent = navigator.userAgent.toLowerCase();
                   const isAndroid = /android/.test(userAgent);
                   const isIOS = /iphone|ipad|ipod/.test(userAgent);
                   const isMobile = isAndroid || isIOS || /mobile/.test(userAgent);
                   
-                  if (isMobile) {
+                  // Android-specific fix for ERR_UNKNOWN_URL_SCHEME
+                  if (isAndroid) {
+                    // Use window.open instead of window.location.href for Android
+                    // This prevents the ERR_UNKNOWN_URL_SCHEME error
                     try {
-                      if (isAndroid) {
-                        // Android-specific handling with multiple fallbacks
-                        // Try different SMS URL schemes for better Android compatibility
-                        const smsUrls = [
-                          `sms:${phoneNumber}`,
-                          `sms:${formattedNumber}`,
-                          `smsto:${phoneNumber}`,
-                          `mms:${phoneNumber}`
-                        ];
-                        
-                        // Try the first URL scheme
-                        let smsOpened = false;
-                        
-                        // Create a hidden link and click it (more reliable on Android)
+                      const smsUrl = `sms:${phoneNumber}`;
+                      const newWindow = window.open(smsUrl, '_self');
+                      
+                      // Fallback if window.open fails
+                      if (!newWindow) {
+                        // Try creating a temporary link with user interaction
                         const link = document.createElement('a');
-                        link.href = smsUrls[0];
+                        link.href = smsUrl;
                         link.style.display = 'none';
                         document.body.appendChild(link);
                         
-                        // Set up a timeout to check if SMS app opened
-                        const timeout = setTimeout(() => {
-                          if (!smsOpened) {
-                            // If first attempt failed, try alternative methods
-                            try {
-                              // Try direct window.location approach
-                              window.location.href = smsUrls[1];
-                            } catch (error) {
-                              // Final fallback - show instructions
-                              alert(`Please text us at: ${formattedNumber}\n\nIf your messaging app didn't open automatically, you can manually open your SMS app and send a message to this number.`);
-                            }
-                          }
-                          document.body.removeChild(link);
-                        }, 1000);
-                        
-                        // Attempt to open SMS app
+                        // Trigger click programmatically
                         link.click();
-                        smsOpened = true;
-                        clearTimeout(timeout);
                         
-                      } else if (isIOS) {
-                        // iOS devices - use sms: scheme (works reliably on iOS)
-                        window.location.href = `sms:${phoneNumber}`;
-                      } else {
-                        // Other mobile devices
-                        window.location.href = `sms:${phoneNumber}`;
+                        // Clean up
+                        setTimeout(() => {
+                          document.body.removeChild(link);
+                        }, 100);
                       }
                     } catch (error) {
-                      // Enhanced error handling with helpful message
-                      alert(`Unable to open messaging app automatically.\n\nPlease manually text us at: ${formattedNumber}\n\nYou can copy this number and paste it into your messaging app.`);
+                      // If all methods fail, show manual instructions
+                      alert(`Please text us at: ${formattedNumber}\n\nTo send a message:\n1. Open your messaging app\n2. Create a new message\n3. Enter this number: ${formattedNumber}`);
                       
-                      // Try to copy number to clipboard as backup
+                      // Try to copy number to clipboard
                       if (navigator.clipboard && navigator.clipboard.writeText) {
-                        navigator.clipboard.writeText(formattedNumber).catch(() => {
-                          // Clipboard failed, but we already showed the alert with the number
-                        });
+                        navigator.clipboard.writeText(formattedNumber).catch(() => {});
                       }
                     }
+                  } else if (isIOS) {
+                    // iOS - use standard sms: scheme
+                    window.location.href = `sms:${phoneNumber}`;
+                  } else if (isMobile) {
+                    // Other mobile devices
+                    try {
+                      window.location.href = `sms:${phoneNumber}`;
+                    } catch (error) {
+                      alert(`Please text us at: ${formattedNumber}`);
+                    }
                   } else {
-                    // Desktop devices - copy to clipboard and show instructions
+                    // Desktop - copy to clipboard
                     if (navigator.clipboard && navigator.clipboard.writeText) {
                       navigator.clipboard.writeText(formattedNumber).then(() => {
                         alert(`Phone number copied to clipboard: ${formattedNumber}\n\nYou can paste this into your preferred messaging application.`);
