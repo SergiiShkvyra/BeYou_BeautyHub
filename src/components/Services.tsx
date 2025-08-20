@@ -45,7 +45,7 @@ const Services = () => {
       description: 'A complete service for expressive lashes and perfect eyebrows.',
       price: 'From $70',
       duration: '50 minutes',
-      features: ['Fuller appearance', 'Long-lasting results', 'Low maintenance', '6-8 week results'],
+      features: ['Saves time on daily makeup', 'Enhances natural beauty', 'Low-maintenance styling', 'Long-lasting effects (up to 4–6 weeks)'],
       bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?service=s%3A19894916'
     },
     {
