@@ -25,7 +25,7 @@ const Services = () => {
       icon: <Eye className="h-8 w-8" />,
       title: 'Mapping + tweezing + tinting',
       description: 'A combination of mapping, tweezing, and tinting for flawless eyebrows.',
-      price: 'From $150',
+      price: 'From $60',
       duration: '2.5-3.5 hours',
       features: ['Best of both worlds', 'Natural texture', 'Medium volume', '5-7 week touch-ups'],
       bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh'
