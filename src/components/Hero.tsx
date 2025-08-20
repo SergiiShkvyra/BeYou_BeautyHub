@@ -65,7 +65,7 @@ const Hero = () => {
           <div className="flex items-center justify-center space-x-3">
             <Award className="h-8 w-8 text-olive" />
             <div className="text-left">
-              <div className="text-3xl font-bold">5+</div>
+              <div className="text-3xl font-bold">3+</div>
               <div className="text-sm opacity-80">Years Experience</div>
             </div>
           </div>
