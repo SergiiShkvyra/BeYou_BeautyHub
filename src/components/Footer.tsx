@@ -153,7 +153,7 @@ const Footer = () => {
             <div className="text-gray-300 text-sm flex items-center">
               <span>© {currentYear} BeYou BeautyHub. Made with </span>
               <Heart className="h-4 w-4 text-olive mx-1 fill-current" />
-              <span>for beautiful people.</span>
+              <span></span>
             </div>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <a href="#" className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm">
