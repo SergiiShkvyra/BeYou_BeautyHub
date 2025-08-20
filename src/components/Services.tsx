@@ -18,7 +18,7 @@ const Services = () => {
       description: 'Lamination combined with tweezing for a well-groomed look.',
       price: 'From $75',
       duration: '45-60 minutes',
-      features: ['Dramatic volume', 'Customizable fullness', 'Lightweight comfort', '4-6 week touch-ups'],
+      features: ['Creates a fuller, thicker brow look', 'Smooths and tames unruly hairs', 'Enhances natural brow symmetry', 'Long-lasting results (up to 6–8 weeks)'],
       bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?service=s%3A19894722'
     },
     {
