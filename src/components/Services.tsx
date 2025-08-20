@@ -28,7 +28,7 @@ const Services = () => {
       price: 'From $40',
       duration: '40-45 minutes',
       features: ['Ensures perfectly balanced and symmetrical brows', 'Defines the ideal shape to suit your facial features', 'Gentle tweezing for a clean and precise result', 'Enhances your natural beauty without over-plucking'],
-      bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh'
+      bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?service=s%3A19894672'
     },
     {
       icon: <Sparkles className="h-8 w-8" />,
