@@ -51,7 +51,6 @@ const Services = () => {
     {
       icon: <Clock className="h-8 w-8" />,
       title: 'And Many More...',
-      description: 'Natural lash enhancement without extensions',
       price: 'From $25',
       features: ['Natural curl', 'No maintenance', 'Perfect for vacations', '6-8 week results'],
       bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh'
