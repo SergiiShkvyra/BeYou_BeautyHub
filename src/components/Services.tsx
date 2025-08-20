@@ -85,12 +85,6 @@ const Services = () => {
               </div>
 
               <ul className="space-y-2 mb-6">
-                {service.features.map((feature, idx) => (
-                  <li key={idx} className="text-sm text-gray-600 flex items-center">
-                    <div className="h-2 w-2 bg-olive rounded-full mr-3 flex-shrink-0"></div>
-                    {feature}
-                  </li>
-                ))}
               </ul>
 
               <button 
