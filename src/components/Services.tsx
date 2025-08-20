@@ -23,7 +23,7 @@ const Services = () => {
     },
     {
       icon: <Eye className="h-8 w-8" />,
-      title: 'Mapping & tweezing & tinting',
+      title: 'Mapping + tweezing + tinting',
       description: 'Perfect blend of classic and volume for texture and fullness',
       price: 'From $150',
       duration: '2.5-3.5 hours',
