@@ -139,7 +139,30 @@ const Contact = () => {
                 <Calendar className="h-5 w-5" />
                 <span>Book Online</span>
               </button>
-              <button className="w-full border-2 border-olive text-olive py-3 rounded-full hover:bg-olive hover:text-white transition-colors duration-200 font-semibold flex items-center justify-center space-x-2">
+              <button 
+                onClick={() => {
+                  const phoneNumber = '5712767014'; // Remove formatting for SMS URL
+                  const userAgent = navigator.userAgent.toLowerCase();
+                  
+                  // Detect platform and use appropriate SMS URL scheme
+                  if (/iphone|ipad|ipod/.test(userAgent)) {
+                    // iOS devices - use sms: scheme
+                    window.location.href = `sms:${phoneNumber}`;
+                  } else if (/android/.test(userAgent)) {
+                    // Android devices - use sms: scheme (works on modern Android)
+                    window.location.href = `sms:${phoneNumber}`;
+                  } else {
+                    // Desktop or other devices - try SMS scheme, fallback to showing number
+                    try {
+                      window.location.href = `sms:${phoneNumber}`;
+                    } catch (error) {
+                      // Fallback for devices without SMS capability
+                      alert('SMS not supported on this device. Please text us at: (571)-276-7014');
+                    }
+                  }
+                }}
+                className="w-full border-2 border-olive text-olive py-3 rounded-full hover:bg-olive hover:text-white transition-colors duration-200 font-semibold flex items-center justify-center space-x-2"
+              >
                 <MessageSquare className="h-5 w-5" />
                 <span>Send Message</span>
               </button>
