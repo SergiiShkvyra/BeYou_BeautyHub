@@ -37,7 +37,7 @@ const Services = () => {
       price: 'From $65',
       duration: '45-60 minutes',
       features: ['Custom shaping', 'Color matching', 'Precise technique', 'Monthly maintenance'],
-      bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh'
+      bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?service=s%3A19895121'
     },
     {
       icon: <Shield className="h-8 w-8" />,
