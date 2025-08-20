@@ -9,7 +9,8 @@ const Services = () => {
       description: 'A lash lift with tinting for a long-lasting, mascara-free look.',
       price: 'From $80',
       duration: '60-75 minutes',
-      features: ['Natural curl', 'Color enhancement', 'No maintenance needed', '6-8 week results']
+      features: ['Natural curl', 'Color enhancement', 'No maintenance needed', '6-8 week results'],
+      bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?service=s%3A19894830'
     },
     {
       icon: <Sparkles className="h-8 w-8" />,
@@ -17,7 +18,8 @@ const Services = () => {
       description: 'Lamination combined with tweezing for a well-groomed look.',
       price: 'From $75',
       duration: '45-60 minutes',
-      features: ['Dramatic volume', 'Customizable fullness', 'Lightweight comfort', '4-6 week touch-ups']
+      features: ['Dramatic volume', 'Customizable fullness', 'Lightweight comfort', '4-6 week touch-ups'],
+      bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?service=s%3A19894722'
     },
     {
       icon: <Eye className="h-8 w-8" />,
@@ -25,7 +27,8 @@ const Services = () => {
       description: 'Perfect blend of classic and volume for texture and fullness',
       price: 'From $150',
       duration: '2.5-3.5 hours',
-      features: ['Best of both worlds', 'Natural texture', 'Medium volume', '5-7 week touch-ups']
+      features: ['Best of both worlds', 'Natural texture', 'Medium volume', '5-7 week touch-ups'],
+      bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh'
     },
     {
       icon: <Sparkles className="h-8 w-8" />,
@@ -33,7 +36,8 @@ const Services = () => {
       description: 'Professional brow design and color enhancement',
       price: 'From $65',
       duration: '45-60 minutes',
-      features: ['Custom shaping', 'Color matching', 'Precise technique', 'Monthly maintenance']
+      features: ['Custom shaping', 'Color matching', 'Precise technique', 'Monthly maintenance'],
+      bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh'
     },
     {
       icon: <Shield className="h-8 w-8" />,
@@ -41,7 +45,8 @@ const Services = () => {
       description: 'Creates fuller, more defined brows with a sleek finish',
       price: 'From $85',
       duration: '60-75 minutes',
-      features: ['Fuller appearance', 'Long-lasting results', 'Low maintenance', '6-8 week results']
+      features: ['Fuller appearance', 'Long-lasting results', 'Low maintenance', '6-8 week results'],
+      bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh'
     },
     {
       icon: <Clock className="h-8 w-8" />,
@@ -49,7 +54,8 @@ const Services = () => {
       description: 'Natural lash enhancement without extensions',
       price: 'From $75',
       duration: '45-60 minutes',
-      features: ['Natural curl', 'No maintenance', 'Perfect for vacations', '6-8 week results']
+      features: ['Natural curl', 'No maintenance', 'Perfect for vacations', '6-8 week results'],
+      bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh'
     }
   ];
 
@@ -91,12 +97,12 @@ const Services = () => {
               </ul>
 
               <button 
-                onClick={() => window.open('https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?service=s%3A19894830', '_blank')}
+                onClick={() => window.open(service.bookingUrl, '_blank')}
                onMouseDown={(e) => {
                  // Handle middle-click (scroll wheel click)
                  if (e.button === 1) {
                    e.preventDefault();
-                   window.open('https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?service=s%3A19894830', '_blank');
+                   window.open(service.bookingUrl, '_blank');
                  }
                }}
                 className="w-full bg-olive text-white py-3 rounded-full hover:bg-warm hover:text-olive transition-colors duration-200 font-semibold"
