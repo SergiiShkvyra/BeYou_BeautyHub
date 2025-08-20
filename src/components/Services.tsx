@@ -36,7 +36,7 @@ const Services = () => {
       description: 'Elevating your look with premium lash and brow treatments.',
       price: 'From $190',
       duration: '1 hour 45 minutes',
-      features: ['Get naturally lifted, darker, and healthier lashes with a nourishing Botox boost for extra shine and strength.', 'Transform your brows with a fuller, perfectly shaped, and defined look. Symmetry, smoothness, and rich color — all in one treatment.'],
+      features: ['Get naturally lifted, darker, and healthier lashes with a nourishing Botox boost for extra shine and strength.', 'Transform your brows with a fuller, perfectly shaped, and defined look. Symmetry, smoothness, and rich color — all in one treatment.', 'as', 'dfhg'],
       bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?service=s%3A19895121'
     },
     {
