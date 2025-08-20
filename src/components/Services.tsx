@@ -6,7 +6,7 @@ const Services = () => {
     {
       icon: <Eye className="h-8 w-8" />,
       title: 'Lash Lift + Tinting',
-      description: 'Natural lash enhancement with curl and color for beautiful definition',
+      description: 'A lash lift with tinting for a long-lasting, mascara-free look.',
       price: 'From $75',
       duration: '45-60 minutes',
       features: ['Natural curl', 'Color enhancement', 'No maintenance needed', '6-8 week results']
