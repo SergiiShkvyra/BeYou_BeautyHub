@@ -52,7 +52,7 @@ const Services = () => {
       icon: <Clock className="h-8 w-8" />,
       title: 'And Many More...',
       price: 'From $25',
-      features: ['Lash Titing', 'Brow Tinting', 'Tweezing', '...'],
+      features: ['Lash Titing', 'Brow Tinting', 'Tweezing', 'Free Consultation'],
       bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh'
     }
   ];
