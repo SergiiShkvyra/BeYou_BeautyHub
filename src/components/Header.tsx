@@ -265,7 +265,6 @@ const Header = () => {
           >
             {/* Logo Icon */}
             <div className="relative">
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-olive rounded-full opacity-60 group-hover:opacity-80 transition-opacity duration-200"></div>
             </div>
             
             {/* Logo Text */}
