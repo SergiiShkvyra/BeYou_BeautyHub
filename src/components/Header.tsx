@@ -271,9 +271,6 @@ const Header = () => {
             
             {/* Logo Text */}
             <div className="text-center">
-              <div className="font-playfair font-bold text-olive text-lg sm:text-xl group-hover:text-olive/80 transition-colors duration-200">
-                BeYou BeautyHub
-              </div>
               <div className="font-montserrat text-xs sm:text-sm text-olive/70 group-hover:text-olive/60 transition-colors duration-200">
                 Professional Beauty Services
               </div>
