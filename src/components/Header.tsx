@@ -263,9 +263,6 @@ const Header = () => {
             className="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-200 cursor-pointer group"
             aria-label="BeYou BeautyHub - Return to top"
           >
-            {/* Logo Icon */}
-            <div className="relative">
-            </div>
             
             {/* Logo Text */}
             <div className="text-center">
