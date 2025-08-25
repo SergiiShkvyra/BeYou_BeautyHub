@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, MapPin, Sparkles } from 'lucide-react';
+import { Phone, MapPin } from 'lucide-react';
 
 const Header = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -250,29 +250,6 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Logo Section - Positioned below phone number */}
-      <div className="py-2 px-4 w-full border-t border-olive/10" style={{ margin: '0', padding: '0.5rem 1rem', width: '100%' }}>
-        <div className="max-w-7xl mx-auto flex justify-center items-center">
-          <button
-            onClick={() => {
-              const element = document.getElementById('home');
-              if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-              }
-            }}
-            className="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-200 cursor-pointer group"
-            aria-label="BeYou BeautyHub - Return to top"
-          >
-            
-            {/* Logo Text */}
-            <div className="text-center">
-              <div className="font-montserrat text-xs sm:text-sm text-olive/70 group-hover:text-olive/60 transition-colors duration-200">
-                Professional Beauty Services
-              </div>
-            </div>
-          </button>
-        </div>
-      </div>
       {/* Main navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ margin: '0 auto', width: '100%' }}>
         <div className="flex justify-center items-center py-0.5 sm:py-1 lg:py-1">
