@@ -254,29 +254,27 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ margin: '0 auto', width: '100%' }}>
         <div className="flex justify-center items-center py-0.5 sm:py-1 lg:py-1">
           <div className="font-playfair font-bold text-olive relative w-full flex justify-center items-center">
+            {/* Logo positioned to the left of BE YOU */}
+            <button
+              onClick={() => {
+                const element = document.getElementById('home');
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="hover:opacity-80 transition-opacity duration-200 cursor-pointer absolute left-0"
+              aria-label="BeYou BeautyHub - Return to homepage"
+            >
+              <img
+                src="/images/tryLogo-1.png"
+                alt="BeYou BeautyHub Logo"
+                className="h-12 w-auto sm:h-16 md:h-20 object-contain"
+                loading="eager"
+                decoding="async"
+              />
+            </button>
             <div className="text-5xl sm:text-5xl lg:text-6xl xl:text-8xl tracking-wider leading-none flex items-end">
-              <span className="whitespace-nowrap flex items-center">
-                BE Y
-                <button
-                  onClick={() => {
-                    const element = document.getElementById('home');
-                    if (element) {
-                      element.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}
-                  className="hover:opacity-80 transition-opacity duration-200 cursor-pointer mx-1"
-                  aria-label="BeYou BeautyHub - Return to homepage"
-                >
-                  <img
-                    src="/images/tryLogo-1.png"
-                    alt="BeYou BeautyHub Logo"
-                    className="h-12 w-auto sm:h-16 md:h-20 xl:h-24 object-contain"
-                    loading="eager"
-                    decoding="async"
-                  />
-                </button>
-                U
-              </span>
+              <span className="whitespace-nowrap">BE YOU</span>
               <div className="text-base sm:text-lg lg:text-xl tracking-wide opacity-70 ml-0">
                 BeautyHub
               </div>
