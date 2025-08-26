@@ -33,7 +33,7 @@ const About = () => {
           <div className="relative">
             <img
               src="/images/shutterstock_2496592773.jpg"
-              alt="Beautiful woman showcasing natural beauty and skincare"
+              alt="Beautiful woman with natural makeup showcasing skincare and beauty"
               className="rounded-2xl shadow-2xl w-full h-96 lg:h-[500px] object-cover will-change-transform"
               loading="lazy"
               decoding="async"
