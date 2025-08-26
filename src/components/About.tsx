@@ -32,8 +32,8 @@ const About = () => {
           {/* Image */}
           <div className="relative">
             <img
-              src="https://images.pexels.com/photos/8129903/pexels-photo-8129903.jpeg"
-              alt="Professional eyelash extension application"
+              src="/images/shutterstock_2496592773.jpg"
+              alt="Beautiful woman showcasing natural beauty and skincare"
               className="rounded-2xl shadow-2xl w-full h-96 lg:h-[500px] object-cover will-change-transform"
               loading="lazy"
               decoding="async"
