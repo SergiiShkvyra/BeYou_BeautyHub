@@ -34,14 +34,20 @@ const About = () => {
             <img
               src="/images/shutterstock_2496592773.jpg"
               alt="Beautiful woman with natural makeup showcasing skincare and beauty"
-              className="rounded-2xl shadow-2xl w-full h-96 lg:h-[500px] object-cover will-change-transform image-rendering-auto"
+              className="rounded-2xl shadow-2xl w-full h-96 lg:h-[500px] object-cover"
               style={{
-                imageRendering: 'auto',
+                imageRendering: 'high-quality',
                 imageRendering: '-webkit-optimize-contrast',
-                imageRendering: 'crisp-edges'
+                imageRendering: 'optimizeQuality',
+                filter: 'contrast(1.02) saturate(1.01)',
+                backfaceVisibility: 'hidden',
+                transform: 'translateZ(0)',
+                WebkitFontSmoothing: 'antialiased',
+                MozOsxFontSmoothing: 'grayscale'
               }}
               loading="lazy"
               decoding="async"
+              fetchpriority="high"
             />
             <div className="absolute -bottom-8 -right-8 bg-olive text-white p-6 rounded-2xl shadow-xl">
               <div className="text-3xl font-bold">1400+</div>

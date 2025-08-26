@@ -383,3 +383,23 @@ body[data-iframe] {
 .font-handwriting {
   font-family: 'Edu NSW ACT Foundation', cursive, sans-serif;
 }
+
+/* High-quality image rendering */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: crisp-edges;
+  image-rendering: optimizeQuality;
+  -ms-interpolation-mode: bicubic;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Specific fix for high-DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimizeQuality;
+  }
+}
