@@ -61,7 +61,7 @@ const Footer = () => {
               Enhancing your natural beauty with professional eyelash and eyebrow services.
               Your confidence is our passion.
             </p>
-            <div className="flex space-x-5 justify-center">
+            <div className="flex space-x-5">
               <a href="https://www.instagram.com/beyou_beautyhub" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-olive transition-colors duration-200">
                 <Instagram className="h-6 w-6" />
               </a>
@@ -113,7 +113,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Company Info - Centered Below */}
+        {/* Quick Links - Centered Below */}
         <div className="text-center mt-12 pt-8 border-t border-gray-700">
           <div>
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
