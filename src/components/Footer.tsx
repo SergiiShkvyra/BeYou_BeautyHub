@@ -53,28 +53,31 @@ const Footer = () => {
     <footer className="bg-gray-800 text-warm">
       {/* Main footer content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Quick Links - Left Column */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Company Info */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
-            <ul className="space-y-2">
-              {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => (
-                <li key={item}>
-                  <button
-                    onClick={() => scrollToSection(item.toLowerCase())}
-                    className="text-gray-300 hover:text-olive transition-colors duration-200"
-                  >
-                    {item}
-                  </button>
-                </li>
-              ))}
-            </ul>
+            <h3 className="text-2xl font-bold text-olive mb-4">BeYou BeautyHub</h3>
+            <p className="text-gray-300 mb-6 leading-relaxed">
+              Enhancing your natural beauty with professional eyelash and eyebrow services.
+              Your confidence is our passion.
+            </p>
+            <div className="flex space-x-5 justify-center">
+              <a href="https://www.instagram.com/beyou_beautyhub" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-olive transition-colors duration-200">
+                <Instagram className="h-6 w-6" />
+              </a>
+              <a href="https://www.facebook.com/profile.php?id=61578572331666&mibextid=LQQJ4d" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-olive transition-colors duration-200">
+                <Facebook className="h-6 w-6" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-olive transition-colors duration-200">
+                <Twitter className="h-6 w-6" />
+              </a>
+            </div>
           </div>
 
-          {/* Contact Info - Center Column */}
+          {/* Contact Info & Hours */}
           <div>
             <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
-            <div className="space-y-3">
+            <div className="space-y-3 mb-8">
               <div className="flex items-start space-x-3">
                 <MapPin className="h-5 w-5 text-olive mt-0.5" />
                 <a 
@@ -101,10 +104,7 @@ const Footer = () => {
                 <span className="text-gray-300 text-sm">info@beyoubeautyhub.com</span>
               </div>
             </div>
-          </div>
 
-          {/* Business Hours - Right Column */}
-          <div>
             <h4 className="text-lg font-semibold mb-4">Business Hours</h4>
             <div className="text-gray-300 text-sm space-y-1">
               <div>Tue-Thur: 10AM-7PM</div>
@@ -115,29 +115,6 @@ const Footer = () => {
 
         {/* Company Info - Centered Below */}
         <div className="text-center mt-12 pt-8 border-t border-gray-700">
-          <div>
-            <h3 className="text-2xl font-bold text-olive mb-4">BeYou BeautyHub</h3>
-            <p className="text-gray-300 mb-6 leading-relaxed">
-              Enhancing your natural beauty with professional eyelash and eyebrow services.
-              Your confidence is our passion.
-            </p>
-            <div className="flex space-x-5 justify-center">
-              <a href="https://www.instagram.com/beyou_beautyhub" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-olive transition-colors duration-200">
-                <Instagram className="h-6 w-6" />
-              </a>
-              <a href="https://www.facebook.com/profile.php?id=61578572331666&mibextid=LQQJ4d" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-olive transition-colors duration-200">
-                <Facebook className="h-6 w-6" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-olive transition-colors duration-200">
-                <Twitter className="h-6 w-6" />
-              </a>
-            </div>
-          </div>
-
-          {/* Empty spacer for centering */}
-          <div className="hidden md:block"></div>
-
-          {/* Quick Links */}
           <div>
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
