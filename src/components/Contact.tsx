@@ -9,6 +9,11 @@ const Contact = () => {
     service: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: 'success' | 'error' | null;
+    message: string;
+  }>({ type: null, message: '' });
 
   // Function to handle phone number click
   const handlePhoneClick = (phoneNumber: string) => {
@@ -48,15 +53,74 @@ const Contact = () => {
       });
     }
   };
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! We will contact you soon to schedule your appointment.');
-    setFormData({ name: '', email: '', phone: '', service: '', message: '' });
+    
+    // Reset status
+    setSubmitStatus({ type: null, message: '' });
+    
+    // Validate required fields
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Please fill in all required fields (Name, Email, and Message).'
+      });
+      return;
+    }
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Please enter a valid email address.'
+      });
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch('/api/send-contact-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      const result = await response.json();
+      
+      if (response.ok) {
+        setSubmitStatus({
+          type: 'success',
+          message: result.message || 'Thank you for your message! We will contact you soon.'
+        });
+        // Clear form on success
+        setFormData({ name: '', email: '', phone: '', service: '', message: '' });
+      } else {
+        setSubmitStatus({
+          type: 'error',
+          message: result.error || 'Failed to send message. Please try again.'
+        });
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitStatus({
+        type: 'error',
+        message: 'Network error. Please check your connection and try again.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    // Clear status when user starts typing
+    if (submitStatus.type) {
+      setSubmitStatus({ type: null, message: '' });
+    }
+    
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -243,10 +307,21 @@ const Contact = () => {
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Send Us a Message</h3>
             
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Status Message */}
+              {submitStatus.type && (
+                <div className={`p-4 rounded-lg ${
+                  submitStatus.type === 'success' 
+                    ? 'bg-green-50 border border-green-200 text-green-800' 
+                    : 'bg-red-50 border border-red-200 text-red-800'
+                }`}>
+                  <p className="text-sm font-medium">{submitStatus.message}</p>
+                </div>
+              )}
+              
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name
+                    Full Name *
                   </label>
                   <input
                     type="text"
@@ -262,7 +337,7 @@ const Contact = () => {
                 
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address
+                    Email Address *
                   </label>
                   <input
                     type="email"
@@ -318,7 +393,7 @@ const Contact = () => {
 
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  Message
+                  Message *
                 </label>
                 <textarea
                   id="message"
@@ -333,10 +408,19 @@ const Contact = () => {
 
               <button
                 type="submit"
-                className="w-full bg-olive text-white py-3 rounded-lg hover:bg-olive transition-colors duration-200 font-semibold text-lg"
+                disabled={isSubmitting}
+                className={`w-full py-3 rounded-lg font-semibold text-lg transition-colors duration-200 ${
+                  isSubmitting
+                    ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                    : 'bg-olive text-white hover:bg-warm hover:text-olive'
+                }`}
               >
-                Send Message
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
+              
+              <p className="text-sm text-gray-500 text-center">
+                * Required fields
+              </p>
             </form>
           </div>
         </div>
