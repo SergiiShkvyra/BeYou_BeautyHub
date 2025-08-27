@@ -5,7 +5,7 @@ const Testimonials = () => {
   const testimonials = [
     {
       name: 'Sarah Johnson',
-      service: 'Volume Lash Extensions',
+      service: 'Lash Lift + Tinting',
       rating: 5,
       text: 'Absolutely amazing! The lashes look so natural and beautiful. I get compliments every day. The technician was so professional and made me feel comfortable throughout the entire process.',
       image: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg'
