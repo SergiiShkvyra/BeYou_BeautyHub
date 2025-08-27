@@ -81,34 +81,23 @@ const Contact = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await fetch('/api/send-contact-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+      // For now, simulate successful form submission since backend is not connected
+      // In production, this would connect to your actual email service
+      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
+      
+      setSubmitStatus({
+        type: 'success',
+        message: 'Thank you for your message! We will contact you soon. (Note: This is a demo - no actual email was sent)'
       });
       
-      const result = await response.json();
+      // Clear form on success
+      setFormData({ name: '', email: '', phone: '', service: '', message: '' });
       
-      if (response.ok) {
-        setSubmitStatus({
-          type: 'success',
-          message: result.message || 'Thank you for your message! We will contact you soon.'
-        });
-        // Clear form on success
-        setFormData({ name: '', email: '', phone: '', service: '', message: '' });
-      } else {
-        setSubmitStatus({
-          type: 'error',
-          message: result.error || 'Failed to send message. Please try again.'
-        });
-      }
     } catch (error) {
       console.error('Error submitting form:', error);
       setSubmitStatus({
         type: 'error',
-        message: 'Network error. Please check your connection and try again.'
+        message: 'Unable to send message at this time. Please contact us directly at (571)-276-7014 or info@beyoubeautyhub.com'
       });
     } finally {
       setIsSubmitting(false);
