@@ -270,7 +270,7 @@ const Header = () => {
                   <img
                     src="/images/tryLogo-1.png"
                     alt="BeYou BeautyHub Logo"
-                    className="h-10 w-auto sm:h-14 md:h-16 object-contain"
+                    className="h-12 w-auto sm:h-16 md:h-20 object-contain"
                     loading="eager"
                     decoding="async"
                   />
