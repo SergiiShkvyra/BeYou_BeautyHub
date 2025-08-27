@@ -39,7 +39,7 @@ const About = () => {
                 imageRendering: 'high-quality',
                 imageRendering: '-webkit-optimize-contrast',
                 imageRendering: 'optimizeQuality',
-                filter: 'contrast(1.02) saturate(1.09)',
+                filter: 'contrast(1.02) saturate(1.00)',
                 backfaceVisibility: 'hidden',
                 transform: 'translateZ(0)',
                 WebkitFontSmoothing: 'antialiased',
