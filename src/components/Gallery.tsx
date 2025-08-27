@@ -26,7 +26,7 @@ const Gallery = () => {
 
   const images = [
     {
-      src: 'public/images/gallery/shutterstock_2611101815.jpg',
+      src: '/images/gallery/shutterstock_2611101815.jpg',
       alt: 'Professional eyelash extension work showcasing volume and length'
     },
     {
