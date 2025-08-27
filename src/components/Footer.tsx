@@ -53,7 +53,7 @@ const Footer = () => {
     <footer className="bg-gray-800 text-warm">
       {/* Main footer content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
           <div>
             <h3 className="text-2xl font-bold text-olive mb-4">BeYou BeautyHub</h3>
@@ -73,6 +73,9 @@ const Footer = () => {
               </a>
             </div>
           </div>
+
+          {/* Empty spacer for centering */}
+          <div className="hidden md:block"></div>
 
           {/* Quick Links */}
           <div>
