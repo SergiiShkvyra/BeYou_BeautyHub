@@ -83,7 +83,7 @@ const About = () => {
             </div>
 
             <button 
-              onClick={() => window.open('https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-gt6tu55b', '_blank')}
+              onClick={() => window.open('https://www.instagram.com/beyou_beautyhub/#', '_blank')}
               className="mt-8 bg-olive text-white px-8 py-3 rounded-full hover:bg-warm hover:text-olive transition-colors duration-200 font-semibold"
             >
               Learn More About Us
