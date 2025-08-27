@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, Calendar, MessageSquare } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -81,13 +82,26 @@ const Contact = () => {
     setIsSubmitting(true);
     
     try {
-      // For now, simulate successful form submission since backend is not connected
-      // In production, this would connect to your actual email service
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
+      // Send email using EmailJS
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        phone: formData.phone || 'Not provided',
+        service: formData.service || 'Not specified',
+        message: formData.message,
+        to_email: 'info@beyoubeautyhub.com'
+      };
+
+      await emailjs.send(
+        'YOUR_SERVICE_ID',     // Replace with your EmailJS service ID
+        'YOUR_TEMPLATE_ID',    // Replace with your EmailJS template ID
+        templateParams,
+        'YOUR_PUBLIC_KEY'      // Replace with your EmailJS public key
+      );
       
       setSubmitStatus({
         type: 'success',
-        message: 'Thank you for your message! We will contact you soon. (Note: This is a demo - no actual email was sent)'
+        message: 'Thank you for your message! We have received your inquiry and will contact you soon.'
       });
       
       // Clear form on success
@@ -97,7 +111,7 @@ const Contact = () => {
       console.error('Error submitting form:', error);
       setSubmitStatus({
         type: 'error',
-        message: 'Unable to send message at this time. Please contact us directly at (571)-276-7014 or info@beyoubeautyhub.com'
+        message: 'Unable to send message at this time. Please try again or contact us directly at (571)-276-7014.'
       });
     } finally {
       setIsSubmitting(false);
