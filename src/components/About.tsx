@@ -6,7 +6,7 @@ const About = () => {
     {
       icon: <Heart className="h-6 w-6" />,
       title: 'Passionate Expertise',
-      description: 'Over 5 years of dedicated experience in beauty enhancement'
+      description: 'Over 3 years of dedicated experience in beauty enhancement'
     },
     {
       icon: <Award className="h-6 w-6" />,
