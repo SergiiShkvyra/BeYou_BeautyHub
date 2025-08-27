@@ -91,6 +91,23 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* Quick Links */}
+          <div>
+            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+            <ul className="space-y-2">
+              {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => (
+                <li key={item}>
+                  <button
+                    onClick={() => scrollToSection(item.toLowerCase())}
+                    className="text-gray-300 hover:text-olive transition-colors duration-200"
+                  >
+                    {item}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
           {/* Services */}
 
           {/* Contact Info */}
@@ -132,23 +149,6 @@ const Footer = () => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Bottom bar */}
-      <div className="border-t border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-300 text-sm flex items-center">
-              <span>© {currentYear} BeYou BeautyHub. Made with </span>
-              <Heart className="h-4 w-4 text-olive mx-1 fill-current" />
-              <span></span>
-            </div>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm">
-                Privacy Policy
-              </a>
-              <a href="#" className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm">
                 Terms of Service
               </a>
               <a href="#" className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm">
