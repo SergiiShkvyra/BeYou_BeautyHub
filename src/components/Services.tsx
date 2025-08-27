@@ -100,13 +100,13 @@ const Services = () => {
               {/* Button container that stays at bottom */}
               <div className="mt-auto">
                 <button 
-                  onClick={() => window.open(service.bookingUrl, '_blank')}
+                  onClick={() => window.open('https://www.fresha.com/book-now/beyou-beautyhub-j4ur9xlp/services?lid=2613695&eid=4605333&oiid=sv%3A22827620&share&pId=2531140', '_blank')}
                   onMouseDown={(e) => {
                     // Handle middle-click (scroll wheel click)
                     if (e.button === 1) {
                       e.preventDefault();
                       // Open in new tab without shifting focus from current page
-                      const newWindow = window.open(service.bookingUrl, '_blank', 'noopener,noreferrer');
+                      const newWindow = window.open('https://www.fresha.com/book-now/beyou-beautyhub-j4ur9xlp/services?lid=2613695&eid=4605333&oiid=sv%3A22827620&share&pId=2531140', '_blank', 'noopener,noreferrer');
                       if (newWindow) {
                         // Ensure current window stays focused
                         window.focus();
@@ -117,7 +117,7 @@ const Services = () => {
                     // Additional handler for auxiliary clicks (middle-click on some browsers)
                     if (e.button === 1) {
                       e.preventDefault();
-                      const newWindow = window.open(service.bookingUrl, '_blank', 'noopener,noreferrer');
+                      const newWindow = window.open('https://www.fresha.com/book-now/beyou-beautyhub-j4ur9xlp/services?lid=2613695&eid=4605333&oiid=sv%3A22827620&share&pId=2531140', '_blank', 'noopener,noreferrer');
                       if (newWindow) {
                         window.focus();
                       }
