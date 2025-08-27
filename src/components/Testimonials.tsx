@@ -12,7 +12,7 @@ const Testimonials = () => {
     },
     {
       name: 'Emily Rodriguez',
-      service: 'Eyebrow Shaping & Tinting',
+      service: 'Eyebrow Shaping + Tinting',
       rating: 5,
       text: 'My brows have never looked better! The shape is perfect for my face and the tinting looks so natural. I save so much time on my morning routine now. Highly recommend!',
       image: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg'
