@@ -91,6 +91,9 @@ const Footer = () => {
                   </button>
                 </li>
               ))}
+            </ul>
+          </div>
+
           {/* Contact Info */}
           <div>
             <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
