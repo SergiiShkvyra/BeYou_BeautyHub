@@ -65,7 +65,7 @@ const Footer = () => {
               <a href="https://www.instagram.com/beyou_beautyhub" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-olive transition-colors duration-200">
                 <Instagram className="h-6 w-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-olive transition-colors duration-200">
+              <a href="https://www.facebook.com/profile.php?id=61578572331666&mibextid=LQQJ4d" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-olive transition-colors duration-200">
                 <Facebook className="h-6 w-6" />
               </a>
               <a href="#" className="text-gray-400 hover:text-olive transition-colors duration-200">
