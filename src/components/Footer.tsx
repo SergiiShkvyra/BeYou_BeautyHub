@@ -91,25 +91,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
-            <ul className="space-y-2">
-              {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => (
-                <li key={item}>
-                  <button
-                    onClick={() => scrollToSection(item.toLowerCase())}
-                    className="text-gray-300 hover:text-olive transition-colors duration-200"
-                  >
-                    {item}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Services */}
-
           {/* Contact Info */}
           <div>
             <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
