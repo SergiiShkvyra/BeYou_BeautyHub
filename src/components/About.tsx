@@ -41,7 +41,7 @@ const About = () => {
                 imageRendering: 'optimizeQuality',
                 filter: 'contrast(1.00) saturate(1.00)',
                 backfaceVisibility: 'hidden',
-                transform: 'translateZ(0)',
+                transform: 'translateZ(2)',
                 WebkitFontSmoothing: 'antialiased',
                 MozOsxFontSmoothing: 'grayscale'
               }}
