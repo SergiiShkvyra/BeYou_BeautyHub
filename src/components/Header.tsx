@@ -261,14 +261,16 @@ const Header = () => {
                 <button
                   onClick={() => {
                     setIsSparkleActive(true);
-                    setTimeout(() => setIsSparkleActive(false), 1500);
+                    setTimeout(() => setIsSparkleActive(false), 5000);
                     const element = document.getElementById('home');
                     if (element) {
                       element.scrollIntoView({ behavior: 'smooth' });
                     }
                   }}
                   onMouseEnter={() => setIsSparkleActive(true)}
-                  onMouseLeave={() => setIsSparkleActive(false)}
+                  onMouseLeave={() => {
+                    setTimeout(() => setIsSparkleActive(false), 5000);
+                  }}
                   className="hover:opacity-80 transition-opacity duration-200 cursor-pointer mx-2 sm:mx-3 relative"
                   aria-label="BeYou BeautyHub - Return to homepage"
                 >
@@ -282,7 +284,7 @@ const Header = () => {
                           style={{
                             left: `${20 + Math.random() * 60}%`,
                             top: `${10 + Math.random() * 80}%`,
-                            animation: `sparkle 1.5s ease-out ${i * 0.1}s`,
+                            animation: `sparkle 5s ease-out ${i * 0.2}s`,
                             animationFillMode: 'both'
                           }}
                         >
@@ -297,7 +299,7 @@ const Header = () => {
                           style={{
                             left: `${15 + Math.random() * 70}%`,
                             top: `${5 + Math.random() * 90}%`,
-                            animation: `sparkleRotate 1.2s ease-out ${i * 0.15}s`,
+                            animation: `sparkleRotate 5s ease-out ${i * 0.3}s`,
                             animationFillMode: 'both',
                             fontSize: '12px'
                           }}
