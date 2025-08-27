@@ -92,17 +92,6 @@ const Footer = () => {
           </div>
 
           {/* Services */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Services</h4>
-            <ul className="space-y-2">
-              <li><a href="#" className="text-gray-300 hover:text-olive transition-colors duration-200">Lash Lift + Tinting</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-olive transition-colors duration-200">Volume Lash Extensions</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-olive transition-colors duration-200">Hybrid Lashes</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-olive transition-colors duration-200">Lash Lift & Tint</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-olive transition-colors duration-200">Eyebrow Services</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-olive transition-colors duration-200">Brow Lamination</a></li>
-            </ul>
-          </div>
 
           {/* Contact Info */}
           <div>
