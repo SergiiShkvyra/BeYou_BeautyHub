@@ -10,7 +10,7 @@ const Services = () => {
       price: 'From $80',
       duration: '60-75 minutes',
       features: ['Natural curl', 'Color enhancement', 'No maintenance needed', '6-8 week results'],
-      bookingUrl: 'LASH_LIFT_TINTING_URL' // To be replaced with specific URL
+      bookingUrl: 'https://www.fresha.com/book-now/beyou-beautyhub-j4ur9xlp/services?lid=2613695&eid=4605333&oiid=sv%3A22827620&share&pId=2531140'
     },
     {
       icon: <Sparkles className="h-8 w-8" />,
