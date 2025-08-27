@@ -32,7 +32,7 @@ const About = () => {
           {/* Image */}
           <div className="relative">
             <img
-              src="/images/shutterstock_2496592773.jpg"
+              src="/images/shutterstock_2496592773_1.jpg"
               alt="Beautiful woman with natural makeup showcasing skincare and beauty"
               className="rounded-2xl shadow-2xl w-full h-96 lg:h-[500px] object-cover"
               style={{
