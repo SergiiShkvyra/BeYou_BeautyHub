@@ -97,7 +97,7 @@ const Contact = () => {
                 <Mail className="h-6 w-6 text-olive mt-1" />
                 <div>
                   <h4 className="font-semibold text-gray-900">Email</h4>
-                  <p className="text-gray-600">hello@bellabeautystudio.com</p>
+                  <p className="text-gray-600">info@beyoubeautyhub.com</p>
                   <p className="text-sm text-gray-500">We'll respond within 24 hours</p>
                 </div>
               </div>
