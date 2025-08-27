@@ -26,15 +26,15 @@ const Gallery = () => {
 
   const images = [
     {
-      src: 'https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg',
+      src: '/images/gallery/shutterstock_1759325294.jpg',
       alt: 'Professional eyelash extension work showcasing volume and length'
     },
     {
-      src: 'https://images.pexels.com/photos/3993456/pexels-photo-3993456.jpeg',
+      src: '/images/gallery/shutterstock_2293561195.jpg',
       alt: 'Beautiful eyebrow shaping and tinting results'
     },
     {
-      src: 'https://images.pexels.com/photos/3738347/pexels-photo-3738347.jpeg',
+      src: 'public/images/gallery/shutterstock_2611101815.jpg',
       alt: 'Professional lash lift and tint transformation'
     },
     {
