@@ -410,9 +410,25 @@ img {
     opacity: 0;
     transform: scale(0) rotate(0deg);
   }
+  10% {
+    opacity: 0.3;
+    transform: scale(0.3) rotate(36deg);
+  }
+  20% {
+    opacity: 0.7;
+    transform: scale(0.7) rotate(72deg);
+  }
   50% {
     opacity: 1;
     transform: scale(1) rotate(180deg);
+  }
+  80% {
+    opacity: 0.7;
+    transform: scale(0.7) rotate(288deg);
+  }
+  90% {
+    opacity: 0.3;
+    transform: scale(0.3) rotate(324deg);
   }
   100% {
     opacity: 0;
@@ -425,9 +441,25 @@ img {
     opacity: 0;
     transform: scale(0) rotate(0deg) translateY(0px);
   }
+  15% {
+    opacity: 0.4;
+    transform: scale(0.4) rotate(54deg) translateY(-2px);
+  }
+  30% {
+    opacity: 0.8;
+    transform: scale(0.8) rotate(108deg) translateY(-5px);
+  }
   50% {
     opacity: 1;
     transform: scale(1.2) rotate(180deg) translateY(-10px);
+  }
+  70% {
+    opacity: 0.8;
+    transform: scale(0.8) rotate(252deg) translateY(-15px);
+  }
+  85% {
+    opacity: 0.4;
+    transform: scale(0.4) rotate(306deg) translateY(-18px);
   }
   100% {
     opacity: 0;

@@ -284,11 +284,11 @@ const Header = () => {
                           style={{
                             left: `${20 + Math.random() * 60}%`,
                             top: `${10 + Math.random() * 80}%`,
-                            animation: `sparkle 5s ease-out ${i * 0.2}s`,
+                            animation: `sparkle 5s ease-in-out ${i * 0.2}s`,
                             animationFillMode: 'both'
                           }}
                         >
-                          <div className="w-2 h-2 bg-yellow-400 rounded-full opacity-0 animate-pulse"></div>
+                          <div className="w-2 h-2 bg-yellow-400 rounded-full opacity-0"></div>
                         </div>
                       ))}
                       {/* Additional sparkle layer */}
@@ -299,7 +299,7 @@ const Header = () => {
                           style={{
                             left: `${15 + Math.random() * 70}%`,
                             top: `${5 + Math.random() * 90}%`,
-                            animation: `sparkleRotate 5s ease-out ${i * 0.3}s`,
+                            animation: `sparkleRotate 5s ease-in-out ${i * 0.3}s`,
                             animationFillMode: 'both',
                             fontSize: '12px'
                           }}
@@ -312,8 +312,8 @@ const Header = () => {
                   <img
                     src="/images/tryLogo-1.png"
                     alt="BeYou BeautyHub Logo"
-                    className={`h-12 w-auto sm:h-16 md:h-20 object-contain transition-all duration-300 ${
-                      isSparkleActive ? 'scale-105 brightness-110' : ''
+                    className={`h-12 w-auto sm:h-16 md:h-20 object-contain transition-all duration-500 ease-in-out ${
+                      isSparkleActive ? 'scale-105 brightness-110' : 'scale-100 brightness-100'
                     }`}
                     loading="eager"
                     decoding="async"
