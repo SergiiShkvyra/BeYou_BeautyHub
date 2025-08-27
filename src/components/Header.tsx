@@ -4,6 +4,7 @@ import { Phone, MapPin } from 'lucide-react';
 const Header = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isSparkleActive, setIsSparkleActive] = useState(false);
 
   // Function to handle phone number click
   const handlePhoneClick = (phoneNumber: string) => {
@@ -259,18 +260,59 @@ const Header = () => {
                 <span>BE</span>
                 <button
                   onClick={() => {
+                    setIsSparkleActive(true);
+                    setTimeout(() => setIsSparkleActive(false), 1500);
                     const element = document.getElementById('home');
                     if (element) {
                       element.scrollIntoView({ behavior: 'smooth' });
                     }
                   }}
-                  className="hover:opacity-80 transition-opacity duration-200 cursor-pointer mx-2 sm:mx-3"
+                  onMouseEnter={() => setIsSparkleActive(true)}
+                  onMouseLeave={() => setIsSparkleActive(false)}
+                  className="hover:opacity-80 transition-opacity duration-200 cursor-pointer mx-2 sm:mx-3 relative"
                   aria-label="BeYou BeautyHub - Return to homepage"
                 >
+                  {/* Sparkle effects */}
+                  {isSparkleActive && (
+                    <>
+                      {[...Array(8)].map((_, i) => (
+                        <div
+                          key={i}
+                          className="absolute pointer-events-none"
+                          style={{
+                            left: `${20 + Math.random() * 60}%`,
+                            top: `${10 + Math.random() * 80}%`,
+                            animation: `sparkle 1.5s ease-out ${i * 0.1}s`,
+                            animationFillMode: 'both'
+                          }}
+                        >
+                          <div className="w-2 h-2 bg-yellow-400 rounded-full opacity-0 animate-pulse"></div>
+                        </div>
+                      ))}
+                      {/* Additional sparkle layer */}
+                      {[...Array(6)].map((_, i) => (
+                        <div
+                          key={`star-${i}`}
+                          className="absolute pointer-events-none text-yellow-400"
+                          style={{
+                            left: `${15 + Math.random() * 70}%`,
+                            top: `${5 + Math.random() * 90}%`,
+                            animation: `sparkleRotate 1.2s ease-out ${i * 0.15}s`,
+                            animationFillMode: 'both',
+                            fontSize: '12px'
+                          }}
+                        >
+                          ✨
+                        </div>
+                      ))}
+                    </>
+                  )}
                   <img
                     src="/images/tryLogo-1.png"
                     alt="BeYou BeautyHub Logo"
-                    className="h-12 w-auto sm:h-16 md:h-20 object-contain"
+                    className={`h-12 w-auto sm:h-16 md:h-20 object-contain transition-all duration-300 ${
+                      isSparkleActive ? 'scale-105 brightness-110' : ''
+                    }`}
                     loading="eager"
                     decoding="async"
                   />
