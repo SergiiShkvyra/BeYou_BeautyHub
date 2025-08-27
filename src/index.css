@@ -245,6 +245,42 @@ img {
   will-change: transform, opacity !important;
 }
 
+/* Gallery modal navigation improvements */
+@media (max-width: 768px) {
+  /* Make navigation arrows always visible on mobile */
+  .group .opacity-0.group-hover\\:opacity-100 {
+    opacity: 0.7 !important;
+  }
+  
+  /* Larger touch targets on mobile */
+  .group button[aria-label="Previous image"],
+  .group button[aria-label="Next image"] {
+    min-width: 56px !important;
+    min-height: 56px !important;
+    padding: 16px !important;
+  }
+  
+  /* Always show image counter on mobile */
+  .group div:has(+ img) {
+    opacity: 0.8 !important;
+  }
+}
+
+/* Smooth transitions for gallery navigation */
+.group img {
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Prevent text selection during swipe gestures */
+.group {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* Fix for responsive mode white screen */
 @media screen and (max-width: 1024px) {
   html, body, #root {

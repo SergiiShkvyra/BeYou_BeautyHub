@@ -1,18 +1,65 @@
 import React, { useState } from 'react';
-import { X } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   // Close modal function
   const closeModal = () => {
     setSelectedImage(null);
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
+  // Navigation functions
+  const goToPrevious = () => {
+    if (selectedImage !== null) {
+      const newIndex = selectedImage === 0 ? images.length - 1 : selectedImage - 1;
+      setSelectedImage(newIndex);
+    }
+  };
+
+  const goToNext = () => {
+    if (selectedImage !== null) {
+      const newIndex = selectedImage === images.length - 1 ? 0 : selectedImage + 1;
+      setSelectedImage(newIndex);
+    }
   };
 
   // Handle keyboard events for accessibility
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
       closeModal();
+    } else if (e.key === 'ArrowLeft') {
+      goToPrevious();
+    } else if (e.key === 'ArrowRight') {
+      goToNext();
+    }
+  };
+
+  // Touch event handlers for mobile swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      goToNext();
+    } else if (isRightSwipe) {
+      goToPrevious();
     }
   };
 
@@ -98,12 +145,15 @@ const Gallery = () => {
             className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4 cursor-pointer"
             onClick={handleOverlayClick}
             onKeyDown={handleKeyDown}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
             tabIndex={0}
             role="dialog"
             aria-modal="true"
             aria-label="Image gallery modal"
           >
-            <div className="relative max-w-4xl max-h-full cursor-default">
+            <div className="relative max-w-4xl max-h-full cursor-default group">
               {/* Enhanced X button with better positioning and touch targets */}
               <button
                 onClick={closeModal}
@@ -120,12 +170,44 @@ const Gallery = () => {
                 <X className="h-6 w-6" />
               </button>
               
+              {/* Left Navigation Arrow */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goToPrevious();
+                }}
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full p-3 z-20 transition-all duration-200 opacity-0 group-hover:opacity-100 min-w-[48px] min-h-[48px] flex items-center justify-center"
+                aria-label="Previous image"
+                type="button"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+              
+              {/* Right Navigation Arrow */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goToNext();
+                }}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full p-3 z-20 transition-all duration-200 opacity-0 group-hover:opacity-100 min-w-[48px] min-h-[48px] flex items-center justify-center"
+                aria-label="Next image"
+                type="button"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+              
+              {/* Image counter */}
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-white px-4 py-2 rounded-full text-sm z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                {selectedImage + 1} / {images.length}
+              </div>
+              
               {/* Image container with click prevention */}
               <img
                 src={images[selectedImage].src}
                 alt={images[selectedImage].alt}
                 className="max-w-full max-h-full object-contain rounded-lg cursor-default"
                 onClick={(e) => e.stopPropagation()}
+                onTouchStart={(e) => e.stopPropagation()}
                 draggable={false}
               />
             </div>
