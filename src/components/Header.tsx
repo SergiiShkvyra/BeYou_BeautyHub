@@ -200,7 +200,7 @@ const Header = () => {
       }}
     >
       {/* Top contact bar */}
-      <div className="py-0.5 px-4 w-full" style={{ margin: '0', padding: '0.125rem 1rem', width: '100%' }}>
+      <div className="py-0 px-4 w-full" style={{ margin: '0', padding: '0 1rem', width: '100%' }}>
         <div className="max-w-7xl mx-auto flex justify-between items-center text-sm text-olive">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1">
@@ -252,9 +252,9 @@ const Header = () => {
 
       {/* Main navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ margin: '0 auto', width: '100%' }}>
-        <div className="flex justify-center items-center py-0.5 sm:py-1 lg:py-1">
+        <div className="flex justify-center items-center py-0">
           <div className="font-playfair font-bold text-olive relative w-full flex justify-center items-center">
-            <div className="text-5xl sm:text-5xl lg:text-6xl xl:text-8xl tracking-wider leading-none flex items-end">
+            <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl tracking-wider leading-none flex items-end">
               <span className="flex items-center">
                 <span>BE</span>
                 <button
@@ -270,14 +270,14 @@ const Header = () => {
                   <img
                     src="/images/tryLogo-1.png"
                     alt="BeYou BeautyHub Logo"
-                    className="h-12 w-auto sm:h-16 md:h-20 object-contain"
+                    className="h-10 w-auto sm:h-14 md:h-16 object-contain"
                     loading="eager"
                     decoding="async"
                   />
                 </button>
                 <span>YOU</span>
               </span>
-              <div className="text-base sm:text-lg lg:text-xl tracking-wide opacity-70 ml-0">
+              <div className="text-sm sm:text-base lg:text-lg tracking-wide opacity-70 ml-0">
                 BeautyHub
               </div>
             </div>
@@ -285,7 +285,7 @@ const Header = () => {
         </div>
 
         {/* Horizontal Navigation Bar */}
-        <div className="border-t border-olive/20 py-0 sm:py-0.5 lg:py-0.5 mt-1 sm:mt-0">
+        <div className="border-t border-olive/20 py-0 mt-0">
           <nav className="flex justify-center items-center gap-1 sm:gap-4 lg:gap-6 max-w-4xl mx-auto px-1 py-0.5 sm:py-0 overflow-x-auto font-montserrat">
             {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => (
               <button
