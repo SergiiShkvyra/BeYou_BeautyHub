@@ -149,13 +149,6 @@ const Footer = () => {
               </div>
             </div>
           </div>
-                Terms of Service
-              </a>
-              <a href="#" className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm">
-                Cookie Policy
-              </a>
-            </div>
-          </div>
         </div>
       </div>
     </footer>
