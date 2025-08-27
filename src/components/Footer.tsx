@@ -58,7 +58,7 @@ const Footer = () => {
           <div className="text-center md:text-left">
             <h3 className="text-2xl font-bold text-olive mb-4">BeYou BeautyHub</h3>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              Enhancing your natural beauty with professional eyelash and eyebrow services. 
+              Enhancing your natural beauty with professional eyelash and eyebrow services. /n
               Your confidence is our passion.
             </p>
             <div className="flex space-x-4 justify-center md:justify-start">
