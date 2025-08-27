@@ -26,36 +26,36 @@ const Gallery = () => {
 
   const images = [
     {
-      src: 'https://images.pexels.com/photos/7755468/pexels-photo-7755468.jpeg',
-      alt: 'Beautiful woman with perfectly shaped eyebrows showcasing professional brow artistry'
+      src: '/images/gallery/shutterstock_2611101815.jpg',
+      alt: 'Professional eyelash extension work showcasing volume and length'
     },
     {
-      src: 'https://images.pexels.com/photos/8129903/pexels-photo-8129903.jpeg',
-      alt: 'Beautiful volume lash extensions close-up'
+      src: '/images/gallery/shutterstock_1759325294.jpg',
+      alt: 'Beautiful eyebrow shaping and tinting results'
     },
     {
-      src: 'https://images.pexels.com/photos/8129864/pexels-photo-8129864.jpeg',
-      alt: 'Beautiful eyelash extensions close-up view'
+      src: '/images/gallery/shutterstock_2293561195.jpg',
+      alt: 'Professional lash lift and tint transformation'
     },
     {
-      src: 'https://images.pexels.com/photos/7755468/pexels-photo-7755468.jpeg',
-      alt: 'Perfect eyebrow tinting and shaping results'
+      src: '/images/gallery/shutterstock_2266301635.jpg',
+      alt: 'Volume lash extensions creating dramatic eye enhancement'
     },
     {
-      src: 'https://images.pexels.com/photos/8129852/pexels-photo-8129852.jpeg',
-      alt: 'Classic lash extensions natural look'
+      src: '/images/gallery/shutterstock_2464025333.jpg',
+      alt: 'Natural lash enhancement with professional techniques'
     },
     {
-      src: 'https://images.pexels.com/photos/5938253/pexels-photo-5938253.jpeg',
-      alt: 'Volume lash extensions dramatic look'
+      src: '/images/gallery/shutterstock_2546341347.jpg',
+      alt: 'Beautiful brow lamination and shaping results'
     },
     {
-      src: 'https://images.pexels.com/photos/7755433/pexels-photo-7755433.jpeg',
-      alt: 'Lash lift and tint natural enhancement'
+      src: '/images/gallery/shutterstock_2219565153.jpg',
+      alt: 'Professional eyebrow tinting and design work'
     },
     {
-      src: 'https://images.pexels.com/photos/8129868/pexels-photo-8129868.jpeg',
-      alt: 'Beautiful hybrid lash extensions final result'
+      src: '/images/gallery/shutterstock_1983104336.jpg',
+      alt: 'Stunning lash extension transformation showcasing our expertise'
     }
   ];
 
