@@ -53,15 +53,15 @@ const Footer = () => {
     <footer className="bg-gray-800 text-warm">
       {/* Main footer content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
-          <div className="text-center md:text-left">
+          <div className="text-center md:col-start-2">
             <h3 className="text-2xl font-bold text-olive mb-4">BeYou BeautyHub</h3>
             <p className="text-gray-300 mb-6 leading-relaxed">
               Enhancing your natural beauty with professional eyelash and eyebrow services.
               Your confidence is our passion.
             </p>
-            <div className="flex space-x-5 justify-center md:justify-start">
+            <div className="flex space-x-5 justify-center">
               <a href="https://www.instagram.com/beyou_beautyhub" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-olive transition-colors duration-200">
                 <Instagram className="h-6 w-6" />
               </a>
@@ -91,9 +91,6 @@ const Footer = () => {
                   </button>
                 </li>
               ))}
-            </ul>
-          </div>
-
           {/* Contact Info */}
           <div>
             <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
