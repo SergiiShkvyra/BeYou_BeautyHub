@@ -61,7 +61,7 @@ const Footer = () => {
               Enhancing your natural beauty with professional eyelash and eyebrow services.
               Your confidence is our passion.
             </p>
-            <div className="flex space-x-4 justify-center md:justify-start">
+            <div className="flex space-x-8 justify-center md:justify-start">
               <a href="https://www.instagram.com/beyou_beautyhub" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-olive transition-colors duration-200">
                 <Instagram className="h-6 w-6" />
               </a>
