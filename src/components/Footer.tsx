@@ -54,8 +54,68 @@ const Footer = () => {
       {/* Main footer content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Company Info */}
-          <div className="text-center md:col-start-2">
+          {/* Quick Links - Left Column */}
+          <div>
+            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+            <ul className="space-y-2">
+              {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => (
+                <li key={item}>
+                  <button
+                    onClick={() => scrollToSection(item.toLowerCase())}
+                    className="text-gray-300 hover:text-olive transition-colors duration-200"
+                  >
+                    {item}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Info - Center Column */}
+          <div>
+            <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
+            <div className="space-y-3">
+              <div className="flex items-start space-x-3">
+                <MapPin className="h-5 w-5 text-olive mt-0.5" />
+                <a 
+                  href="https://www.google.com/maps/place/BeYou+Beautyhub/data=!4m2!3m1!1s0x0:0x8b1970ecf4fc771f?sa=X&ved=1t:2428&ictx=111&cshid=1754622378904828"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 text-sm hover:text-olive transition-colors duration-200 cursor-pointer"
+                >
+                  424 Maple Ave E Suite 3<br />
+                  Vienna, VA 22180
+                </a>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Phone className="h-5 w-5 text-olive" />
+                <button 
+                  onClick={() => handlePhoneClick('(571)-276-7014')}
+                  className="text-gray-300 text-sm hover:text-olive transition-colors duration-200 cursor-pointer"
+                >
+                  (571)-276-7014
+                </button>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Mail className="h-5 w-5 text-olive" />
+                <span className="text-gray-300 text-sm">info@beyoubeautyhub.com</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Business Hours - Right Column */}
+          <div>
+            <h4 className="text-lg font-semibold mb-4">Business Hours</h4>
+            <div className="text-gray-300 text-sm space-y-1">
+              <div>Tue-Thur: 10AM-7PM</div>
+              <div>Saturday: 10AM-5PM</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Company Info - Centered Below */}
+        <div className="text-center mt-12 pt-8 border-t border-gray-700">
+          <div>
             <h3 className="text-2xl font-bold text-olive mb-4">BeYou BeautyHub</h3>
             <p className="text-gray-300 mb-6 leading-relaxed">
               Enhancing your natural beauty with professional eyelash and eyebrow services.
@@ -92,46 +152,6 @@ const Footer = () => {
                 </li>
               ))}
             </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
-            <div className="space-y-3">
-              <div className="flex items-start space-x-3">
-                <MapPin className="h-5 w-5 text-olive mt-0.5" />
-                <a 
-                  href="https://www.google.com/maps/place/BeYou+Beautyhub/data=!4m2!3m1!1s0x0:0x8b1970ecf4fc771f?sa=X&ved=1t:2428&ictx=111&cshid=1754622378904828"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-300 text-sm hover:text-olive transition-colors duration-200 cursor-pointer"
-                >
-                  424 Maple Ave E Suite 3<br />
-                  Vienna, VA 22180
-                </a>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="h-5 w-5 text-olive" />
-                <button 
-                  onClick={() => handlePhoneClick('(571)-276-7014')}
-                  className="text-gray-300 text-sm hover:text-olive transition-colors duration-200 cursor-pointer"
-                >
-                  (571)-276-7014
-                </button>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="h-5 w-5 text-olive" />
-                <span className="text-gray-300 text-sm">info@beyoubeautyhub.com</span>
-              </div>
-            </div>
-
-            <div className="mt-6">
-              <h5 className="font-medium mb-2">Business Hours</h5>
-              <div className="text-gray-300 text-sm space-y-1">
-                <div>Tue-Thur: 10AM-7PM</div>
-                <div>Saturday: 10AM-5PM</div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
