@@ -161,7 +161,24 @@ const Header = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      if (id === 'services') {
+        // For services section, scroll to center the h2 heading in the viewport
+        const rect = element.getBoundingClientRect();
+        const elementTop = rect.top + window.pageYOffset;
+        const headerHeight = 140; // Approximate header height
+        const viewportHeight = window.innerHeight;
+        const elementHeight = rect.height;
+        
+        // Calculate position to center the services heading
+        const targetPosition = elementTop - (viewportHeight / 2) + (elementHeight / 4);
+        
+        window.scrollTo({
+          top: Math.max(0, targetPosition),
+          behavior: 'smooth'
+        });
+      } else {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
