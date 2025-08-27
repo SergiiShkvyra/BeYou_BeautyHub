@@ -26,7 +26,7 @@ const Gallery = () => {
 
   const images = [
     {
-      src: '/images/gallery/shutterstock_1759325294.jpg',
+      src: 'public/images/gallery/shutterstock_2611101815.jpg',
       alt: 'Professional eyelash extension work showcasing volume and length'
     },
     {
@@ -34,7 +34,7 @@ const Gallery = () => {
       alt: 'Beautiful eyebrow shaping and tinting results'
     },
     {
-      src: 'public/images/gallery/shutterstock_2611101815.jpg',
+      src: '/images/gallery/shutterstock_1759325294.jpg',
       alt: 'Professional lash lift and tint transformation'
     },
     {
