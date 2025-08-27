@@ -10,7 +10,7 @@ const Services = () => {
       price: 'From $80',
       duration: '60-75 minutes',
       features: ['Natural curl', 'Color enhancement', 'No maintenance needed', '6-8 week results'],
-      bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?service=s%3A19894830'
+      bookingUrl: 'LASH_LIFT_TINTING_URL' // To be replaced with specific URL
     },
     {
       icon: <Sparkles className="h-8 w-8" />,
@@ -19,7 +19,7 @@ const Services = () => {
       price: 'From $75',
       duration: '45-60 minutes',
       features: ['Creates a fuller, thicker brow look', 'Smooths and tames unruly hairs', 'Enhances natural brow symmetry', 'Long-lasting results (up to 6–8 weeks)'],
-      bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?service=s%3A19894722'
+      bookingUrl: 'BROW_LAMINATION_TWEEZING_URL' // To be replaced with specific URL
     },
     {
       icon: <Sparkles className="h-8 w-8" />,
@@ -28,7 +28,7 @@ const Services = () => {
       price: 'From $40',
       duration: '40-45 minutes',
       features: ['Ensures perfectly balanced and symmetrical brows', 'Defines the ideal shape to suit your facial features', 'Gentle tweezing for a clean and precise result', 'Enhances your natural beauty without over-plucking'],
-      bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?service=s%3A19894672'
+      bookingUrl: 'MAPPING_TWEEZING_URL' // To be replaced with specific URL
     },
     {
       icon: <Eye className="h-8 w-8" />,
@@ -37,7 +37,7 @@ const Services = () => {
       price: 'From $190',
       duration: '1 hour 45 minutes',
       features: ['Say goodbye to mascara! Get naturally lifted, darker, and healthier lashes with a nourishing Botox boost for extra shine and strength.', 'Transform your brows with a fuller, perfectly shaped, and defined look. Symmetry, smoothness, and rich color — all in one treatment.'],
-      bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?service=s%3A19895121'
+      bookingUrl: 'LL_COMBO_DELUXE_URL' // To be replaced with specific URL
     },
     {
       icon: <Sparkles className="h-8 w-8" />,
@@ -46,7 +46,7 @@ const Services = () => {
       price: 'From $70',
       duration: '50 minutes',
       features: ['Saves time on daily makeup', 'Enhances natural beauty', 'Low-maintenance styling', 'Long-lasting effects (up to 4–6 weeks)'],
-      bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?service=s%3A19894916'
+      bookingUrl: 'LASH_TINT_EYEBROW_URL' // To be replaced with specific URL
     },
     {
       icon: <Clock className="h-8 w-8" />,
@@ -54,7 +54,7 @@ const Services = () => {
       description: 'Explore our full range of beauty services including individual treatments and consultations.',
       price: 'From $25',
       features: ['Lash Titing', 'Brow Tinting', 'Tweezing', 'Free Consultation'],
-      bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh'
+      bookingUrl: 'GENERAL_SERVICES_URL' // To be replaced with specific URL
     }
   ];
 
