@@ -118,10 +118,11 @@ const Footer = () => {
                 <button 
                   onClick={() => {
                     const email = 'info@beyoubeautyhub.com';
-                    navigator.clipboard.writeText(email).then(() => {
-                      // Show notification that email was copied
+                    
+                    // Function to show notification
+                    const showNotification = (message: string) => {
                       const notification = document.createElement('div');
-                      notification.textContent = 'Email address copied to clipboard!';
+                      notification.textContent = message;
                       notification.style.cssText = `
                         position: fixed;
                         top: 20px;
@@ -130,20 +131,68 @@ const Footer = () => {
                         color: white;
                         padding: 12px 20px;
                         border-radius: 8px;
-                        z-index: 10000;
+                        z-index: 99999;
                         font-size: 14px;
                         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                        pointer-events: none;
+                        transform: translateX(0);
+                        transition: all 0.3s ease;
                       `;
                       document.body.appendChild(notification);
                       
+                      // Animate in
+                      requestAnimationFrame(() => {
+                        notification.style.transform = 'translateX(0)';
+                        notification.style.opacity = '1';
+                      });
+                      
                       // Remove notification after 3 seconds
                       setTimeout(() => {
-                        document.body.removeChild(notification);
+                        notification.style.opacity = '0';
+                        notification.style.transform = 'translateX(100%)';
+                        setTimeout(() => {
+                          if (document.body.contains(notification)) {
+                            document.body.removeChild(notification);
+                          }
+                        }, 300);
                       }, 3000);
-                    }).catch(() => {
-                      // Fallback if clipboard API fails
-                      alert('Email address: ' + email);
-                    });
+                    };
+                    
+                    // Try modern clipboard API first
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                      navigator.clipboard.writeText(email).then(() => {
+                        showNotification('Email address copied to clipboard!');
+                      }).catch(() => {
+                        // Fallback for clipboard API failure
+                        showNotification('Email: ' + email);
+                      });
+                    } else {
+                      // Fallback for older browsers
+                      try {
+                        // Create a temporary textarea element
+                        const textArea = document.createElement('textarea');
+                        textArea.value = email;
+                        textArea.style.position = 'fixed';
+                        textArea.style.left = '-999999px';
+                        textArea.style.top = '-999999px';
+                        document.body.appendChild(textArea);
+                        textArea.focus();
+                        textArea.select();
+                        
+                        // Try to copy using execCommand
+                        const successful = document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        
+                        if (successful) {
+                          showNotification('Email address copied to clipboard!');
+                        } else {
+                          showNotification('Email: ' + email);
+                        }
+                      } catch (err) {
+                        showNotification('Email: ' + email);
+                      }
+                    }
                   }}
                   className="text-gray-300 text-sm hover:text-olive transition-colors duration-200 cursor-pointer"
                 >
