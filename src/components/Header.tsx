@@ -326,7 +326,7 @@ const Header = () => {
                       element.scrollIntoView({ behavior: 'smooth' });
                     }
                   }}
-                  className="hover:opacity-80 transition-opacity duration-200 cursor-pointer mx-2 sm:mx-3 relative"
+                  className="hover:opacity-100 transition-opacity duration-200 cursor-pointer mx-2 sm:mx-3 relative"
                   aria-label="BeYou BeautyHub - Return to homepage"
                 >
                   <img
