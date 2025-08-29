@@ -418,7 +418,7 @@ const Contact = () => {
                     : 'bg-olive text-white hover:bg-warm hover:text-olive'
                 }`}
               >
-                {isSubmitting ? 'Sending...' : 'Send Message'}
+                {isSubmitting ? 'Sending...' : 'Send Email'}
               </button>
               
               <p className="text-sm text-gray-500 text-center">
