@@ -246,7 +246,6 @@ const Header = () => {
           <div className="text-right">
             <div className="text-right text-sm leading-tight">
               <div>Tue-Thur: 10AM-7PM</div>
-              <div>Saturday: 10AM-5PM</div>
             </div>
           </div>
         </div>
