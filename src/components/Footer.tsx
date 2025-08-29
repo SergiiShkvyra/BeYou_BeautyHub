@@ -98,7 +98,7 @@ const Footer = () => {
                 <img
                   src="/images/logoPSD-2.png"
                   alt="BeYou BeautyHub Logo"
-                  className="h-64 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-200"
+                  className="h-32 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-200"
                   loading="lazy"
                   decoding="async"
                 />
