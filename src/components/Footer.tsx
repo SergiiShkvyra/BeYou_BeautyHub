@@ -74,36 +74,21 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links with Logo on Mobile */}
-          <div className="flex flex-col lg:block">
-            <div className="flex justify-between items-start lg:block">
-              <div className="flex-1 lg:w-full">
-                <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
-                <ul className="space-y-2">
-                  {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => (
-                    <li key={item}>
-                      <button
-                        onClick={() => scrollToSection(item.toLowerCase())}
-                        className="text-gray-300 hover:text-olive transition-colors duration-200"
-                      >
-                        {item}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              
-              {/* Logo for mobile - positioned next to Quick Links */}
-              <div className="lg:hidden ml-8 flex-shrink-0">
-                <img
-                  src="/images/logoPSD-2.png"
-                  alt="BeYou BeautyHub Logo"
-                  className="h-32 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-200"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-            </div>
+          {/* Quick Links */}
+          <div>
+            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+            <ul className="space-y-2">
+              {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => (
+                <li key={item}>
+                  <button
+                    onClick={() => scrollToSection(item.toLowerCase())}
+                    className="text-gray-300 hover:text-olive transition-colors duration-200"
+                  >
+                    {item}
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Contact Info */}
@@ -220,8 +205,8 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Logo for desktop only */}
-          <div className="hidden lg:flex justify-end">
+          {/* Logo */}
+          <div className="flex justify-center lg:justify-end">
             <img
               src="/images/logoPSD-2.png"
               alt="BeYou BeautyHub Logo"
