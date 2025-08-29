@@ -175,40 +175,7 @@ const Contact = () => {
                 <Mail className="h-6 w-6 text-olive mt-1" />
                 <div>
                   <h4 className="font-semibold text-gray-900">Email</h4>
-                  <button 
-                    onClick={() => {
-                      const email = 'info@beyoubeautyhub.com';
-                      navigator.clipboard.writeText(email).then(() => {
-                        // Show notification that email was copied
-                        const notification = document.createElement('div');
-                        notification.textContent = 'Email address copied to clipboard!';
-                        notification.style.cssText = `
-                          position: fixed;
-                          top: 20px;
-                          right: 20px;
-                          background: #505e47;
-                          color: white;
-                          padding: 12px 20px;
-                          border-radius: 8px;
-                          z-index: 10000;
-                          font-size: 14px;
-                          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                        `;
-                        document.body.appendChild(notification);
-                        
-                        // Remove notification after 3 seconds
-                        setTimeout(() => {
-                          document.body.removeChild(notification);
-                        }, 3000);
-                      }).catch(() => {
-                        // Fallback if clipboard API fails
-                        alert('Email address: ' + email);
-                      });
-                    }}
-                    className="text-gray-600 hover:text-olive transition-colors duration-200 cursor-pointer"
-                  >
-                    info@beyoubeautyhub.com
-                  </button>
+                  <p className="text-gray-600">info@beyoubeautyhub.com</p>
                   <p className="text-sm text-gray-500">We'll respond within 24 hours</p>
                 </div>
               </div>
