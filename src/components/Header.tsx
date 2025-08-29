@@ -172,7 +172,7 @@ const Header = () => {
   const scrollProgress = Math.min(Math.max((scrollY - scrollThreshold) / animationRange, 0), 1);
   
   // Calculate opacity for "BeautyHub" (1 to 0)
-  const beautyHubOpacity = 10 - scrollProgress;
+  const beautyHubOpacity = 100 - scrollProgress;
   
   // Calculate transform for "BE YOU" (moves to center)
   // This creates a smooth transition from left-aligned to center-aligned
