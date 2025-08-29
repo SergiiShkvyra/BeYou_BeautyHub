@@ -254,8 +254,12 @@ const Footer = () => {
                 <p className="text-gray-600 mb-6">
                   <em>Last updated: {new Date().toLocaleDateString()}</em>
                 </p>
+
+                 <p className="text-gray-700 mb-6">
+                 Welcome to beyoubeautyhub.com ! By using our website and services, you agree to the following terms. Please read them carefully.
+                </p>
                 
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">1. Acceptance of Terms</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">1. Services</h3>
                 <p className="text-gray-700 mb-6">
                   [Placeholder text] By accessing and using BeYou BeautyHub services, you accept and agree to be bound by the terms and provision of this agreement. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </p>
