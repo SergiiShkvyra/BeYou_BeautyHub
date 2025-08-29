@@ -147,17 +147,6 @@ const Contact = () => {
             
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
-                <Clock className="h-6 w-6 text-olive mt-1" />
-                <div>
-                  <h4 className="font-semibold text-gray-900">Hours</h4>
-                  <p className="text-gray-600">
-                    Tue-Thur: 10:00 AM - 7:00 PM<br />
-                    Saturday: 10:00 AM - 5:00 PM
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
                 <Phone className="h-6 w-6 text-olive mt-1" />
                 <div>
                   <h4 className="font-semibold text-gray-900">Phone</h4>
@@ -193,6 +182,17 @@ const Contact = () => {
                     424 Maple Ave E Suite 3<br />Vienna, VA 22180
                   </a>
                   <p className="text-sm text-gray-500">Free parking available</p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-4">
+                <Clock className="h-6 w-6 text-olive mt-1" />
+                <div>
+                  <h4 className="font-semibold text-gray-900">Hours</h4>
+                  <p className="text-gray-600">
+                    Tue-Thur: 10:00 AM - 7:00 PM<br />
+                    Saturday: 10:00 AM - 5:00 PM
+                  </p>
                 </div>
               </div>
             </div>
@@ -307,7 +307,7 @@ const Contact = () => {
 
           {/* Contact Form */}
           <div className="bg-white rounded-2xl p-8 shadow-lg">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">Send Us an Email</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">Send Us a Message</h3>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Status Message */}
@@ -418,7 +418,7 @@ const Contact = () => {
                     : 'bg-olive text-white hover:bg-warm hover:text-olive'
                 }`}
               >
-                {isSubmitting ? 'Sending...' : 'Send Email'}
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
               
               <p className="text-sm text-gray-500 text-center">

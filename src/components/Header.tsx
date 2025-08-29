@@ -245,68 +245,55 @@ const Header = () => {
           </div>
           <div className="text-right">
             <div 
-              className="text-right text-sm leading-tight cursor-pointer hover:text-olive transition-colors duration-200"
+              className="text-right text-sm leading-tight cursor-pointer hover:text-olive/80 transition-colors duration-200"
               onClick={() => {
-                // Scroll to contact section first
-                const contactSection = document.getElementById('contact');
-                if (contactSection) {
-                  contactSection.scrollIntoView({ behavior: 'smooth' });
+                // First scroll to contact section
+                const contactElement = document.getElementById('contact');
+                if (contactElement) {
+                  contactElement.scrollIntoView({ behavior: 'smooth' });
                   
-                  // After scrolling, find and highlight the Hours div
+                  // After scrolling, highlight the Hours div
                   setTimeout(() => {
-                    // Find the Hours div in the Contact section (now the first div in the space-y-6 container)
-                    const contactInfoContainer = contactSection.querySelector('.space-y-6');
-                    const hoursDiv = contactInfoContainer?.querySelector('div:first-child'); // The Hours div is now the first child
+                    // Find the Hours div using the specific selector path
+                    const hoursDiv = document.querySelector('#contact > div > div:nth-child(2) > div:first-child > div:first-child > div:nth-child(4)');
                     if (hoursDiv) {
-                      // Center the Hours div on screen
-                      const rect = hoursDiv.getBoundingClientRect();
-                      const viewportHeight = window.innerHeight;
-                      const elementHeight = rect.height;
-                      const scrollOffset = window.scrollY + rect.top - (viewportHeight / 2) + (elementHeight / 2);
+                      // Add highlight effect
+                      hoursDiv.classList.add('bg-yellow-100', 'border-2', 'border-yellow-400', 'rounded-lg', 'transition-all', 'duration-500');
                       
-                      window.scrollTo({
-                        top: scrollOffset,
-                        behavior: 'smooth'
-                      });
-                      
-                      // Add blinking highlight effect
-                      const originalStyle = hoursDiv.getAttribute('style') || '';
-                      let blinkCount = 0;
-                      const maxBlinks = 6;
-                      
-                      const blink = () => {
-                        if (blinkCount < maxBlinks) {
-                          const isHighlighted = blinkCount % 2 === 0;
-                          (hoursDiv as HTMLElement).style.cssText = originalStyle + 
-                            (isHighlighted ? 
-                              '; background-color: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 8px; transition: all 0.3s ease;' : 
-                              '; transition: all 0.3s ease;'
-                            );
-                          blinkCount++;
-                          setTimeout(blink, 400);
-                        } else {
-                          // Reset to original style
-                          (hoursDiv as HTMLElement).style.cssText = originalStyle;
-                        }
-                      };
-                      
-                      // Start blinking after a short delay
-                      setTimeout(blink, 500);
+                      // Remove highlight after 3 seconds
+                      setTimeout(() => {
+                        hoursDiv.classList.remove('bg-yellow-100', 'border-2', 'border-yellow-400', 'rounded-lg', 'transition-all', 'duration-500');
+                      }, 3000);
                     }
-                  }, 800); // Wait for scroll to complete
-                }
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  (e.target as HTMLElement).click();
+                  }, 800); // Wait for scroll animation to complete
                 }
               }}
               role="button"
               tabIndex={0}
-              aria-label="Click to view business hours"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  const contactElement = document.getElementById('contact');
+                  if (contactElement) {
+                    contactElement.scrollIntoView({ behavior: 'smooth' });
+                    
+                    setTimeout(() => {
+                      const hoursDiv = document.querySelector('#contact > div > div:nth-child(2) > div:first-child > div:first-child > div:nth-child(4)');
+                      if (hoursDiv) {
+                        hoursDiv.classList.add('bg-yellow-100', 'border-2', 'border-yellow-400', 'rounded-lg', 'transition-all', 'duration-500');
+                        
+                        setTimeout(() => {
+                          hoursDiv.classList.remove('bg-yellow-100', 'border-2', 'border-yellow-400', 'rounded-lg', 'transition-all', 'duration-500');
+                        }, 3000);
+                      }
+                    }, 800);
+                  }
+                }
+              }}
+              aria-label="Click to view business hours in contact section"
+              title="Click to view our business hours"
             >
-              Our schedule
+              <div>Tue-Thur: 10AM-7PM</div>
             </div>
           </div>
         </div>

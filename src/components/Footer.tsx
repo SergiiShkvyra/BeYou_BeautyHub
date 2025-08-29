@@ -118,6 +118,14 @@ const Footer = () => {
                 <span className="text-gray-300 text-sm">info@beyoubeautyhub.com</span>
               </div>
             </div>
+
+            <div className="mt-6">
+              <h5 className="font-medium mb-2">Business Hours</h5>
+              <div className="text-gray-300 text-sm space-y-1">
+                <div>Tue-Thur: 10AM-7PM</div>
+                <div>Saturday: 10AM-5PM</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
