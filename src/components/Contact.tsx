@@ -300,7 +300,7 @@ const Contact = () => {
                 className="w-full border-2 border-olive text-olive py-3 rounded-full hover:bg-olive hover:text-white transition-colors duration-200 font-semibold flex items-center justify-center space-x-2"
               >
                 <MessageSquare className="h-5 w-5" />
-                <span>Send Message</span>
+                <span>Text us</span>
               </button>
             </div>
           </div>
