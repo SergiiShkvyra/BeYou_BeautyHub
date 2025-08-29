@@ -14,7 +14,7 @@ const Header = () => {
       // On mobile, open phone dialer
       window.location.href = `tel:${phoneNumber}`;
     } else {
-      // On desktop, copy to clipboard
+      // On desktop, copy to clipboard 
       navigator.clipboard.writeText(phoneNumber).then(() => {
         // Show notification that number was copied
         const notification = document.createElement('div');
