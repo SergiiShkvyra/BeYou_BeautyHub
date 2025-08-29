@@ -238,7 +238,7 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-300 text-sm flex items-center">
-              <span>© {currentYear} BeYou Beauty Hub. Made with </span>
+              <span>© {currentYear} BeYou BeautyHub. Made with </span>
               <Heart className="h-4 w-4 text-olive mx-1 fill-current" />
               <span></span>
             </div>
