@@ -4,6 +4,7 @@ import { Heart, Instagram, Facebook, Twitter, MapPin, Phone, Mail, X } from 'luc
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const [showTermsModal, setShowTermsModal] = React.useState(false);
+  const [showPrivacyModal, setShowPrivacyModal] = React.useState(false);
 
   // Function to handle phone number click
   const handlePhoneClick = (phoneNumber: string) => {
@@ -215,9 +216,12 @@ const Footer = () => {
               <span></span>
             </div>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm">
+              <button 
+                onClick={() => setShowPrivacyModal(true)}
+                className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm"
+              >
                 Privacy Policy
-              </a>
+              </button>
               <button 
                 onClick={() => setShowTermsModal(true)}
                 className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm"
@@ -315,6 +319,122 @@ const Footer = () => {
             <div className="border-t border-gray-200 p-6">
               <button
                 onClick={() => setShowTermsModal(false)}
+                className="w-full bg-olive text-white py-3 rounded-lg hover:bg-warm hover:text-olive transition-colors duration-200 font-semibold"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Privacy Policy Modal */}
+      {showPrivacyModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-[99999] flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <h2 className="text-2xl font-bold text-gray-900">Privacy Policy</h2>
+              <button
+                onClick={() => setShowPrivacyModal(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors duration-200 p-2 hover:bg-gray-100 rounded-full"
+                aria-label="Close Privacy Policy modal"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+            
+            {/* Modal Content - Scrollable */}
+            <div className="flex-1 overflow-y-auto p-6">
+              <div className="prose prose-gray max-w-none">
+                <p className="text-gray-600 mb-6">
+                  <em>Last updated: {new Date().toLocaleDateString()}</em>
+                </p>
+
+                <p className="text-gray-700 mb-6">
+                  At BeYou BeautyHub, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you visit our website or use our services.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">1. Information We Collect</h3>
+                <p className="text-gray-700 mb-6">
+                  We may collect the following types of information:
+                  <br />• <strong>Personal Information:</strong> Name, email address, phone number, and appointment preferences when you book services or contact us.
+                  <br />• <strong>Usage Data:</strong> Information about how you interact with our website, including pages visited and time spent.
+                  <br />• <strong>Device Information:</strong> Browser type, operating system, and IP address for security and optimization purposes.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">2. How We Use Your Information</h3>
+                <p className="text-gray-700 mb-6">
+                  We use your information to:
+                  <br />• Provide and improve our beauty services
+                  <br />• Schedule and manage appointments
+                  <br />• Communicate with you about services, appointments, and promotions
+                  <br />• Ensure the security and functionality of our website
+                  <br />• Comply with legal obligations
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">3. Information Sharing</h3>
+                <p className="text-gray-700 mb-6">
+                  We do not sell, trade, or rent your personal information to third parties. We may share your information only in the following circumstances:
+                  <br />• With service providers who help us operate our business (e.g., appointment scheduling platforms)
+                  <br />• When required by law or to protect our rights and safety
+                  <br />• With your explicit consent
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">4. Data Security</h3>
+                <p className="text-gray-700 mb-6">
+                  We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the internet is 100% secure.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">5. Cookies and Tracking</h3>
+                <p className="text-gray-700 mb-6">
+                  Our website may use cookies and similar technologies to enhance your browsing experience, analyze website traffic, and personalize content. You can control cookie settings through your browser preferences.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">6. Your Rights</h3>
+                <p className="text-gray-700 mb-6">
+                  You have the right to:
+                  <br />• Access, update, or delete your personal information
+                  <br />• Opt-out of marketing communications
+                  <br />• Request information about how your data is used
+                  <br />• File a complaint with relevant data protection authorities
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">7. Third-Party Links</h3>
+                <p className="text-gray-700 mb-6">
+                  Our website may contain links to third-party websites. We are not responsible for the privacy practices or content of these external sites. We encourage you to review their privacy policies.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">8. Children's Privacy</h3>
+                <p className="text-gray-700 mb-6">
+                  Our services are not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">9. Changes to This Policy</h3>
+                <p className="text-gray-700 mb-6">
+                  We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated "Last updated" date. We encourage you to review this policy periodically.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">10. Contact Us</h3>
+                <p className="text-gray-700 mb-6">
+                  If you have any questions about this Privacy Policy or how we handle your personal information, please contact us at:
+                  <br />• Email: info@beyoubeautyhub.com
+                  <br />• Phone: (571)-276-7014
+                  <br />• Address: 424 Maple Ave E Suite 3, Vienna, VA 22180
+                </p>
+                
+                <div className="bg-gray-50 p-4 rounded-lg mt-8">
+                  <p className="text-sm text-gray-600">
+                    <strong>Note:</strong> This is placeholder content for demonstration purposes. The actual Privacy Policy should be reviewed and customized by legal professionals to ensure compliance with applicable privacy laws and regulations such as GDPR, CCPA, and other relevant data protection requirements.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            {/* Modal Footer */}
+            <div className="border-t border-gray-200 p-6">
+              <button
+                onClick={() => setShowPrivacyModal(false)}
                 className="w-full bg-olive text-white py-3 rounded-lg hover:bg-warm hover:text-olive transition-colors duration-200 font-semibold"
               >
                 Close
