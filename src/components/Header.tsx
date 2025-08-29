@@ -340,7 +340,7 @@ const Header = () => {
                 <span>YOU</span>
               </span>
               <span 
-                className="ml-4 text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-light tracking-wide"
+                className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-light tracking-wide"
                 style={{
                   opacity: Math.max(beautyHubOpacity, 0.8),
                   transition: 'opacity 0.3s ease-out'
