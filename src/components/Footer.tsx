@@ -1,8 +1,9 @@
 import React from 'react';
-import { Heart, Instagram, Facebook, Twitter, MapPin, Phone, Mail } from 'lucide-react';
+import { Heart, Instagram, Facebook, Twitter, MapPin, Phone, Mail, X } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [showTermsModal, setShowTermsModal] = React.useState(false);
 
   // Function to handle phone number click
   const handlePhoneClick = (phoneNumber: string) => {
@@ -217,9 +218,12 @@ const Footer = () => {
               <a href="#" className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm">
                 Privacy Policy
               </a>
-              <a href="#" className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm">
+              <button 
+                onClick={() => setShowTermsModal(true)}
+                className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm"
+              >
                 Terms of Service
-              </a>
+              </button>
               <a href="#" className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm">
                 Cookie Policy
               </a>
@@ -227,6 +231,95 @@ const Footer = () => {
           </div>
         </div>
       </div>
+
+      {/* Terms of Service Modal */}
+      {showTermsModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-[99999] flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <h2 className="text-2xl font-bold text-gray-900">Terms of Service</h2>
+              <button
+                onClick={() => setShowTermsModal(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors duration-200 p-2 hover:bg-gray-100 rounded-full"
+                aria-label="Close Terms of Service modal"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+            
+            {/* Modal Content - Scrollable */}
+            <div className="flex-1 overflow-y-auto p-6">
+              <div className="prose prose-gray max-w-none">
+                <p className="text-gray-600 mb-6">
+                  <em>Last updated: {new Date().toLocaleDateString()}</em>
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">1. Acceptance of Terms</h3>
+                <p className="text-gray-700 mb-6">
+                  [Placeholder text] By accessing and using BeYou BeautyHub services, you accept and agree to be bound by the terms and provision of this agreement. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">2. Service Description</h3>
+                <p className="text-gray-700 mb-6">
+                  [Placeholder text] BeYou BeautyHub provides professional beauty services including but not limited to eyelash extensions, lash lifts, eyebrow shaping, and related beauty treatments. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">3. Appointment Policy</h3>
+                <p className="text-gray-700 mb-6">
+                  [Placeholder text] All appointments must be booked in advance through our online booking system or by phone. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">4. Cancellation and Refund Policy</h3>
+                <p className="text-gray-700 mb-6">
+                  [Placeholder text] Cancellations must be made at least 24 hours in advance. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">5. Health and Safety</h3>
+                <p className="text-gray-700 mb-6">
+                  [Placeholder text] We maintain the highest standards of hygiene and safety. All tools are properly sanitized and we follow strict health protocols. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">6. Liability and Disclaimers</h3>
+                <p className="text-gray-700 mb-6">
+                  [Placeholder text] While we take every precaution to ensure your safety and satisfaction, clients acknowledge that beauty treatments carry inherent risks. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">7. Privacy and Data Protection</h3>
+                <p className="text-gray-700 mb-6">
+                  [Placeholder text] We respect your privacy and protect your personal information in accordance with applicable privacy laws. Similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio nam libero tempore.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">8. Modifications to Terms</h3>
+                <p className="text-gray-700 mb-6">
+                  [Placeholder text] We reserve the right to modify these terms at any time. Changes will be effective immediately upon posting on our website. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">9. Contact Information</h3>
+                <p className="text-gray-700 mb-6">
+                  [Placeholder text] If you have any questions about these Terms of Service, please contact us at info@beyoubeautyhub.com or call us at (571)-276-7014. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.
+                </p>
+                
+                <div className="bg-gray-50 p-4 rounded-lg mt-8">
+                  <p className="text-sm text-gray-600">
+                    <strong>Note:</strong> This is placeholder content for demonstration purposes. The actual Terms of Service should be reviewed and customized by legal professionals to ensure compliance with applicable laws and regulations.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            {/* Modal Footer */}
+            <div className="border-t border-gray-200 p-6">
+              <button
+                onClick={() => setShowTermsModal(false)}
+                className="w-full bg-olive text-white py-3 rounded-lg hover:bg-warm hover:text-olive transition-colors duration-200 font-semibold"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </footer>
   );
 };
