@@ -244,7 +244,67 @@ const Header = () => {
             </span>
           </div>
           <div className="text-right">
-            <div className="text-right text-sm leading-tight">
+            <div 
+              className="text-right text-sm leading-tight cursor-pointer hover:text-olive transition-colors duration-200"
+              onClick={() => {
+                // Scroll to contact section first
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: 'smooth' });
+                  
+                  // After scrolling, find and highlight the Hours div
+                  setTimeout(() => {
+                    // Find the Hours div in the Contact section
+                    const hoursDiv = contactSection.querySelector('div:nth-child(4)'); // The Hours div is the 4th child
+                    if (hoursDiv) {
+                      // Center the Hours div on screen
+                      const rect = hoursDiv.getBoundingClientRect();
+                      const viewportHeight = window.innerHeight;
+                      const elementHeight = rect.height;
+                      const scrollOffset = window.scrollY + rect.top - (viewportHeight / 2) + (elementHeight / 2);
+                      
+                      window.scrollTo({
+                        top: scrollOffset,
+                        behavior: 'smooth'
+                      });
+                      
+                      // Add blinking highlight effect
+                      const originalStyle = hoursDiv.getAttribute('style') || '';
+                      let blinkCount = 0;
+                      const maxBlinks = 6;
+                      
+                      const blink = () => {
+                        if (blinkCount < maxBlinks) {
+                          const isHighlighted = blinkCount % 2 === 0;
+                          (hoursDiv as HTMLElement).style.cssText = originalStyle + 
+                            (isHighlighted ? 
+                              '; background-color: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 8px; transition: all 0.3s ease;' : 
+                              '; transition: all 0.3s ease;'
+                            );
+                          blinkCount++;
+                          setTimeout(blink, 400);
+                        } else {
+                          // Reset to original style
+                          (hoursDiv as HTMLElement).style.cssText = originalStyle;
+                        }
+                      };
+                      
+                      // Start blinking after a short delay
+                      setTimeout(blink, 500);
+                    }
+                  }, 800); // Wait for scroll to complete
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  (e.target as HTMLElement).click();
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label="Click to view business hours"
+            >
               Click for schedule
             </div>
           </div>
