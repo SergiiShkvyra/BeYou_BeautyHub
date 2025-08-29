@@ -261,47 +261,46 @@ const Footer = () => {
                 
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">1. Services</h3>
                 <p className="text-gray-700 mb-6">
-                  [Placeholder text] By accessing and using BeYou BeautyHub services, you accept and agree to be bound by the terms and provision of this agreement. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  Our Site allows you to browse, book, and purchase beauty services and related products. By placing a booking or purchase, you confirm that the information you provide is accurate and complete.
                 </p>
                 
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">2. Service Description</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">2. Payments</h3>
                 <p className="text-gray-700 mb-6">
-                  [Placeholder text] BeYou BeautyHub provides professional beauty services including but not limited to eyelash extensions, lash lifts, eyebrow shaping, and related beauty treatments. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  All prices are listed in dollar of the United States of America. Payments must be made in full at the time of booking or checkout. We reserve the right to refuse or cancel any order if fraud or unauthorized activity is suspected.
                 </p>
                 
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">3. Appointment Policy</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">3. Appointments & Cancellations</h3>
                 <p className="text-gray-700 mb-6">
-                  [Placeholder text] All appointments must be booked in advance through our online booking system or by phone. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                  • You can book services through our Site at available times.
+ • If you need to cancel or reschedule, please do so at least 24 hours in advance.
+ • Late cancellations or missed appointments may result in a fee.
                 </p>
                 
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">4. Cancellation and Refund Policy</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">4. Use of the Site</h3>
                 <p className="text-gray-700 mb-6">
-                  [Placeholder text] Cancellations must be made at least 24 hours in advance. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
+                  You agree not to use our Site for any unlawful purpose, or in any way that may harm, disable, or disrupt its functionality.
                 </p>
                 
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">5. Health and Safety</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">5. Intellectual Property</h3>
                 <p className="text-gray-700 mb-6">
-                  [Placeholder text] We maintain the highest standards of hygiene and safety. All tools are properly sanitized and we follow strict health protocols. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.
+                  All content on this Site (text, images, logos, branding) belongs to beyoubeautyhub.com unless otherwise stated. You may not copy, reproduce, or distribute it without our permission.
                 </p>
                 
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">6. Liability and Disclaimers</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">6. Limitation of Liability</h3>
                 <p className="text-gray-700 mb-6">
-                  [Placeholder text] While we take every precaution to ensure your safety and satisfaction, clients acknowledge that beauty treatments carry inherent risks. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.
+                  We strive to provide accurate information and high-quality services, but we are not responsible for:
+ • technical issues, errors, or interruptions of the Site;
+ • damages resulting from misuse of our services or products.
                 </p>
                 
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">7. Privacy and Data Protection</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">7. Changes to Terms</h3>
                 <p className="text-gray-700 mb-6">
-                  [Placeholder text] We respect your privacy and protect your personal information in accordance with applicable privacy laws. Similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio nam libero tempore.
+                  We may update these Terms of Service from time to time. Updated terms will be posted on this page and take effect immediately upon posting.
                 </p>
                 
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">8. Modifications to Terms</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">8. Contact Us</h3>
                 <p className="text-gray-700 mb-6">
-                  [Placeholder text] We reserve the right to modify these terms at any time. Changes will be effective immediately upon posting on our website. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
-                </p>
-                
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">9. Contact Information</h3>
-                <p className="text-gray-700 mb-6">
-                  [Placeholder text] If you have any questions about these Terms of Service, please contact us at info@beyoubeautyhub.com or call us at (571)-276-7014. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.
+                  If you have questions about these Terms, please contact us at info@beyoubeautyhub.com.
                 </p>
                 
                 <div className="bg-gray-50 p-4 rounded-lg mt-8">
