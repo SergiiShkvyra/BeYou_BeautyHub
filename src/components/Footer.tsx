@@ -352,7 +352,7 @@ const Footer = () => {
                 </p>
 
                 <p className="text-gray-700 mb-6">
-                  TODO: --> At BeYou BeautyHub, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you visit our website or use our services.
+                  TODO: At BeYou BeautyHub, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you visit our website or use our services.
                 </p>
                 
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">1. Information We Collect</h3>
