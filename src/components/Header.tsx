@@ -346,7 +346,7 @@ const Header = () => {
                   transition: 'opacity 0.3s ease-out'
                 }}
               >
-                <span className="text-xs sm:text-sm lg:text-base xl:text-lg font-playfair">Beauty Hub</span>
+                <span className="text-xs sm:text-sm lg:text-small xl:text-lg font-playfair">Beauty Hub</span>
               </span>
               </div>
             </div>
