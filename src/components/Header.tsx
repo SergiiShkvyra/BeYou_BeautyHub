@@ -254,8 +254,9 @@ const Header = () => {
                   
                   // After scrolling, find and highlight the Hours div
                   setTimeout(() => {
-                    // Find the Hours div in the Contact section
-                    const hoursDiv = contactSection.querySelector('div:nth-child(4)'); // The Hours div is the 4th child
+                    // Find the Hours div in the Contact section (now the first div in the space-y-6 container)
+                    const contactInfoContainer = contactSection.querySelector('.space-y-6');
+                    const hoursDiv = contactInfoContainer?.querySelector('div:first-child'); // The Hours div is now the first child
                     if (hoursDiv) {
                       // Center the Hours div on screen
                       const rect = hoursDiv.getBoundingClientRect();
