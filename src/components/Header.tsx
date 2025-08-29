@@ -244,57 +244,8 @@ const Header = () => {
             </span>
           </div>
           <div className="text-right">
-            <div 
-              className="text-right text-sm leading-tight cursor-pointer hover:text-olive/80 transition-colors duration-200"
-              onClick={() => {
-                // First scroll to contact section
-                const contactElement = document.getElementById('contact');
-                if (contactElement) {
-                  contactElement.scrollIntoView({ behavior: 'smooth' });
-                  
-                  // After scrolling, highlight the Hours div
-                  setTimeout(() => {
-                    // Find the Hours div using the specific selector path
-                    const hoursDiv = document.querySelector('#contact > div > div:nth-child(2) > div:first-child > div:first-child > div:nth-child(4)');
-                    if (hoursDiv) {
-                      // Add highlight effect
-                      hoursDiv.classList.add('bg-yellow-100', 'border-2', 'border-yellow-400', 'rounded-lg', 'transition-all', 'duration-500');
-                      
-                      // Remove highlight after 3 seconds
-                      setTimeout(() => {
-                        hoursDiv.classList.remove('bg-yellow-100', 'border-2', 'border-yellow-400', 'rounded-lg', 'transition-all', 'duration-500');
-                      }, 3000);
-                    }
-                  }, 800); // Wait for scroll animation to complete
-                }
-              }}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  const contactElement = document.getElementById('contact');
-                  if (contactElement) {
-                    contactElement.scrollIntoView({ behavior: 'smooth' });
-                    
-                    setTimeout(() => {
-                      const hoursDiv = document.querySelector('#contact > div > div:nth-child(2) > div:first-child > div:first-child > div:nth-child(4)');
-                      if (hoursDiv) {
-                        hoursDiv.classList.add('bg-yellow-100', 'border-2', 'border-yellow-400', 'rounded-lg', 'transition-all', 'duration-500');
-                        
-                        setTimeout(() => {
-                          hoursDiv.classList.remove('bg-yellow-100', 'border-2', 'border-yellow-400', 'rounded-lg', 'transition-all', 'duration-500');
-                        }, 3000);
-                      }
-                    }, 800);
-                  }
-                }
-              }}
-              aria-label="Click to view business hours in contact section"
-              title="Click to view our business hours"
-            >
-              <div>Tue-Thur: 10AM-7PM</div>
-            </div>
+            <span className="hidden sm:inline">Tue-Thur: 10AM-7PM | Sat: 10AM-5PM</span>
+            <span className="sm:hidden">9AM-7PM</span>
           </div>
         </div>
       </div>
@@ -326,6 +277,8 @@ const Header = () => {
                 </button>
                 <span>YOU</span>
               </span>
+              <div className="text-sm sm:text-base lg:text-base tracking-wide opacity-70 ml-0">
+                BeautyHub
               </div>
             </div>
           </div>
@@ -356,6 +309,7 @@ const Header = () => {
             ))}
           </nav>
         </div>
+      </div>
     </header>
   );
 };

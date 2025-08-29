@@ -7,7 +7,7 @@ const Testimonials = () => {
       name: 'Sarah Johnson',
       service: 'Lash Lift + Tinting',
       rating: 5,
-      text: 'Absolutely amazing! The lashes look so natural and beautiful. I get compliments every day. Anastasiia was so professional and made me feel comfortable throughout the entire process.',
+      text: 'Absolutely amazing! The lashes look so natural and beautiful. I get compliments every day. The technician was so professional and made me feel comfortable throughout the entire process.',
       image: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg'
     },
     {
@@ -21,7 +21,7 @@ const Testimonials = () => {
       name: 'Jessica Chen',
       service: 'Lash Lift + Tinting',
       rating: 5,
-      text: 'Perfect for someone who wanted a natural enhancement. The lash lift gave me beautiful curl and the tinting added just the right amount of definition. The service was relaxing and the results exceeded my expectations. Thank you, Anastasiia!',
+      text: 'Perfect for someone who wanted a natural enhancement. The lash lift gave me beautiful curl and the tinting added just the right amount of definition. The service was relaxing and the results exceeded my expectations.',
       image: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg'
     },
     {
