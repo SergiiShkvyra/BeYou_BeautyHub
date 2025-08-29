@@ -244,11 +244,10 @@ const Header = () => {
             </span>
           </div>
           <div className="text-right">
-            <div 
-              className="text-right text-sm leading-tight cursor-pointer hover:text-olive/80 transition-colors duration-200"
+            <div className="text-right text-sm leading-tight cursor-pointer hover:text-olive/80 transition-colors duration-200"
               onClick={() => {
-                // Find the Hours div using the specific selector path
-                const hoursDiv = document.querySelector('#contact > div > div:nth-child(2) > div:first-child > div:first-child > div:nth-child(4)') as HTMLElement;
+                // Find the Hours div using the XPath equivalent CSS selector
+                const hoursDiv = document.querySelector('#contact div:nth-child(2) div:nth-child(1) div:nth-child(1) div:nth-child(4)') as HTMLElement;
                 if (hoursDiv) {
                   // Calculate the position to center the element on screen
                   const elementRect = hoursDiv.getBoundingClientRect();
@@ -302,7 +301,7 @@ const Header = () => {
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
-                  const hoursDiv = document.querySelector('#contact > div > div:nth-child(2) > div:first-child > div:first-child > div:nth-child(4)') as HTMLElement;
+                  const hoursDiv = document.querySelector('#contact div:nth-child(2) div:nth-child(1) div:nth-child(1) div:nth-child(4)') as HTMLElement;
                   if (hoursDiv) {
                     const elementRect = hoursDiv.getBoundingClientRect();
                     const elementTop = elementRect.top + window.pageYOffset;
@@ -351,7 +350,65 @@ const Header = () => {
               aria-label="Click to view business hours in contact section"
               title="Click to view our business hours"
             >
-              <div>Click for schedule</div>
+              <div 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // Find the Hours div using the XPath equivalent CSS selector
+                  const hoursDiv = document.querySelector('#contact div:nth-child(2) div:nth-child(1) div:nth-child(1) div:nth-child(4)') as HTMLElement;
+                  if (hoursDiv) {
+                    // Calculate the position to center the element on screen
+                    const elementRect = hoursDiv.getBoundingClientRect();
+                    const elementTop = elementRect.top + window.pageYOffset;
+                    const elementHeight = elementRect.height;
+                    const windowHeight = window.innerHeight;
+                    
+                    // Calculate scroll position to center the element
+                    const scrollToPosition = elementTop - (windowHeight / 2) + (elementHeight / 2);
+                    
+                    // Smooth scroll to center the element
+                    window.scrollTo({
+                      top: scrollToPosition,
+                      behavior: 'smooth'
+                    });
+                    
+                    // After scrolling, add blinking effect
+                    setTimeout(() => {
+                      // Create blinking animation with CSS
+                      const blinkKeyframes = `
+                        @keyframes blink-highlight {
+                          0%, 100% { background-color: transparent; border: none; }
+                          50% { background-color: #fef3c7; border: 2px solid #f59e0b; }
+                        }
+                      `;
+                      
+                      // Add keyframes to document if not already present
+                      if (!document.querySelector('#blink-styles')) {
+                        const style = document.createElement('style');
+                        style.id = 'blink-styles';
+                        style.textContent = blinkKeyframes;
+                        document.head.appendChild(style);
+                      }
+                      
+                      // Apply blinking animation
+                      hoursDiv.style.animation = 'blink-highlight 0.8s ease-in-out 6';
+                      hoursDiv.style.borderRadius = '8px';
+                      hoursDiv.style.padding = '8px';
+                      
+                      // Remove animation after blinking completes
+                      setTimeout(() => {
+                        hoursDiv.style.animation = '';
+                        hoursDiv.style.backgroundColor = '';
+                        hoursDiv.style.border = '';
+                        hoursDiv.style.borderRadius = '';
+                        hoursDiv.style.padding = '';
+                      }, 4800); // 6 blinks × 0.8s = 4.8s
+                    }, 800); // Wait for scroll animation to complete
+                  }
+                }}
+                className="cursor-pointer"
+              >
+                Click for schedule
+              </div>
             </div>
           </div>
         </div>
