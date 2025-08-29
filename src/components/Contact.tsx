@@ -145,7 +145,6 @@ const Contact = () => {
           <div>
             <h3 className="text-2xl font-bold text-gray-900 mb-8">Get In Touch</h3>
 
-            <div className="space-y-6">
             <div className="flex items-start space-x-4">
                 <Clock className="h-6 w-6 text-olive mt-1" />
                 <div>
@@ -156,7 +155,6 @@ const Contact = () => {
                   </p>
                 </div>
               </div>
-            </div>
             
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
