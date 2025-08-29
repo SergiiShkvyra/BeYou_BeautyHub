@@ -293,7 +293,7 @@ const Header = () => {
               aria-label="Click to view business hours in contact section"
               title="Click to view our business hours"
             >
-              <div>Tue-Thur: 10AM-7PM</div>
+              <div>Click for schedule</div>
             </div>
           </div>
         </div>
