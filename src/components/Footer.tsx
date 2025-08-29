@@ -204,17 +204,6 @@ const Footer = () => {
               </div>
             </div>
           </div>
-
-          {/* Logo */}
-          <div className="flex justify-center lg:justify-end">
-            <img
-              src="/images/logoPSD-2.png"
-              alt="BeYou BeautyHub Logo"
-              className="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-200"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
         </div>
       </div>
 
@@ -367,8 +356,7 @@ const Footer = () => {
                 </p>
 
                 <p className="text-gray-700 mb-6">
-                  TODO: 
-                  At BeYou BeautyHub, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you visit our website or use our services.
+                  TODO: At BeYou BeautyHub, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you visit our website or use our services.
                 </p>
                 
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">1. Information We Collect</h3>
@@ -484,7 +472,6 @@ const Footer = () => {
                 </p>
 
                 <p className="text-gray-700 mb-6">
-                  TODO: 
                   This Cookie Policy explains how BeYou BeautyHub uses cookies and similar technologies when you visit our website. We want to be transparent about how we collect and use data to improve your browsing experience.
                 </p>
                 
