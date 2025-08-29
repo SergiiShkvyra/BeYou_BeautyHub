@@ -305,7 +305,7 @@ const Header = () => {
               tabIndex={0}
               aria-label="Click to view business hours"
             >
-              Click for schedule
+              Our schedule
             </div>
           </div>
         </div>
