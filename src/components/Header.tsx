@@ -279,8 +279,6 @@ const Header = () => {
                 </button>
                 <span>YOU</span>
               </span>
-              <div className="text-sm sm:text-base lg:text-base tracking-wide opacity-70 ml-0">
-                BeautyHub
               </div>
             </div>
           </div>
