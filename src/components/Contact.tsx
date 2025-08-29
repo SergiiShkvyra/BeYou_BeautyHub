@@ -147,6 +147,17 @@ const Contact = () => {
             
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
+                <Clock className="h-6 w-6 text-olive mt-1" />
+                <div>
+                  <h4 className="font-semibold text-gray-900">Hours</h4>
+                  <p className="text-gray-600">
+                    Mon-Fri: 10:00 AM - 7:00 PM<br />
+                    Sat-Sun: 10:00 AM - 4:00 PM
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-4">
                 <Phone className="h-6 w-6 text-olive mt-1" />
                 <div>
                   <h4 className="font-semibold text-gray-900">Phone</h4>
@@ -164,7 +175,89 @@ const Contact = () => {
                 <Mail className="h-6 w-6 text-olive mt-1" />
                 <div>
                   <h4 className="font-semibold text-gray-900">Email</h4>
-                  <p className="text-gray-600">info@beyoubeautyhub.com</p>
+                  <button 
+                    onClick={() => {
+                      const email = 'info@beyoubeautyhub.com';
+                      
+                      // Function to show notification
+                      const showNotification = (message: string) => {
+                        const notification = document.createElement('div');
+                        notification.textContent = message;
+                        notification.style.cssText = `
+                          position: fixed;
+                          top: 20px;
+                          right: 20px;
+                          background: #505e47;
+                          color: white;
+                          padding: 12px 20px;
+                          border-radius: 8px;
+                          z-index: 99999;
+                          font-size: 14px;
+                          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                          pointer-events: none;
+                          transform: translateX(0);
+                          transition: all 0.3s ease;
+                        `;
+                        document.body.appendChild(notification);
+                        
+                        // Animate in
+                        requestAnimationFrame(() => {
+                          notification.style.transform = 'translateX(0)';
+                          notification.style.opacity = '1';
+                        });
+                        
+                        // Remove notification after 3 seconds
+                        setTimeout(() => {
+                          notification.style.opacity = '0';
+                          notification.style.transform = 'translateX(100%)';
+                          setTimeout(() => {
+                            if (document.body.contains(notification)) {
+                              document.body.removeChild(notification);
+                            }
+                          }, 300);
+                        }, 3000);
+                      };
+                      
+                      // Try modern clipboard API first
+                      if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(email).then(() => {
+                          showNotification('Email address copied to clipboard!');
+                        }).catch(() => {
+                          // Fallback for clipboard API failure
+                          showNotification('Email: ' + email);
+                        });
+                      } else {
+                        // Fallback for older browsers
+                        try {
+                          // Create a temporary textarea element
+                          const textArea = document.createElement('textarea');
+                          textArea.value = email;
+                          textArea.style.position = 'fixed';
+                          textArea.style.left = '-999999px';
+                          textArea.style.top = '-999999px';
+                          document.body.appendChild(textArea);
+                          textArea.focus();
+                          textArea.select();
+                          
+                          // Try to copy using execCommand
+                          const successful = document.execCommand('copy');
+                          document.body.removeChild(textArea);
+                          
+                          if (successful) {
+                            showNotification('Email address copied to clipboard!');
+                          } else {
+                            showNotification('Email: ' + email);
+                          }
+                        } catch (err) {
+                          showNotification('Email: ' + email);
+                        }
+                      }
+                    }}
+                    className="text-gray-600 hover:text-olive transition-colors duration-200 cursor-pointer"
+                  >
+                    info@beyoubeautyhub.com
+                  </button>
                   <p className="text-sm text-gray-500">We'll respond within 24 hours</p>
                 </div>
               </div>
@@ -182,17 +275,6 @@ const Contact = () => {
                     424 Maple Ave E Suite 3<br />Vienna, VA 22180
                   </a>
                   <p className="text-sm text-gray-500">Free parking available</p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <Clock className="h-6 w-6 text-olive mt-1" />
-                <div>
-                  <h4 className="font-semibold text-gray-900">Hours</h4>
-                  <p className="text-gray-600">
-                    Tue-Thur: 10:00 AM - 7:00 PM<br />
-                    Saturday: 10:00 AM - 5:00 PM
-                  </p>
                 </div>
               </div>
             </div>
@@ -307,7 +389,7 @@ const Contact = () => {
 
           {/* Contact Form */}
           <div className="bg-white rounded-2xl p-8 shadow-lg">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">Send Us a Message</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">Send Us an Email</h3>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Status Message */}
@@ -418,7 +500,7 @@ const Contact = () => {
                     : 'bg-olive text-white hover:bg-warm hover:text-olive'
                 }`}
               >
-                {isSubmitting ? 'Sending...' : 'Send Message'}
+                {isSubmitting ? 'Sending...' : 'Send Email'}
               </button>
               
               <p className="text-sm text-gray-500 text-center">

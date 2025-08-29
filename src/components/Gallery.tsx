@@ -1,10 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Device detection
+  useEffect(() => {
+    const checkDevice = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const mobileKeywords = [
+        'android', 'webos', 'iphone', 'ipad', 'ipod', 'blackberry', 
+        'iemobile', 'opera mini', 'mobile', 'tablet'
+      ];
+      
+      const isMobileDevice = mobileKeywords.some(keyword => userAgent.includes(keyword)) ||
+                            window.innerWidth <= 768 ||
+                            ('ontouchstart' in window) ||
+                            (navigator.maxTouchPoints > 0);
+      
+      setIsMobile(isMobileDevice);
+    };
+
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    
+    return () => {
+      window.removeEventListener('resize', checkDevice);
+    };
+  }, []);
+
+  // Handle image click - only for desktop
+  const handleImageClick = (index: number) => {
+    if (!isMobile) {
+      setSelectedImage(index);
+    }
+  };
 
   // Close modal function
   const closeModal = () => {
@@ -120,19 +153,37 @@ const Gallery = () => {
           {images.map((image, index) => (
             <div
               key={index}
-              className="relative group cursor-pointer overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 will-change-transform"
-              onClick={() => setSelectedImage(index)}
+              className={`relative group overflow-hidden rounded-2xl shadow-lg transition-all duration-300 will-change-transform ${
+                isMobile 
+                  ? 'cursor-default' 
+                  : 'cursor-pointer hover:shadow-xl'
+              }`}
+              onClick={() => handleImageClick(index)}
             >
               <img
                 src={image.src}
                 alt={image.alt}
-                className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500 will-change-transform"
+                className={`w-full h-64 object-cover transition-transform duration-500 will-change-transform ${
+                  isMobile 
+                    ? '' 
+                    : 'group-hover:scale-110'
+                }`}
                 loading="lazy"
                 decoding="async"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
-                <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center">
-                  <p className="text-lg font-semibold">View Full Size</p>
+              <div className={`absolute inset-0 bg-black bg-opacity-0 transition-all duration-300 flex items-center justify-center ${
+                isMobile 
+                  ? '' 
+                  : 'group-hover:bg-opacity-30'
+              }`}>
+                <div className={`text-white transition-opacity duration-300 text-center ${
+                  isMobile 
+                    ? 'opacity-0' 
+                    : 'opacity-0 group-hover:opacity-100'
+                }`}>
+                  <p className="text-lg font-semibold">
+                    {isMobile ? '' : 'View Full Size'}
+                  </p>
                 </div>
               </div>
             </div>

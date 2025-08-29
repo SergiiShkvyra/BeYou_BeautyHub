@@ -244,8 +244,70 @@ const Header = () => {
             </span>
           </div>
           <div className="text-right">
-            <span className="hidden sm:inline">Tue-Thur: 10AM-7PM | Sat: 10AM-5PM</span>
-            <span className="sm:hidden">9AM-7PM</span>
+            <div 
+              className="text-right text-sm leading-tight cursor-pointer hover:text-olive transition-colors duration-200"
+              onClick={() => {
+                // Scroll to contact section first
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: 'smooth' });
+                  
+                  // After scrolling, find and highlight the Hours div
+                  setTimeout(() => {
+                    // Find the Hours div in the Contact section (now the first div in the space-y-6 container)
+                    const contactInfoContainer = contactSection.querySelector('.space-y-6');
+                    const hoursDiv = contactInfoContainer?.querySelector('div:first-child'); // The Hours div is now the first child
+                    if (hoursDiv) {
+                      // Center the Hours div on screen
+                      const rect = hoursDiv.getBoundingClientRect();
+                      const viewportHeight = window.innerHeight;
+                      const elementHeight = rect.height;
+                      const scrollOffset = window.scrollY + rect.top - (viewportHeight / 2) + (elementHeight / 2);
+                      
+                      window.scrollTo({
+                        top: scrollOffset,
+                        behavior: 'smooth'
+                      });
+                      
+                      // Add blinking highlight effect
+                      const originalStyle = hoursDiv.getAttribute('style') || '';
+                      let blinkCount = 0;
+                      const maxBlinks = 6;
+                      
+                      const blink = () => {
+                        if (blinkCount < maxBlinks) {
+                          const isHighlighted = blinkCount % 2 === 0;
+                          (hoursDiv as HTMLElement).style.cssText = originalStyle + 
+                            (isHighlighted ? 
+                              '; background-color: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 8px; transition: all 0.3s ease;' : 
+                              '; transition: all 0.3s ease;'
+                            );
+                          blinkCount++;
+                          setTimeout(blink, 400);
+                        } else {
+                          // Reset to original style
+                          (hoursDiv as HTMLElement).style.cssText = originalStyle;
+                        }
+                      };
+                      
+                      // Start blinking after a short delay
+                      setTimeout(blink, 500);
+                    }
+                  }, 800); // Wait for scroll to complete
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  (e.target as HTMLElement).click();
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label="Click to view business hours"
+            >
+              Our schedule
+            </div>
           </div>
         </div>
       </div>
@@ -277,8 +339,6 @@ const Header = () => {
                 </button>
                 <span>YOU</span>
               </span>
-              <div className="text-sm sm:text-base lg:text-base tracking-wide opacity-70 ml-0">
-                BeautyHub
               </div>
             </div>
           </div>
@@ -309,7 +369,6 @@ const Header = () => {
             ))}
           </nav>
         </div>
-      </div>
     </header>
   );
 };
