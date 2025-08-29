@@ -245,7 +245,7 @@ const Header = () => {
           </div>
           <div className="text-right">
             <div className="text-right text-sm leading-tight">
-              <div>Tue-Thur: 10AM-7PM</div>
+              <div>Schedule</div>
             </div>
           </div>
         </div>
