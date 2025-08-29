@@ -115,7 +115,40 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-5 w-5 text-olive" />
-                <span className="text-gray-300 text-sm">info@beyoubeautyhub.com</span>
+                <button 
+                  onClick={() => {
+                    const email = 'info@beyoubeautyhub.com';
+                    navigator.clipboard.writeText(email).then(() => {
+                      // Show notification that email was copied
+                      const notification = document.createElement('div');
+                      notification.textContent = 'Email address copied to clipboard!';
+                      notification.style.cssText = `
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: #505e47;
+                        color: white;
+                        padding: 12px 20px;
+                        border-radius: 8px;
+                        z-index: 10000;
+                        font-size: 14px;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                      `;
+                      document.body.appendChild(notification);
+                      
+                      // Remove notification after 3 seconds
+                      setTimeout(() => {
+                        document.body.removeChild(notification);
+                      }, 3000);
+                    }).catch(() => {
+                      // Fallback if clipboard API fails
+                      alert('Email address: ' + email);
+                    });
+                  }}
+                  className="text-gray-300 text-sm hover:text-olive transition-colors duration-200 cursor-pointer"
+                >
+                  info@beyoubeautyhub.com
+                </button>
               </div>
             </div>
           </div>
