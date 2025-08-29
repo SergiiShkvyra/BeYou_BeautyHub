@@ -353,8 +353,8 @@ const Header = () => {
               <div 
                 onClick={(e) => {
                   e.stopPropagation();
-                  // Find the Hours div using the XPath equivalent CSS selector
-                  const hoursDiv = document.querySelector('#contact div:nth-child(2) div:nth-child(1) div:nth-child(1) div:nth-child(4)') as HTMLElement;
+                  // Find the Hours div in footer using the XPath equivalent CSS selector
+                  const hoursDiv = document.querySelector('#root > div > footer > div:nth-child(1) > div > div:nth-child(3) > div:nth-child(2)') as HTMLElement;
                   if (hoursDiv) {
                     // Calculate the position to center the element on screen
                     const elementRect = hoursDiv.getBoundingClientRect();
