@@ -204,6 +204,17 @@ const Footer = () => {
               </div>
             </div>
           </div>
+
+          {/* Logo */}
+          <div className="flex justify-center lg:justify-end">
+            <img
+              src="/images/logoPSD-2.png"
+              alt="BeYou BeautyHub Logo"
+              className="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-200"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
         </div>
       </div>
 
