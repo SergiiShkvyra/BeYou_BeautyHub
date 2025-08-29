@@ -247,25 +247,103 @@ const Header = () => {
             <div 
               className="text-right text-sm leading-tight cursor-pointer hover:text-olive/80 transition-colors duration-200"
               onClick={() => {
-                // First scroll to contact section
-                const contactElement = document.getElementById('contact');
-                if (contactElement) {
-                  contactElement.scrollIntoView({ behavior: 'smooth' });
+                // Find the Hours div using the specific selector path
+                const hoursDiv = document.querySelector('#contact > div > div:nth-child(2) > div:first-child > div:first-child > div:nth-child(4)') as HTMLElement;
+                if (hoursDiv) {
+                  // Calculate the position to center the element on screen
+                  const elementRect = hoursDiv.getBoundingClientRect();
+                  const elementTop = elementRect.top + window.pageYOffset;
+                  const elementHeight = elementRect.height;
+                  const windowHeight = window.innerHeight;
                   
-                  // After scrolling, highlight the Hours div
+                  // Calculate scroll position to center the element
+                  const scrollToPosition = elementTop - (windowHeight / 2) + (elementHeight / 2);
+                  
+                  // Smooth scroll to center the element
+                  window.scrollTo({
+                    top: scrollToPosition,
+                    behavior: 'smooth'
+                  });
+                  
+                  // After scrolling, add blinking effect
                   setTimeout(() => {
-                    // Find the Hours div using the specific selector path
-                    const hoursDiv = document.querySelector('#contact > div > div:nth-child(2) > div:first-child > div:first-child > div:nth-child(4)');
-                    if (hoursDiv) {
-                      // Add highlight effect
-                      hoursDiv.classList.add('bg-yellow-100', 'border-2', 'border-yellow-400', 'rounded-lg', 'transition-all', 'duration-500');
-                      
-                      // Remove highlight after 3 seconds
-                      setTimeout(() => {
-                        hoursDiv.classList.remove('bg-yellow-100', 'border-2', 'border-yellow-400', 'rounded-lg', 'transition-all', 'duration-500');
-                      }, 3000);
+                    // Create blinking animation with CSS
+                    const blinkKeyframes = `
+                      @keyframes blink-highlight {
+                        0%, 100% { background-color: transparent; border: none; }
+                        50% { background-color: #fef3c7; border: 2px solid #f59e0b; }
+                      }
+                    `;
+                    
+                    // Add keyframes to document if not already present
+                    if (!document.querySelector('#blink-styles')) {
+                      const style = document.createElement('style');
+                      style.id = 'blink-styles';
+                      style.textContent = blinkKeyframes;
+                      document.head.appendChild(style);
                     }
+                    
+                    // Apply blinking animation
+                    hoursDiv.style.animation = 'blink-highlight 0.8s ease-in-out 6';
+                    hoursDiv.style.borderRadius = '8px';
+                    hoursDiv.style.padding = '8px';
+                    
+                    // Remove animation after blinking completes
+                    setTimeout(() => {
+                      hoursDiv.style.animation = '';
+                      hoursDiv.style.backgroundColor = '';
+                      hoursDiv.style.border = '';
+                      hoursDiv.style.borderRadius = '';
+                      hoursDiv.style.padding = '';
+                    }, 4800); // 6 blinks × 0.8s = 4.8s
                   }, 800); // Wait for scroll animation to complete
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  const hoursDiv = document.querySelector('#contact > div > div:nth-child(2) > div:first-child > div:first-child > div:nth-child(4)') as HTMLElement;
+                  if (hoursDiv) {
+                    const elementRect = hoursDiv.getBoundingClientRect();
+                    const elementTop = elementRect.top + window.pageYOffset;
+                    const elementHeight = elementRect.height;
+                    const windowHeight = window.innerHeight;
+                    
+                    const scrollToPosition = elementTop - (windowHeight / 2) + (elementHeight / 2);
+                    
+                    window.scrollTo({
+                      top: scrollToPosition,
+                      behavior: 'smooth'
+                    });
+                      
+                    setTimeout(() => {
+                      const blinkKeyframes = `
+                        @keyframes blink-highlight {
+                          0%, 100% { background-color: transparent; border: none; }
+                          50% { background-color: #fef3c7; border: 2px solid #f59e0b; }
+                        }
+                      `;
+                      
+                      if (!document.querySelector('#blink-styles')) {
+                        const style = document.createElement('style');
+                        style.id = 'blink-styles';
+                        style.textContent = blinkKeyframes;
+                        document.head.appendChild(style);
+                      }
+                      
+                      hoursDiv.style.animation = 'blink-highlight 0.8s ease-in-out 6';
+                      hoursDiv.style.borderRadius = '8px';
+                      hoursDiv.style.padding = '8px';
+                      
+                      setTimeout(() => {
+                        hoursDiv.style.animation = '';
+                        hoursDiv.style.backgroundColor = '';
+                        hoursDiv.style.border = '';
+                        hoursDiv.style.borderRadius = '';
+                        hoursDiv.style.padding = '';
+                      }, 4800);
+                    }, 800);
+                  }
                 }
               }}
               role="button"
