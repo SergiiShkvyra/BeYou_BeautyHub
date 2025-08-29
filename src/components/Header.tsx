@@ -227,7 +227,7 @@ const Header = () => {
           <div className="flex items-center space-x-1 sm:hidden">
             <MapPin className="h-4 w-4" />
             <span 
-              onClick={() => window.open('https://www.google.com/maps/place/BeYou+Beautyhub/data=!4m2!3m1!1s0x0:0x8b1970ecf4fc771f?sa=X&ved=1t:2428&ictx=111', '_blank')}
+              className="ml-1 text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-playfair font-light tracking-wide"
               className="cursor-pointer hover:underline hover:text-olive transition-all duration-200"
               role="button"
               tabIndex={0}
