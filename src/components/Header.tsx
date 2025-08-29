@@ -342,11 +342,11 @@ const Header = () => {
               <span 
                 className="ml-4 text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-light tracking-wide"
                 style={{
-                  opacity: beautyHubOpacity,
+                  opacity: Math.max(beautyHubOpacity, 0.8),
                   transition: 'opacity 0.3s ease-out'
                 }}
               >
-                Beauty Hub
+                <span className="text-xs sm:text-sm lg:text-base xl:text-lg">Beauty Hub</span>
               </span>
               </div>
             </div>
