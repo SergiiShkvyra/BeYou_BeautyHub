@@ -305,7 +305,7 @@ const Header = () => {
                         padding: 10px;
                         border: 1px solid #505e47;
                         border-radius: 6px;
-                        background: #dbd6b2;
+                        background:  ;
                         cursor: pointer;
                         font-size: 14px;
                         color: #505e47;
