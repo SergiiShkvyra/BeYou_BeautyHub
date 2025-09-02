@@ -191,7 +191,7 @@ const Contact = () => {
                           color: white;
                           padding: 12px 20px;
                           border-radius: 8px;
-                          background: #dbd6b2;
+                          z-index: 99999;
                           font-size: 14px;
                           box-shadow: 0 4px 12px rgba(0,0,0,0.15);
                           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -362,7 +362,7 @@ const Contact = () => {
                             color: #505e47;
                           "
                           onmouseover="this.style.backgroundColor='#dbd6b2'"
-                          onmouseout="this.style.backgroundColor='#f5f3e8'"
+                          onmouseout="this.style.backgroundColor='#dbd6b2'"
                         >
                           Cancel
                         </button>
