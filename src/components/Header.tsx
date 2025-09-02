@@ -214,34 +214,250 @@ const Header = () => {
             </div>
             <div className="hidden sm:flex items-center space-x-1">
               <MapPin className="h-4 w-4" />
-              <a 
-                href="https://www.google.com/maps/place/BeYou+Beautyhub/data=!4m2!3m1!1s0x0:0x8b1970ecf4fc771f?sa=X&ved=1t:2428&ictx=111&cshid=1754622378904828"
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="hover:underline transition-all duration-200"
+              <button
+                onClick={() => {
+                  const address = "424 Maple Ave E Suite 3, Vienna, VA 22180";
+                  const encodedAddress = encodeURIComponent(address);
+                  
+                  // Create navigation options
+                  const navigationOptions = [
+                    {
+                      name: "Google Maps",
+                      url: `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`,
+                      icon: "🗺️"
+                    },
+                    {
+                      name: "Apple Maps",
+                      url: `https://maps.apple.com/?q=${encodedAddress}`,
+                      icon: "🍎"
+                    },
+                    {
+                      name: "Waze",
+                      url: `https://waze.com/ul?q=${encodedAddress}`,
+                      icon: "🚗"
+                    }
+                  ];
+                  
+                  // Create modal
+                  const modal = document.createElement('div');
+                  modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0, 0, 0, 0.5);
+                    z-index: 99999;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 20px;
+                  `;
+                  
+                  const modalContent = document.createElement('div');
+                  modalContent.style.cssText = `
+                    background: white;
+                    border-radius: 12px;
+                    padding: 24px;
+                    max-width: 400px;
+                    width: 100%;
+                    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+                  `;
+                  
+                  modalContent.innerHTML = `
+                    <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937;">
+                      Choose Navigation App
+                    </h3>
+                    <p style="margin: 0 0 20px 0; color: #6b7280; font-size: 14px;">
+                      ${address}
+                    </p>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                      ${navigationOptions.map(option => `
+                        <button 
+                          onclick="window.open('${option.url}', '_blank'); document.body.removeChild(document.querySelector('[data-navigation-modal]'))"
+                          style="
+                            display: flex;
+                            align-items: center;
+                            gap: 12px;
+                            padding: 12px 16px;
+                            border: 2px solid #e5e7eb;
+                            border-radius: 8px;
+                            background: white;
+                            cursor: pointer;
+                            transition: all 0.2s;
+                            font-size: 16px;
+                            font-weight: 500;
+                            color: #374151;
+                          "
+                          onmouseover="this.style.borderColor='#505e47'; this.style.backgroundColor='#f9fafb'"
+                          onmouseout="this.style.borderColor='#e5e7eb'; this.style.backgroundColor='white'"
+                        >
+                          <span style="font-size: 20px;">${option.icon}</span>
+                          <span>Open in ${option.name}</span>
+                        </button>
+                      `).join('')}
+                    </div>
+                    <button 
+                      onclick="document.body.removeChild(document.querySelector('[data-navigation-modal]'))"
+                      style="
+                        margin-top: 16px;
+                        width: 100%;
+                        padding: 10px;
+                        border: 1px solid #d1d5db;
+                        border-radius: 6px;
+                        background: #f9fafb;
+                        cursor: pointer;
+                        font-size: 14px;
+                        color: #6b7280;
+                      "
+                      onmouseover="this.style.backgroundColor='#f3f4f6'"
+                      onmouseout="this.style.backgroundColor='#f9fafb'"
+                    >
+                      Cancel
+                    </button>
+                  `;
+                  
+                  modal.appendChild(modalContent);
+                  modal.setAttribute('data-navigation-modal', 'true');
+                  
+                  // Close modal when clicking outside
+                  modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                      document.body.removeChild(modal);
+                    }
+                  });
+                  
+                  document.body.appendChild(modal);
+                }}
+                className="hover:underline transition-all duration-200 cursor-pointer"
               >
                 <span>424 Maple Ave E Suite 3, Vienna, VA 22180</span>
-              </a>
+              </button>
             </div>
           </div>
           <div className="flex items-center space-x-1 sm:hidden">
             <MapPin className="h-4 w-4" />
-            <span
-              className="ml-1 text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-playfair font-light tracking-wide"
-              className="cursor-pointer hover:underline hover:text-olive transition-all duration-200"
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  window.open('https://www.google.com/maps/place/BeYou+Beautyhub/data=!4m2!3m1!1s0x0:0x8b1970ecf4fc771f?sa=X&ved=1t:2428&ictx=111', '_blank');
-                }
+            <button
+              onClick={() => {
+                const address = "424 Maple Ave E Suite 3, Vienna, VA 22180";
+                const encodedAddress = encodeURIComponent(address);
+                
+                // Create navigation options
+                const navigationOptions = [
+                  {
+                    name: "Google Maps",
+                    url: `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`,
+                    icon: "🗺️"
+                  },
+                  {
+                    name: "Apple Maps",
+                    url: `https://maps.apple.com/?q=${encodedAddress}`,
+                    icon: "🍎"
+                  },
+                  {
+                    name: "Waze",
+                    url: `https://waze.com/ul?q=${encodedAddress}`,
+                    icon: "🚗"
+                  }
+                ];
+                
+                // Create modal
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                  position: fixed;
+                  top: 0;
+                  left: 0;
+                  right: 0;
+                  bottom: 0;
+                  background: rgba(0, 0, 0, 0.5);
+                  z-index: 99999;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  padding: 20px;
+                `;
+                
+                const modalContent = document.createElement('div');
+                modalContent.style.cssText = `
+                  background: white;
+                  border-radius: 12px;
+                  padding: 24px;
+                  max-width: 400px;
+                  width: 100%;
+                  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+                `;
+                
+                modalContent.innerHTML = `
+                  <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937;">
+                    Choose Navigation App
+                  </h3>
+                  <p style="margin: 0 0 20px 0; color: #6b7280; font-size: 14px;">
+                    ${address}
+                  </p>
+                  <div style="display: flex; flex-direction: column; gap: 12px;">
+                    ${navigationOptions.map(option => `
+                      <button 
+                        onclick="window.open('${option.url}', '_blank'); document.body.removeChild(document.querySelector('[data-navigation-modal]'))"
+                        style="
+                          display: flex;
+                          align-items: center;
+                          gap: 12px;
+                          padding: 12px 16px;
+                          border: 2px solid #e5e7eb;
+                          border-radius: 8px;
+                          background: white;
+                          cursor: pointer;
+                          transition: all 0.2s;
+                          font-size: 16px;
+                          font-weight: 500;
+                          color: #374151;
+                        "
+                        onmouseover="this.style.borderColor='#505e47'; this.style.backgroundColor='#f9fafb'"
+                        onmouseout="this.style.borderColor='#e5e7eb'; this.style.backgroundColor='white'"
+                      >
+                        <span style="font-size: 20px;">${option.icon}</span>
+                        <span>Open in ${option.name}</span>
+                      </button>
+                    `).join('')}
+                  </div>
+                  <button 
+                    onclick="document.body.removeChild(document.querySelector('[data-navigation-modal]'))"
+                    style="
+                      margin-top: 16px;
+                      width: 100%;
+                      padding: 10px;
+                      border: 1px solid #d1d5db;
+                      border-radius: 6px;
+                      background: #f9fafb;
+                      cursor: pointer;
+                      font-size: 14px;
+                      color: #6b7280;
+                    "
+                    onmouseover="this.style.backgroundColor='#f3f4f6'"
+                    onmouseout="this.style.backgroundColor='#f9fafb'"
+                  >
+                    Cancel
+                  </button>
+                `;
+                
+                modal.appendChild(modalContent);
+                modal.setAttribute('data-navigation-modal', 'true');
+                
+                // Close modal when clicking outside
+                modal.addEventListener('click', (e) => {
+                  if (e.target === modal) {
+                    document.body.removeChild(modal);
+                  }
+                });
+                
+                document.body.appendChild(modal);
               }}
-              aria-label="Open BeYou BeautyHub location in Google Maps"
-              title="Click to view location on Google Maps"
+              className="cursor-pointer hover:underline hover:text-olive transition-all duration-200"
+              aria-label="Open BeYou BeautyHub location in navigation app"
+              title="Click to choose navigation app"
             >
               Vienna, VA
-            </span>
+            </button>
           </div>
           <div className="text-right">
             <div 
