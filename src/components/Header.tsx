@@ -346,7 +346,7 @@ const Header = () => {
                 const navigationOptions = [
                   {
                     name: "Google Maps",
-                    url: `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`,
+                    url: "https://www.google.com/maps/place/BeYou+Beauty+Hub/@38.9092402,-77.2568301,17z/data=!3m1!4b1!4m6!3m5!1s0x89b64b00159324fd:0x8b1970ecf4fc771f!8m2!3d38.9092402!4d-77.2568301!16s%2Fg%2F11xgky7njv?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D",
                     icon: "🗺️"
                   },
                   {
