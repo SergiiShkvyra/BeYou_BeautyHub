@@ -256,7 +256,7 @@ const Header = () => {
                   
                   const modalContent = document.createElement('div');
                   modalContent.style.cssText = `
-                    background: white;
+                    background: #dbd6b2;
                     border-radius: 12px;
                     padding: 24px;
                     max-width: 400px;
@@ -265,10 +265,10 @@ const Header = () => {
                   `;
                   
                   modalContent.innerHTML = `
-                    <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937;">
+                    <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #505e47;">
                       Choose Navigation App
                     </h3>
-                    <p style="margin: 0 0 20px 0; color: #6b7280; font-size: 14px;">
+                    <p style="margin: 0 0 20px 0; color: #505e47; font-size: 14px; opacity: 0.8;">
                       ${address}
                     </p>
                     <div style="display: flex; flex-direction: column; gap: 12px;">
@@ -280,17 +280,17 @@ const Header = () => {
                             align-items: center;
                             gap: 12px;
                             padding: 12px 16px;
-                            border: 2px solid #e5e7eb;
+                            border: 2px solid #505e47;
                             border-radius: 8px;
-                            background: white;
+                            background: #f5f3e8;
                             cursor: pointer;
                             transition: all 0.2s;
                             font-size: 16px;
                             font-weight: 500;
-                            color: #374151;
+                            color: #505e47;
                           "
-                          onmouseover="this.style.borderColor='#505e47'; this.style.backgroundColor='#f9fafb'"
-                          onmouseout="this.style.borderColor='#e5e7eb'; this.style.backgroundColor='white'"
+                          onmouseover="this.style.borderColor='#3a4a35'; this.style.backgroundColor='#dbd6b2'"
+                          onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#f5f3e8'"
                         >
                           <span style="font-size: 20px;">${option.icon}</span>
                           <span>Open in ${option.name}</span>
@@ -303,15 +303,15 @@ const Header = () => {
                         margin-top: 16px;
                         width: 100%;
                         padding: 10px;
-                        border: 1px solid #d1d5db;
+                        border: 1px solid #505e47;
                         border-radius: 6px;
-                        background: #f9fafb;
+                        background: #f5f3e8;
                         cursor: pointer;
                         font-size: 14px;
-                        color: #6b7280;
+                        color: #505e47;
                       "
-                      onmouseover="this.style.backgroundColor='#f3f4f6'"
-                      onmouseout="this.style.backgroundColor='#f9fafb'"
+                      onmouseover="this.style.backgroundColor='#dbd6b2'"
+                      onmouseout="this.style.backgroundColor='#f5f3e8'"
                     >
                       Cancel
                     </button>
@@ -379,7 +379,7 @@ const Header = () => {
                 
                 const modalContent = document.createElement('div');
                 modalContent.style.cssText = `
-                  background: white;
+                  background: #dbd6b2;
                   border-radius: 12px;
                   padding: 24px;
                   max-width: 400px;
@@ -388,10 +388,10 @@ const Header = () => {
                 `;
                 
                 modalContent.innerHTML = `
-                  <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937;">
+                  <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #505e47;">
                     Choose Navigation App
                   </h3>
-                  <p style="margin: 0 0 20px 0; color: #6b7280; font-size: 14px;">
+                  <p style="margin: 0 0 20px 0; color: #505e47; font-size: 14px; opacity: 0.8;">
                     ${address}
                   </p>
                   <div style="display: flex; flex-direction: column; gap: 12px;">
@@ -403,17 +403,17 @@ const Header = () => {
                           align-items: center;
                           gap: 12px;
                           padding: 12px 16px;
-                          border: 2px solid #e5e7eb;
+                          border: 2px solid #505e47;
                           border-radius: 8px;
-                          background: white;
+                          background: #f5f3e8;
                           cursor: pointer;
                           transition: all 0.2s;
                           font-size: 16px;
                           font-weight: 500;
-                          color: #374151;
+                          color: #505e47;
                         "
-                        onmouseover="this.style.borderColor='#505e47'; this.style.backgroundColor='#f9fafb'"
-                        onmouseout="this.style.borderColor='#e5e7eb'; this.style.backgroundColor='white'"
+                        onmouseover="this.style.borderColor='#3a4a35'; this.style.backgroundColor='#dbd6b2'"
+                        onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#f5f3e8'"
                       >
                         <span style="font-size: 20px;">${option.icon}</span>
                         <span>Open in ${option.name}</span>
@@ -426,15 +426,15 @@ const Header = () => {
                       margin-top: 16px;
                       width: 100%;
                       padding: 10px;
-                      border: 1px solid #d1d5db;
+                      border: 1px solid #505e47;
                       border-radius: 6px;
-                      background: #f9fafb;
+                      background: #f5f3e8;
                       cursor: pointer;
                       font-size: 14px;
-                      color: #6b7280;
+                      color: #505e47;
                     "
-                    onmouseover="this.style.backgroundColor='#f3f4f6'"
-                    onmouseout="this.style.backgroundColor='#f9fafb'"
+                    onmouseover="this.style.backgroundColor='#dbd6b2'"
+                    onmouseout="this.style.backgroundColor='#f5f3e8'"
                   >
                     Cancel
                   </button>
