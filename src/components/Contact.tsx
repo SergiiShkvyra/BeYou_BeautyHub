@@ -191,7 +191,7 @@ const Contact = () => {
                           color: white;
                           padding: 12px 20px;
                           border-radius: 8px;
-                          z-index: 99999;
+                          background: #dbd6b2;
                           font-size: 14px;
                           box-shadow: 0 4px 12px rgba(0,0,0,0.15);
                           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
