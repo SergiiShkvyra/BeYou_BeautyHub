@@ -208,7 +208,7 @@ const Footer = () => {
                           color: #505e47;
                         "
                         onmouseover="this.style.backgroundColor='#dbd6b2'"
-                        onmouseout="this.style.backgroundColor='#f5f3e8'"
+                        onmouseout="this.style.backgroundColor='#dbd6b2'"
                       >
                         Cancel
                       </button>
