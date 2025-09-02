@@ -228,7 +228,7 @@ const Header = () => {
                     },
                     {
                       name: "Apple Maps",
-                      url: `https://maps.apple.com/?q=${encodedAddress}`,
+                      url: `https://maps.apple.com/place?place-id=IC0C55897AF474D4C&address=424+Maple+Ave+E%2C+Vienna%2C+VA++22180%2C+United+States&coordinate=38.9092273%2C-77.2568108&name=BeYou+BeautyHub&_provider=9902`,
                       icon: "🍎"
                     },
                     {
@@ -351,7 +351,7 @@ const Header = () => {
                   },
                   {
                     name: "Apple Maps",
-                    url: `https://maps.apple.com/?q=${encodedAddress}`,
+                    url: `https://maps.apple.com/place?place-id=IC0C55897AF474D4C&address=424+Maple+Ave+E%2C+Vienna%2C+VA++22180%2C+United+States&coordinate=38.9092273%2C-77.2568108&name=BeYou+BeautyHub&_provider=9902`,
                     icon: "🍎"
                   },
                   {
