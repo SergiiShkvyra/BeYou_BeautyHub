@@ -345,7 +345,7 @@ const Contact = () => {
                               onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#f5f3e8'"
                             >
                              <span style="font-size: 20px; margin-right: 12px;">${option.icon}</span>
-                             <span style="flex: 1; background: #dbd6b2;">Open in ${option.name}</span>
+                             <span style="flex: 1;">Open in ${option.name}</span>
                             </button>
                           `).join('')}
                         </div>
@@ -362,7 +362,7 @@ const Contact = () => {
                             font-size: 14px;
                             color: #505e47;
                           "
-                          onmouseover="this.style.backgroundColor='#f0ead6'"
+                          onmouseover="this.style.backgroundColor='#dbd6b2'"
                           onmouseout="this.style.backgroundColor='#dbd6b2'"
                         >
                           Cancel
