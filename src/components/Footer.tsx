@@ -175,7 +175,7 @@ const Footer = () => {
                             style="
                               display: flex;
                               align-items: center;
-                              gap: 12px;
+                             gap: 0px;
                               padding: 12px 16px;
                               border: 2px solid #505e47;
                               border-radius: 8px;
@@ -185,12 +185,13 @@ const Footer = () => {
                               font-size: 16px;
                               font-weight: 500;
                               color: #505e47;
+                             margin: 0;
                             "
                             onmouseover="this.style.borderColor='#3a4a35'; this.style.backgroundColor='#dbd6b2'"
                             onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#f5f3e8'"
                           >
-                            <span style="font-size: 20px;">${option.icon}</span>
-                            <span>Open in ${option.name}</span>
+                           <span style="font-size: 20px; margin-right: 12px;">${option.icon}</span>
+                           <span style="flex: 1;">Open in ${option.name}</span>
                           </button>
                         `).join('')}
                       </div>
