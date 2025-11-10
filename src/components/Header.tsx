@@ -364,8 +364,6 @@ const Header = () => {
                           onmouseover="this.style.borderColor='#3a4a35'; this.style.backgroundColor='#c9c4a0'"
                           onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#dbd6b2'"
                           <span style="font-size: 20px; background: transparent; color: inherit;">${option.icon}</span>
-                          <span style="background: transparent; color: inherit;">Open in ${option.name}</span>
-                         <span style="font-size: 20px; background: transparent; color: inherit;">${option.icon}</span>
                          <span style="background: transparent; color: inherit;">Open in ${option.name}</span>
                         </button>
                       `).join('')}
@@ -482,7 +480,7 @@ const Header = () => {
                         onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#dbd6b2'"
                       >
                         <span style="font-size: 20px; background: transparent; color: inherit;">${option.icon}</span>
-                        <span style="flex: 1; background: transparent; color: inherit;">Open in ${option.name}</span>
+                        <span style="background: transparent; color: inherit;">Open in ${option.name}</span>
                       </button>
                     `).join('')}
                   </div>
