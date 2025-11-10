@@ -283,7 +283,7 @@ const Header = () => {
                           style="
                             display: flex;
                             align-items: center;
-                           gap: 0px;
+                           gap: 8px;
                             padding: 12px 16px;
                             border: 2px solid #505e47;
                             border-radius: 8px;
@@ -349,7 +349,7 @@ const Header = () => {
                           style="
                             display: flex;
                             align-items: center;
-                           gap: 0px;
+                           gap: 8px;
                             padding: 12px 16px;
                             border: 2px solid #505e47;
                             border-radius: 8px;
@@ -363,10 +363,10 @@ const Header = () => {
                           "
                           onmouseover="this.style.borderColor='#3a4a35'; this.style.backgroundColor='#c9c4a0'"
                           onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#dbd6b2'"
-                        >
-                         <span style="font-size: 20px; margin-right: 12px; background: transparent; color: inherit;">${option.icon}</span>
-                         <span style="font-size: 20px; margin-right: 8px; background: transparent; color: inherit;">${option.icon}</span>
-                         <span style="flex: 1; background: transparent; color: inherit;">Open in ${option.name}</span>
+                          <span style="font-size: 20px; background: transparent; color: inherit;">${option.icon}</span>
+                          <span style="background: transparent; color: inherit;">Open in ${option.name}</span>
+                         <span style="font-size: 20px; background: transparent; color: inherit;">${option.icon}</span>
+                         <span style="background: transparent; color: inherit;">Open in ${option.name}</span>
                         </button>
                       `).join('')}
                     </div>

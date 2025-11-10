@@ -175,7 +175,7 @@ const Footer = () => {
                             style="
                               display: flex;
                               align-items: center;
-                             gap: 0px;
+                             gap: 8px;
                               padding: 12px 16px;
                               border: 2px solid #505e47;
                               border-radius: 8px;
@@ -191,8 +191,8 @@ const Footer = () => {
                             onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#dbd6b2'"
                           >
                            <span style="font-size: 20px; margin-right: 12px; background: transparent; color: inherit;">${option.icon}</span>
-                           <span style="font-size: 20px; margin-right: 8px; background: transparent; color: inherit;">${option.icon}</span>
-                           <span style="flex: 1; background: transparent; color: inherit;">Open in ${option.name}</span>
+                           <span style="font-size: 20px; background: transparent; color: inherit;">${option.icon}</span>
+                           <span style="background: transparent; color: inherit;">Open in ${option.name}</span>
                           </button>
                         `).join('')}
                       </div>
