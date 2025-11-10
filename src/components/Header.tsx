@@ -4,6 +4,7 @@ import { Phone, MapPin } from 'lucide-react';
 const Header = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isNavigationModalOpen, setIsNavigationModalOpen] = useState(false);
 
   // Function to handle phone number click
   const handlePhoneClick = (phoneNumber: string) => {
@@ -216,6 +217,10 @@ const Header = () => {
               <MapPin className="h-4 w-4" />
               <button
                 onClick={() => {
+                  // Prevent opening modal if already open
+                  if (isNavigationModalOpen) return;
+                  
+                  setIsNavigationModalOpen(true);
                   const address = "424 Maple Ave E Suite 3, Vienna, VA 22180";
                   const encodedAddress = encodeURIComponent(address);
                   
@@ -325,12 +330,71 @@ const Header = () => {
                   modal.addEventListener('click', (e) => {
                     if (e.target === modal) {
                       document.body.removeChild(modal);
+                      setIsNavigationModalOpen(false);
                     }
                   });
                   
+                  // Update all onclick handlers to close modal and reset state
+                  modalContent.innerHTML = `
+                    <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #505e47;">
+                      Choose Navigation App
+                    </h3>
+                    <p style="margin: 0 0 20px 0; color: #505e47; font-size: 14px; opacity: 0.8;">
+                      ${address}
+                    </p>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                      ${navigationOptions.map(option => `
+                        <button 
+                          onclick="window.open('${option.url}', '_blank'); document.body.removeChild(document.querySelector('[data-navigation-modal]')); window.headerComponent?.setIsNavigationModalOpen(false);"
+                          style="
+                            display: flex;
+                            align-items: center;
+                           gap: 0px;
+                            padding: 12px 16px;
+                            border: 2px solid #505e47;
+                            border-radius: 8px;
+                            background: #f5f3e8;
+                            cursor: pointer;
+                            transition: all 0.2s;
+                            font-size: 16px;
+                            font-weight: 500;
+                            color: #505e47;
+                           margin: 0;
+                          "
+                          onmouseover="this.style.borderColor='#3a4a35'; this.style.backgroundColor='#dbd6b2'"
+                          onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#f5f3e8'"
+                        >
+                         <span style="font-size: 20px; margin-right: 12px;">${option.icon}</span>
+                         <span style="flex: 1;">Open in ${option.name}</span>
+                        </button>
+                      `).join('')}
+                    </div>
+                    <button 
+                      onclick="document.body.removeChild(document.querySelector('[data-navigation-modal]')); window.headerComponent?.setIsNavigationModalOpen(false);"
+                      style="
+                        margin-top: 16px;
+                        width: 100%;
+                        padding: 10px;
+                        border: 1px solid #505e47;
+                        border-radius: 6px;
+                        background: #dbd6b2;
+                        cursor: pointer;
+                        font-size: 14px;
+                        color: #505e47;
+                      "
+                      onmouseover="this.style.backgroundColor='#dbd6b2'"
+                      onmouseout="this.style.backgroundColor='#f5f3e8'"
+                    >
+                      Cancel
+                    </button>
+                  `;
+                  
                   document.body.appendChild(modal);
+                  
+                  // Expose state setter to global scope for onclick handlers
+                  window.headerComponent = { setIsNavigationModalOpen };
                 }}
-                className="hover:underline transition-all duration-200 cursor-pointer"
+                className={`hover:underline transition-all duration-200 ${isNavigationModalOpen ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
               >
                 <span>424 Maple Ave E Suite 3, Vienna, VA 22180</span>
               </button>
