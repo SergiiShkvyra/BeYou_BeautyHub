@@ -353,7 +353,7 @@ const Header = () => {
                             padding: 12px 16px;
                             border: 2px solid #505e47;
                             border-radius: 8px;
-                            background: #f5f3e8;
+                            background: #dbd6b2;
                             cursor: pointer;
                             transition: all 0.2s;
                             font-size: 16px;
@@ -361,11 +361,11 @@ const Header = () => {
                             color: #505e47;
                            margin: 0;
                           "
-                          onmouseover="this.style.borderColor='#3a4a35'; this.style.backgroundColor='#dbd6b2'"
-                          onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#f5f3e8'"
+                          onmouseover="this.style.borderColor='#3a4a35'; this.style.backgroundColor='#c9c4a0'"
+                          onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#dbd6b2'"
                         >
-                         <span style="font-size: 20px; margin-right: 12px;">${option.icon}</span>
-                         <span style="flex: 1;">Open in ${option.name}</span>
+                         <span style="font-size: 20px; margin-right: 12px; background: transparent; color: inherit;">${option.icon}</span>
+                         <span style="flex: 1; background: transparent; color: inherit;">Open in ${option.name}</span>
                         </button>
                       `).join('')}
                     </div>
@@ -382,8 +382,8 @@ const Header = () => {
                         font-size: 14px;
                         color: #505e47;
                       "
-                      onmouseover="this.style.backgroundColor='#dbd6b2'"
-                      onmouseout="this.style.backgroundColor='#f5f3e8'"
+                      onmouseover="this.style.backgroundColor='#c9c4a0'"
+                      onmouseout="this.style.backgroundColor='#dbd6b2'"
                     >
                       Cancel
                     </button>
@@ -470,18 +470,18 @@ const Header = () => {
                           padding: 12px 16px;
                           border: 2px solid #505e47;
                           border-radius: 8px;
-                          background: #f5f3e8;
+                          background: #dbd6b2;
                           cursor: pointer;
                           transition: all 0.2s;
                           font-size: 16px;
                           font-weight: 500;
                           color: #505e47;
                         "
-                        onmouseover="this.style.borderColor='#3a4a35'; this.style.backgroundColor='#f0ead6'"
+                        onmouseover="this.style.borderColor='#3a4a35'; this.style.backgroundColor='#c9c4a0'"
                         onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#dbd6b2'"
                       >
-                        <span style="font-size: 20px;">${option.icon}</span>
-                        <span style="flex: 1;">Open in ${option.name}</span>
+                        <span style="font-size: 20px; background: transparent; color: inherit;">${option.icon}</span>
+                        <span style="flex: 1; background: transparent; color: inherit;">Open in ${option.name}</span>
                       </button>
                     `).join('')}
                   </div>
@@ -498,7 +498,7 @@ const Header = () => {
                       font-size: 14px;
                       color: #505e47;
                     "
-                    onmouseover="this.style.backgroundColor='#dbd6b2'"
+                    onmouseover="this.style.backgroundColor='#c9c4a0'"
                     onmouseout="this.style.backgroundColor='#dbd6b2'"
                   >
                     Cancel
