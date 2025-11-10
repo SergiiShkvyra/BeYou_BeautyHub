@@ -417,7 +417,7 @@ const Header = () => {
                         onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#dbd6b2'"
                       >
                         <span style="font-size: 20px;">${option.icon}</span>
-                        <span style="background: #dbd6b2;">Open in ${option.name}</span>
+                        <span style="flex: 1;">Open in ${option.name}</span>
                       </button>
                     `).join('')}
                   </div>
@@ -434,7 +434,7 @@ const Header = () => {
                       font-size: 14px;
                       color: #505e47;
                     "
-                    onmouseover="this.style.backgroundColor='#f0ead6'"
+                    onmouseover="this.style.backgroundColor='#dbd6b2'"
                     onmouseout="this.style.backgroundColor='#dbd6b2'"
                   >
                     Cancel
