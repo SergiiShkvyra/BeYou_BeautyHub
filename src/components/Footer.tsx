@@ -394,8 +394,14 @@ const Footer = () => {
 
       {/* Terms of Service Modal */}
       {showTermsModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-[99999] flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-[99999] flex items-center justify-center p-4"
+          onClick={() => setShowTermsModal(false)}
+        >
+          <div
+            className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Modal Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
               <h2 className="text-2xl font-bold text-gray-900">Terms of Service</h2>
@@ -486,8 +492,14 @@ const Footer = () => {
 
       {/* Privacy Policy Modal */}
       {showPrivacyModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-[99999] flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-[99999] flex items-center justify-center p-4"
+          onClick={() => setShowPrivacyModal(false)}
+        >
+          <div
+            className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Modal Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
               <h2 className="text-2xl font-bold text-gray-900">Privacy Policy</h2>
@@ -603,8 +615,14 @@ const Footer = () => {
 
       {/* Cookie Policy Modal */}
       {showCookieModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-[99999] flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-[99999] flex items-center justify-center p-4"
+          onClick={() => setShowCookieModal(false)}
+        >
+          <div
+            className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Modal Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
               <h2 className="text-2xl font-bold text-gray-900">Cookie Policy</h2>
