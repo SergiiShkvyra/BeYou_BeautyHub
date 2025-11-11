@@ -397,7 +397,9 @@ const Header = () => {
                     const target = e.target as HTMLElement;
                     // Check if click is outside the modal
                     if (!modal.contains(target)) {
-                      document.body.removeChild(modal);
+                     if (document.body.contains(modal)) {
+                       document.body.removeChild(modal);
+                     }
                       setIsNavigationModalOpen(false);
                       document.removeEventListener('click', handleDocumentClick);
                     }
@@ -539,7 +541,9 @@ const Header = () => {
                   const target = e.target as HTMLElement;
                   // Check if click is outside the modal
                   if (!modal.contains(target)) {
-                    document.body.removeChild(modal);
+                   if (document.body.contains(modal)) {
+                     document.body.removeChild(modal);
+                   }
                     document.removeEventListener('click', handleDocumentClick);
                   }
                 };
