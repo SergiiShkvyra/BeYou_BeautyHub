@@ -330,6 +330,8 @@ const Header = () => {
                   modal.addEventListener('click', (e) => {
                     if (e.target === modal) {
                       document.body.removeChild(modal);
+                     setIsNavigationModalOpen(false);
+                     setIsNavigationModalOpen(false);
                       setIsNavigationModalOpen(false);
                     }
                   });
@@ -369,7 +371,7 @@ const Header = () => {
                       `).join('')}
                     </div>
                     <button 
-                      onclick="document.body.removeChild(document.querySelector('[data-navigation-modal]')); window.headerComponent?.setIsNavigationModalOpen(false);"
+                     onclick="document.body.removeChild(document.querySelector('[data-navigation-modal]')); if(window.headerComponent) window.headerComponent.setIsNavigationModalOpen(false);"
                       style="
                         margin-top: 16px;
                         width: 100%;
