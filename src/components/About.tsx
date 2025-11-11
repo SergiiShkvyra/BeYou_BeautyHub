@@ -36,15 +36,12 @@ const About = () => {
               alt="Beautiful woman with natural makeup showcasing skincare and beauty"
               className="rounded-2xl shadow-2xl w-full h-96 lg:h-[500px] object-cover"
               style={{
-                imageRendering: 'high-quality',
-                imageRendering: '-webkit-optimize-contrast',
-                imageRendering: 'optimizeQuality',
                 filter: 'contrast(1.00) saturate(1.00)',
                 backfaceVisibility: 'hidden',
                 transform: 'translateZ(0)',
                 WebkitFontSmoothing: 'antialiased',
                 MozOsxFontSmoothing: 'grayscale'
-              }}
+              } as React.CSSProperties}
               loading="lazy"
               decoding="async"
               fetchpriority="high"
