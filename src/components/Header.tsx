@@ -392,6 +392,22 @@ const Header = () => {
                   
                   document.body.appendChild(modal);
                   
+                  // Add document-wide click listener to close modal
+                  const handleDocumentClick = (e: Event) => {
+                    const target = e.target as HTMLElement;
+                    // Check if click is outside the modal
+                    if (!modal.contains(target)) {
+                      document.body.removeChild(modal);
+                      setIsNavigationModalOpen(false);
+                      document.removeEventListener('click', handleDocumentClick);
+                    }
+                  };
+                  
+                  // Add listener after a small delay to prevent immediate closure
+                  setTimeout(() => {
+                    document.addEventListener('click', handleDocumentClick);
+                  }, 100);
+                  
                   // Expose state setter to global scope for onclick handlers
                   window.headerComponent = { setIsNavigationModalOpen };
                 }}
@@ -517,6 +533,21 @@ const Header = () => {
                 });
                 
                 document.body.appendChild(modal);
+                
+                // Add document-wide click listener to close modal
+                const handleDocumentClick = (e: Event) => {
+                  const target = e.target as HTMLElement;
+                  // Check if click is outside the modal
+                  if (!modal.contains(target)) {
+                    document.body.removeChild(modal);
+                    document.removeEventListener('click', handleDocumentClick);
+                  }
+                };
+                
+                // Add listener after a small delay to prevent immediate closure
+                setTimeout(() => {
+                  document.addEventListener('click', handleDocumentClick);
+                }, 100);
               }}
               className="cursor-pointer hover:underline hover:text-olive transition-all duration-200"
               aria-label="Open BeYou BeautyHub location in navigation app"

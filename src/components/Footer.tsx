@@ -226,6 +226,21 @@ const Footer = () => {
                     });
                     
                     document.body.appendChild(modal);
+                    
+                    // Add document-wide click listener to close modal
+                    const handleDocumentClick = (e: Event) => {
+                      const target = e.target as HTMLElement;
+                      // Check if click is outside the modal
+                      if (!modal.contains(target)) {
+                        document.body.removeChild(modal);
+                        document.removeEventListener('click', handleDocumentClick);
+                      }
+                    };
+                    
+                    // Add listener after a small delay to prevent immediate closure
+                    setTimeout(() => {
+                      document.addEventListener('click', handleDocumentClick);
+                    }, 100);
                   }}
                   className="text-gray-300 text-sm hover:text-olive transition-colors duration-200 cursor-pointer text-left"
                 >

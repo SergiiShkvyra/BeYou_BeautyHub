@@ -418,6 +418,21 @@ const Contact = () => {
                     const smsUrl = `sms:${phoneNumber}`;
                     
                     try {
+                    
+                    // Add document-wide click listener to close modal
+                    const handleDocumentClick = (e: Event) => {
+                      const target = e.target as HTMLElement;
+                      // Check if click is outside the modal
+                      if (!modal.contains(target)) {
+                        document.body.removeChild(modal);
+                        document.removeEventListener('click', handleDocumentClick);
+                      }
+                    };
+                    
+                    // Add listener after a small delay to prevent immediate closure
+                    setTimeout(() => {
+                      document.addEventListener('click', handleDocumentClick);
+                    }, 100);
                       // Create a proper link element
                       const link = document.createElement('a');
                       link.href = smsUrl;
