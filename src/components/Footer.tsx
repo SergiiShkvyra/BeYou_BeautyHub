@@ -156,7 +156,7 @@ const Footer = () => {
                       background: #dbd6b2;
                       border-radius: 12px;
                       padding: 24px;
-                      max-width: 400px;
+                      max-width: 320px;
                       width: 100%;
                       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
                     `;
@@ -168,7 +168,7 @@ const Footer = () => {
                       <p style="margin: 0 0 20px 0; color: #505e47; font-size: 14px; opacity: 0.8;">
                         ${address}
                       </p>
-                      <div style="display: flex; flex-direction: column; gap: 12px;">
+                      <div style="display: flex; flex-direction: column; gap: 20px;">
                         ${navigationOptions.map(option => `
                           <button 
                             onclick="window.open('${option.url}', '_blank'); document.body.removeChild(document.querySelector('[data-navigation-modal]'))"
