@@ -191,7 +191,6 @@ const Footer = () => {
                             onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#dbd6b2'"
                           >
                            <span style="font-size: 20px; margin-right: 12px; background: transparent; color: inherit;">${option.icon}</span>
-                           <span style="font-size: 20px; background: transparent; color: inherit;">${option.icon}</span>
                            <span style="background: transparent; color: inherit;">Open in ${option.name}</span>
                           </button>
                         `).join('')}
