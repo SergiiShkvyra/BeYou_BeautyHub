@@ -319,7 +319,7 @@ const Contact = () => {
                         <h3 style="margin: 0 0 24px 0; font-size: 18px; font-weight: 600; color: #505e47; line-height: 1.6; text-align: center;">
                           Choose Navigation App
                         </h3>
-                        <div style="margin: 0 0 36px 0;"></div>
+                        <div style="margin: 0 0 16px 0; height: 1px;"></div>
                         <div style="display: flex; flex-direction: column; gap: 20px;">
                           ${navigationOptions.map(option => `
                             <button 
@@ -381,7 +381,7 @@ const Contact = () => {
                     }}
                     className="text-gray-600 hover:text-olive transition-colors duration-200 cursor-pointer text-left"
                   >
-                    &nbsp;
+                    424 Maple Ave E Suite 3<br />Vienna, VA 22180
                   </button>
                   <p className="text-sm text-gray-500">Free parking available</p>
                 </div>
