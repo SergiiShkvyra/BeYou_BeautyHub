@@ -319,9 +319,7 @@ const Contact = () => {
                         <h3 style="margin: 0 0 24px 0; font-size: 18px; font-weight: 600; color: #505e47; line-height: 1.6; text-align: center;">
                           Choose Navigation App
                         </h3>
-                        <p style="margin: 0 0 36px 0; color: #505e47; font-size: 14px; opacity: 0.8; line-height: 1.8;">
-                          ${address}
-                        </p>
+                        <div style="margin: 0 0 36px 0;"></div>
                         <div style="display: flex; flex-direction: column; gap: 20px;">
                           ${navigationOptions.map(option => `
                             <button 
