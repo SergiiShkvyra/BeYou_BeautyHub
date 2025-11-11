@@ -309,17 +309,17 @@ const Contact = () => {
                       modalContent.style.cssText = `
                         background: #dbd6b2;
                         border-radius: 12px;
-                        padding: 24px;
+                        padding: 32px 28px;
                         max-width: 320px;
                         width: 100%;
                         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
                       `;
                       
                       modalContent.innerHTML = `
-                        <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #505e47;">
+                        <h3 style="margin: 0 0 24px 0; font-size: 18px; font-weight: 600; color: #505e47; line-height: 1.6; text-align: center;">
                           Choose Navigation App
                         </h3>
-                        <p style="margin: 0 0 20px 0; color: #505e47; font-size: 14px; opacity: 0.8;">
+                        <p style="margin: 0 0 36px 0; color: #505e47; font-size: 14px; opacity: 0.8; line-height: 1.8;">
                           ${address}
                         </p>
                         <div style="display: flex; flex-direction: column; gap: 20px;">
@@ -329,8 +329,8 @@ const Contact = () => {
                               style="
                                 display: flex;
                                 align-items: center;
-                               gap: 8px;
-                                padding: 12px 16px;
+                               gap: 12px;
+                                padding: 16px 18px;
                                 border: 2px solid #505e47;
                                 border-radius: 8px;
                                 background: #dbd6b2;
@@ -352,9 +352,9 @@ const Contact = () => {
                         <button 
                           onclick="document.body.removeChild(document.querySelector('[data-navigation-modal]'))"
                           style="
-                            margin-top: 16px;
+                            margin-top: 24px;
                             width: 100%;
-                            padding: 10px;
+                            padding: 12px;
                             border: 1px solid #505e47;
                             border-radius: 6px;
                             background: #dbd6b2;
