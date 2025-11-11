@@ -369,15 +369,32 @@ const Contact = () => {
                       
                       modal.appendChild(modalContent);
                       modal.setAttribute('data-navigation-modal', 'true');
-                      
+
                       // Close modal when clicking outside
                       modal.addEventListener('click', (e) => {
                         if (e.target === modal) {
                           document.body.removeChild(modal);
                         }
                       });
-                      
+
                       document.body.appendChild(modal);
+
+                      // Add document-wide click listener to close modal
+                      const handleDocumentClick = (e: Event) => {
+                        const target = e.target as HTMLElement;
+                        // Check if click is outside the modal
+                        if (!modalContent.contains(target) && target !== modal) {
+                         if (document.body.contains(modal)) {
+                           document.body.removeChild(modal);
+                         }
+                          document.removeEventListener('click', handleDocumentClick);
+                        }
+                      };
+
+                      // Add listener after a small delay to prevent immediate closure
+                      setTimeout(() => {
+                        document.addEventListener('click', handleDocumentClick);
+                      }, 100);
                     }}
                     className="text-gray-600 hover:text-olive transition-colors duration-200 cursor-pointer text-left"
                   >
