@@ -270,12 +270,10 @@ const Header = () => {
                   `;
                   
                   modalContent.innerHTML = `
-                    <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #505e47;">
+                    <h3 style="margin: 0 0 24px 0; font-size: 18px; font-weight: 600; color: #505e47; line-height: 1.6; text-align: center;">
                       Choose Navigation App
                     </h3>
-                    <p style="margin: 0 0 20px 0; color: #505e47; font-size: 14px; opacity: 0.8;">
-                      ${address}
-                    </p>
+                    <div style="margin: 0 0 16px 0; height: 1px;"></div>
                     <div style="display: flex; flex-direction: column; gap: 20px;">
                       ${navigationOptions.map(option => `
                         <button 
@@ -338,12 +336,10 @@ const Header = () => {
                   
                   // Update all onclick handlers to close modal and reset state
                   modalContent.innerHTML = `
-                    <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #505e47;">
+                    <h3 style="margin: 0 0 24px 0; font-size: 18px; font-weight: 600; color: #505e47; line-height: 1.6; text-align: center;">
                       Choose Navigation App
                     </h3>
-                    <p style="margin: 0 0 20px 0; color: #505e47; font-size: 14px; opacity: 0.8;">
-                      ${address}
-                    </p>
+                    <div style="margin: 0 0 16px 0; height: 1px;"></div>
                     <div style="display: flex; flex-direction: column; gap: 20px;">
                       ${navigationOptions.map(option => `
                         <button 
@@ -472,12 +468,10 @@ const Header = () => {
                 `;
                 
                 modalContent.innerHTML = `
-                  <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #505e47;">
+                  <h3 style="margin: 0 0 24px 0; font-size: 18px; font-weight: 600; color: #505e47; line-height: 1.6; text-align: center;">
                     Choose Navigation App
                   </h3>
-                  <p style="margin: 0 0 20px 0; color: #505e47; font-size: 14px; opacity: 0.8;">
-                    ${address}
-                  </p>
+                  <div style="margin: 0 0 16px 0; height: 1px;"></div>
                   <div style="display: flex; flex-direction: column; gap: 12px;">
                     ${navigationOptions.map(option => `
                       <button 
