@@ -551,7 +551,7 @@ const Header = () => {
               aria-label="Open BeYou BeautyHub location in navigation app"
               title="Click to choose navigation app"
             >
-              Vienna, VA
+              Arlington, VA
             </button>
           </div>
           <div className="text-right">
