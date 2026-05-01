@@ -114,7 +114,7 @@ const Footer = () => {
                 <MapPin className="h-5 w-5 text-olive mt-0.5" />
                 <button
                   onClick={() => {
-                    const address = "424 Maple Ave E Suite 3, Vienna, VA 22180";
+                    const address = "3865 Wilson Blvd, room 4, Arlington, VA 22203";
                     
                     // Create navigation options
                     const navigationOptions = [
@@ -244,8 +244,8 @@ const Footer = () => {
                   }}
                   className="text-gray-300 text-sm hover:text-olive transition-colors duration-200 cursor-pointer text-left"
                 >
-                  424 Maple Ave E Suite 3<br />
-                  Vienna, VA 22180
+                  3865 Wilson Blvd, room 4<br />
+                  Arlington, VA 22203
                 </button>
               </div>
               <div className="flex items-center space-x-3">
@@ -589,7 +589,7 @@ const Footer = () => {
                   If you have any questions about this Privacy Policy or how we handle your personal information, please contact us at:
                   <br />• Email: info@beyoubeautyhub.com
                   <br />• Phone: (571)-276-7014
-                  <br />• Address: 424 Maple Ave E Suite 3, Vienna, VA 22180
+                  <br />• Address: 3865 Wilson Blvd, room 4, Arlington, VA 22203
                 </p>
                 
                 <div className="bg-gray-50 p-4 rounded-lg mt-8">
@@ -714,7 +714,7 @@ const Footer = () => {
                   If you have any questions about our use of cookies or this Cookie Policy, please contact us at:
                   <br />• Email: info@beyoubeautyhub.com
                   <br />• Phone: (571)-276-7014
-                  <br />• Address: 424 Maple Ave E Suite 3, Vienna, VA 22180
+                  <br />• Address: 3865 Wilson Blvd, room 4, Arlington, VA 22203
                 </p>
                 
                 <div className="bg-gray-50 p-4 rounded-lg mt-8">

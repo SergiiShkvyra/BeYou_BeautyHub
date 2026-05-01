@@ -268,7 +268,7 @@ const Contact = () => {
                   <h4 className="font-semibold text-gray-900">Location</h4>
                   <button
                     onClick={() => {
-                      const address = "424 Maple Ave E Suite 3, Vienna, VA 22180";
+                      const address = "3865 Wilson Blvd, room 4, Arlington, VA 22203";
                       
                       // Create navigation options
                       const navigationOptions = [
@@ -398,7 +398,7 @@ const Contact = () => {
                     }}
                     className="text-gray-600 hover:text-olive transition-colors duration-200 cursor-pointer text-left"
                   >
-                    424 Maple Ave E Suite 3<br />Vienna, VA 22180
+                    3865 Wilson Blvd, room 4<br />Arlington, VA 22203
                   </button>
                   <p className="text-sm text-gray-500">Free parking available</p>
                 </div>
