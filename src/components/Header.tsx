@@ -221,7 +221,7 @@ const Header = () => {
                   if (isNavigationModalOpen) return;
                   
                   setIsNavigationModalOpen(true);
-                  const address = "3865 Wilson Boulevard, room 4, Arlington, VA 22203";
+                  const address = "3865 Wilson Blvd, room 4, Arlington, VA 22203";
                   const encodedAddress = encodeURIComponent(address);
                   
                   // Create navigation options
@@ -411,7 +411,7 @@ const Header = () => {
                 }}
                 className={`hover:underline transition-all duration-200 ${isNavigationModalOpen ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
               >
-                <span>3865 Wilson Boulevard, room 4, Arlington, VA 22203</span>
+                <span>3865 Wilson Blvd, room 4, Arlington, VA 22203</span>
               </button>
             </div>
           </div>
@@ -419,7 +419,7 @@ const Header = () => {
             <MapPin className="h-4 w-4" />
             <button
               onClick={() => {
-                const address = "3865 Wilson Boulevard, room 4, Arlington, VA 22203";
+                const address = "3865 Wilson Blvd, room 4, Arlington, VA 22203";
                 const encodedAddress = encodeURIComponent(address);
                 
                 // Create navigation options
