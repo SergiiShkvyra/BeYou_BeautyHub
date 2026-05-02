@@ -120,17 +120,17 @@ const Footer = () => {
                     const navigationOptions = [
                       {
                         name: "Google Maps",
-                        url: "https://www.google.com/maps/place/BeYou+Beauty+Hub/@38.9092402,-77.2568301,17z/data=!3m1!4b1!4m6!3m5!1s0x89b64b00159324fd:0x8b1970ecf4fc771f!8m2!3d38.9092402!4d-77.2568301!16s%2Fg%2F11xgky7njv?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D",
+                        url: "https://www.google.com/maps/place/Salons+by+JC+Ballston+Gateway/@38.8805451,-77.1083323,17z/data=!3m2!4b1!5s0x89b7b5a8beaade69:0x86d7e23f64a3a3fe!4m6!3m5!1s0x89b7b426f929c5c5:0x78d0cbcdcf67fa26!8m2!3d38.880541!4d-77.1057574!16s%2Fg%2F11c6056fct?entry=ttu&g_ep=EgoyMDI2MDQyOS4wIKXMDSoASAFQAw%3D%3D",
                         icon: "🗺️"
                       },
                       {
                         name: "Apple Maps",
-                        url: "https://maps.apple.com/place?place-id=IC0C55897AF474D4C&address=424+Maple+Ave+E%2C+Vienna%2C+VA++22180%2C+United+States&coordinate=38.9092273%2C-77.2568108&name=BeYou+BeautyHub&_provider=9902",
+                        url: "https://maps.apple.com/place?place-id=IB885D0F6E9367959&address=3865+Wilson+Blvd%2C+Ste+100%2C+Arlington%2C+VA++22203%2C+United+States&coordinate=38.880461%2C-77.106039&name=Salons+by+JC&_provider=9902",
                         icon: "🍎"
                       },
                       {
                         name: "Waze",
-                        url: "https://www.waze.com/en-GB/live-map/directions/us/va/vienna/beyou-beauty-hub?navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location&to=place.ChIJ_SSTFQBLtokRH3f89OxwGYs",
+                        url: "https://www.waze.com/en-GB/live-map/directions/us/va/arlington/salons-by-jc-ballston-gateway?navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location&to=place.ChIJxcUp-Sa0t4kRJvpnz83L0Hgault&utm_source=waze_website&utm_medium=lm_share_location&to=place.ChIJ_SSTFQBLtokRH3f89OxwGYs",
                         icon: "🚗"
                       }
                     ];
