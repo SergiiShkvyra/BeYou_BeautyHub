@@ -130,7 +130,7 @@ const Footer = () => {
                       },
                       {
                         name: "Waze",
-                        url: "https://www.waze.com/en-GB/live-map/directions/us/va/arlington/salons-by-jc-ballston-gateway?navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location&to=place.ChIJxcUp-Sa0t4kRJvpnz83L0Hgault&utm_source=waze_website&utm_medium=lm_share_location&to=place.ChIJ_SSTFQBLtokRH3f89OxwGYs",
+                        url: "https://www.waze.com/en-GB/live-map/directions/us/va/arlington/salons-by-jc-ballston-gateway?navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location&to=place.ChIJxcUp-Sa0t4kRJvpnz83L0Hg",
                         icon: "🚗"
                       }
                     ];
