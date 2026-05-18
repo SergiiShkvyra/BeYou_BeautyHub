@@ -431,12 +431,12 @@ const Header = () => {
                   },
                   {
                     name: "Apple Maps",
-                    url: `https://maps.apple.com/place?place-id=IB885D0F6E9367959&address=3865+Wilson+Blvd%2C+Ste+100%2C+Arlington%2C+VA++22203%2C+United+States&coordinate=38.880461%2C-77.106039&name=Salons+by+JC&_provider=9902`,
+                    url: `https://maps.apple.com/place?place-id=I90D4B8468B267FB6&address=3865+Wilson+Blvd%2C+Rm+4%2C+Arlington%2C+VA++22203%2C+United+States&coordinate=38.880472%2C-77.106054&name=BeYou+BeautyHub&_provider=9902`,
                     icon: "🍎"
                   },
                   {
                     name: "Waze",
-                    url: `https://www.waze.com/en-GB/live-map/directions/us/va/arlington/salons-by-jc-ballston-gateway?navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location&to=place.ChIJxcUp-Sa0t4kRJvpnz83L0Hg`,
+                    url: `https://www.waze.com/uk/live-map/directions/us/va/arlington/beyou-beauty-hub?to=place.ChIJ_SSTFQBLtokRH3f89OxwGYs`,
                     icon: "🚗"
                   }
                 ];
