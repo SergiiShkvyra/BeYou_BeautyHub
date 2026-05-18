@@ -152,7 +152,7 @@ const Contact = () => {
                   <h4 className="font-semibold text-gray-900">Hours</h4>
                   <p className="text-gray-600">
                     Mon-Fri: 10:00 AM - 7:00 PM<br />
-                    Sat: 10:00 AM - 4:00 PM
+                    Sat: 10:00 AM - 5:00 PM
                   </p>
                 </div>
               </div>
@@ -268,7 +268,7 @@ const Contact = () => {
                   <h4 className="font-semibold text-gray-900">Location</h4>
                   <button
                     onClick={() => {
-                      const address = "3865 Wilson Blvd, room 4, Arlington, VA 22203";
+                      const address = "Salons by JC, 3865 Wilson Blvd, room 4, Arlington, VA 22203";
                       
                       // Create navigation options
                       const navigationOptions = [
@@ -398,7 +398,7 @@ const Contact = () => {
                     }}
                     className="text-gray-600 hover:text-olive transition-colors duration-200 cursor-pointer text-left"
                   >
-                    3865 Wilson Blvd, room 4<br />Arlington, VA 22203
+                    Salons by JC, 3865 Wilson Blvd, room 4<br />Arlington, VA 22203
                   </button>
                   <p className="hidden text-sm text-gray-500">Free parking available</p>
                 </div>
