@@ -46,7 +46,8 @@ const Services = () => {
       price: 'From $115',
       duration: '60 minutes',
       features: ['Gentle, lash-health focused technique', 'Premium Korean formulas enriched with vitamins', 'Suitable for all lash types and complexities', 'Results last up to 8 weeks with minimal maintenance'],
-      bookingUrl: 'https://www.fresha.com/book-now/beyou-beautyhub-j4ur9xlp/services?lid=2613695&eid=4605333&oiid=sv%3A27974629&share=true&pId=2531140'
+      bookingUrl: 'https://www.fresha.com/book-now/beyou-beautyhub-j4ur9xlp/services?lid=2613695&eid=4605333&oiid=sv%3A27974629&share=true&pId=2531140',
+      isNew: true,
     },
     {
       icon: <Clock className="h-8 w-8" />,
@@ -76,7 +77,18 @@ const Services = () => {
             >
               {/* Content container that grows to fill available space */}
               <div className="flex-grow">
-                <div className="text-olive mb-4">{service.icon}</div>
+                <div
+                  className={`flex items-center gap-2 mb-4 text-olive${
+                    'isNew' in service && service.isNew ? ' animate-flash' : ''
+                  }`}
+                >
+                  <div>{service.icon}</div>
+                  {'isNew' in service && service.isNew && (
+                    <span className="text-sm font-bold uppercase tracking-wider">
+                      NEW
+                    </span>
+                  )}
+                </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">{service.title}</h3>
                 <p className="text-gray-600 mb-4">{service.description}</p>
                 
