@@ -41,12 +41,12 @@ const Services = () => {
     },
     {
       icon: <Sparkles className="h-8 w-8" />,
-      title: 'Lash Tint + Eyebrow Tweezing + Tinting',
-      description: 'A complete service for expressive lashes and perfect eyebrows.',
-      price: 'From $70',
-      duration: '50 minutes',
-      features: ['Saves time on daily makeup', 'Enhances natural beauty', 'Low-maintenance styling', 'Long-lasting effects (up to 4–6 weeks)'],
-      bookingUrl: 'https://www.fresha.com/book-now/beyou-beautyhub-j4ur9xlp/services?lid=2613695&eid=4605333&oiid=sv%3A22827719&share&pId=2531140'
+      title: 'Signature Korean Lash lift',
+      description: 'The luxury treatment-focused lash lift using advanced Korean technology to safely lift, nourish, and strengthen your natural lashes while creating a beautifully defined, long-lasting curl.',
+      price: 'From $115',
+      duration: '60 minutes',
+      features: ['Gentle, lash-health focused technique', 'Premium Korean formulas enriched with vitamins', 'Suitable for all lash types and complexities', 'Results last up to 8 weeks with minimal maintenance'],
+      bookingUrl: 'https://www.fresha.com/book-now/beyou-beautyhub-j4ur9xlp/services?lid=2613695&eid=4605333&oiid=sv%3A27974629&share=true&pId=2531140'
     },
     {
       icon: <Clock className="h-8 w-8" />,
