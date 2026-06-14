@@ -20,7 +20,7 @@ const Hero = () => {
           loading="eager"
           decoding="async"
         />
-        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/65"></div>
       </div>
 
       {/* Content */}
@@ -58,21 +58,21 @@ const Hero = () => {
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8 max-w-4xl mx-auto px-4">
           <div className="flex items-center justify-center space-x-3">
-            <Users className="h-8 w-8 text-olive" />
+            <Users className="h-8 w-8 text-warm" />
             <div className="text-left">
               <div className="text-3xl font-bold">1400+</div>
               <div className="text-sm opacity-80">Happy Clients</div>
             </div>
           </div>
           <div className="flex items-center justify-center space-x-3">
-            <Award className="h-8 w-8 text-olive" />
+            <Award className="h-8 w-8 text-warm" />
             <div className="text-left">
               <div className="text-3xl font-bold">3+</div>
               <div className="text-sm opacity-80">Years Experience</div>
             </div>
           </div>
           <div className="flex items-center justify-center space-x-3">
-            <Star className="h-8 w-8 text-olive" />
+            <Star className="h-8 w-8 text-warm" />
             <div className="text-left">
               <div className="text-3xl font-bold">5</div>
               <div className="text-sm opacity-80">Average Rating</div>

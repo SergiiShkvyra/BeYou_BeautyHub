@@ -12,6 +12,7 @@ const Services = () => {
       features: ['Gentle, lash-health focused technique', 'Premium Korean formulas enriched with vitamins', 'Suitable for all lash types and complexities', 'Results last up to 8 weeks with minimal maintenance'],
       bookingUrl: 'https://www.fresha.com/book-now/beyou-beautyhub-j4ur9xlp/services?lid=2613695&eid=4605333&oiid=sv%3A27974629&share=true&pId=2531140',
       isNew: true,
+      isFeatured: true,
     },
     {
       icon: <Sparkles className="h-8 w-8" />,
@@ -70,11 +71,21 @@ const Services = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
+          {services.map((service, index) => {
+            const isFeatured = 'isFeatured' in service && service.isFeatured;
+
+            return (
             <div
               key={index}
-              className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 will-change-transform flex flex-col h-full"
+              className={`bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 will-change-transform flex flex-col h-full relative ${
+                isFeatured ? 'ring-2 ring-olive/40 border border-olive/20' : ''
+              }`}
             >
+              {isFeatured && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-olive text-white text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full">
+                  Featured
+                </span>
+              )}
               {/* Content container that grows to fill available space */}
               <div className="flex-grow">
                 <div
@@ -142,7 +153,8 @@ const Services = () => {
                 </button>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
