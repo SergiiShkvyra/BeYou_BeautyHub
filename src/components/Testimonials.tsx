@@ -4,32 +4,32 @@ import { Star, Quote } from 'lucide-react';
 const Testimonials = () => {
   const testimonials = [
     {
-      name: 'Sarah Johnson',
-      service: 'Lash Lift + Tinting',
+      name: 'Jada C.',
+      service: 'Brow mapping shaping + tinting',
       rating: 5,
-      text: 'Absolutely amazing! The lashes look so natural and beautiful. I get compliments every day. Anastasiia was so professional and made me feel comfortable throughout the entire process.',
-      image: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg'
+      text: 'Anastasiia is AMAZING! I was so nervous about finding a new eyebrow and lash tech but she immediately made the space feel safe and personable. One of my eyebrows was unfortunately uneven from over waxing and she was able to not only make them look fuller, but I don’t even see where it was uneven to begin with. Highly recommend!',
+      image: '/public/images/testimonials/JC.png'
     },
     {
-      name: 'Emily Rodriguez',
-      service: 'Eyebrow Shaping + Tinting',
+      name: 'Megan W.',
+      service: 'Lash lift + tint and brow shaping + tinting',
       rating: 5,
-      text: 'My brows have never looked better! The shape is perfect for my face and the tinting looks so natural. I save so much time on my morning routine now. Highly recommend!',
-      image: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg'
+      text: 'I’ve been going to Anastasia for Lash lift intense and eyebrow shaping for a few years now. She is amazing! She’s very detailed, makes you feel so comfortable, and always takes time to make sure everything looks perfect. The lash lift results last so well and make getting ready much easier, especially in the summer when you don’t want to be wearing mascara! The new Ballston studio location is great! Highly recommend if you’re looking for someone, talented, professional, and genuinely caring.',
+      image: '/public/images/testimonials/Megan_W.jpg'
     },
     {
-      name: 'Jessica Chen',
-      service: 'Lash Lift + Tinting',
+      name: 'Arielle T.',
+      service: 'Brow lamination + shaping',
       rating: 5,
-      text: 'Perfect for someone who wanted a natural enhancement. The lash lift gave me beautiful curl and the tinting added just the right amount of definition. The service was relaxing and the results exceeded my expectations. Thank you, Anastasiia!',
-      image: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg'
+      text: 'I had a great brow lamination experience here! Anastasia was kind, detailed, consultative, and so gentle that I actually fell asleep while she was tweezing. She made sure she understood the result I wanted, and it’s exactly what I got. I will be back!',
+      image: '/public/images/testimonials/Arielle_T.jpg'
     },
     {
-      name: 'Amanda Davis',
-      service: 'Brow Lamination',
+      name: 'Averie G.',
+      service: 'Brow lamination shaping + tinting',
       rating: 5,
-      text: 'The brow lamination gave me the fluffy, full brows I always wanted. The results lasted for weeks and looked incredible. Such a game-changer for my beauty routine!',
-      image: 'https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg'
+      text: 'Anastasia is amazing!!! Every time she does my eyebrows, they look PERFECT. I always get asked where I get them done at. I drive 45 mins from MD just to see her because I won’t trust anyone else with my eyebrows. She’s also done my lashes before and they looked fab, too. Definitely recommend going here and seeing Anastasia!',
+      image: '/public/images/testimonials/AG.png'
     }
   ];
 
