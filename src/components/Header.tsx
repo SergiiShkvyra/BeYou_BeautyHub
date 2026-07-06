@@ -18,12 +18,14 @@ const Header = () => {
 
       // Collapse the top bar + logo row when scrolling down, drop it back down when scrolling up.
       // Always fully expanded near the very top of the page regardless of direction.
+      // Exception: phone in landscape ("horizontal") — once collapsed, only re-expand at the very top.
+      const isPhoneLandscape = window.matchMedia('(max-height: 500px) and (orientation: landscape)').matches;
       const lastScrollY = lastScrollYRef.current;
       if (currentScrollY <= 10) {
         setIsTopSectionCollapsed(false);
-      } else if (currentScrollY > lastScrollY + 5) {
+      } else if (currentScrollY > lastScrollY + 8) {
         setIsTopSectionCollapsed(true);
-      } else if (currentScrollY < lastScrollY - 5) {
+      } else if (!isPhoneLandscape && currentScrollY < lastScrollY - 8) {
         setIsTopSectionCollapsed(false);
       }
       lastScrollYRef.current = currentScrollY;
