@@ -1,3 +1,6 @@
+/* Beauty Salon Typography - Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Edu+NSW+ACT+Foundation:wght@400;500;600;700&display=swap');
+
 /* Complete CSS reset and optimization */
 
 * {
@@ -403,9 +406,6 @@ body[data-iframe] {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Beauty Salon Typography - Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Edu+NSW+ACT+Foundation:wght@400;500;600;700&display=swap');
 
 /* Custom font classes for beauty salon branding */
 .font-playfair {

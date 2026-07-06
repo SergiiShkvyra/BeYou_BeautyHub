@@ -1,58 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Phone, MapPin } from 'lucide-react';
+import { scrollToSection, handlePhoneClick } from '../utils/interactions';
 
 const Header = () => {
   const [scrollY, setScrollY] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
   const [isNavigationModalOpen, setIsNavigationModalOpen] = useState(false);
 
-  // Function to handle phone number click
-  const handlePhoneClick = (phoneNumber: string) => {
-    // Check if device is mobile
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    if (isMobile) {
-      // On mobile, open phone dialer
-      window.location.href = `tel:${phoneNumber}`;
-    } else {
-      // On desktop, copy to clipboard 
-      navigator.clipboard.writeText(phoneNumber).then(() => {
-        // Show notification that number was copied
-        const notification = document.createElement('div');
-        notification.textContent = 'Phone number copied to clipboard!';
-        notification.style.cssText = `
-          position: fixed;
-          top: 20px;
-          right: 20px;
-          background: #505e47;
-          color: white;
-          padding: 12px 20px;
-          border-radius: 8px;
-          z-index: 10000;
-          font-size: 14px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        `;
-        document.body.appendChild(notification);
-        
-        // Remove notification after 3 seconds
-        setTimeout(() => {
-          document.body.removeChild(notification);
-        }, 3000);
-      }).catch(() => {
-        // Fallback if clipboard API fails
-        alert('Phone number: ' + phoneNumber);
-      });
-    }
-  };
   // ULTIMATE NUCLEAR OPTION: Force header to be visible at all times
   useEffect(() => {
     // Scroll animation handler
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       setScrollY(currentScrollY);
-      
-      // Set animation state based on scroll position
-      setIsAnimating(currentScrollY > 50);
     };
 
     // Add scroll event listener with throttling for performance
@@ -159,13 +118,6 @@ const Header = () => {
     };
   }, []);
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   // Calculate animation values based on scroll position
   // Animation starts at 50px scroll and completes at 200px scroll
   const scrollThreshold = 50;
@@ -174,10 +126,6 @@ const Header = () => {
   
   // Calculate opacity for "BeautyHub" (1 to 0)
   const beautyHubOpacity = 1 - scrollProgress;
-  
-  // Calculate transform for "BE YOU" (moves to center)
-  // This creates a smooth transition from left-aligned to center-aligned
-  const beYouTransform = scrollProgress * 20; // Adjust this value to control movement distance
   return (
     <header 
       className="bg-warm fixed top-0 left-0 right-0 w-full shadow-sm z-[99999] will-change-transform"
@@ -221,9 +169,7 @@ const Header = () => {
                   if (isNavigationModalOpen) return;
                   
                   setIsNavigationModalOpen(true);
-                  const address = "Salons by JC, 3865 Wilson Blvd, room 4, Arlington, VA 22203";
-                  const encodedAddress = encodeURIComponent(address);
-                  
+
                   // Create navigation options
                   const navigationOptions = [
                     {
@@ -238,7 +184,7 @@ const Header = () => {
                     },
                     {
                       name: "Waze",
-                      url: `https://www.waze.com/uk/live-map/directions/us/va/arlington/beyou-beauty-hub?to=place.ChIJ_SSTFQBLtokRH3f89OxwGYs`,
+                      url: `https://www.waze.com/en/live-map/directions/us/va/arlington/beyou-beauty-hub?to=place.ChIJ_SSTFQBLtokRH3f89OxwGYs`,
                       icon: "🚗"
                     }
                   ];
@@ -419,9 +365,6 @@ const Header = () => {
             <MapPin className="h-4 w-4" />
             <button
               onClick={() => {
-                const address = "Salons by JC, 3865 Wilson Blvd, room 4, Arlington, VA 22203";
-                const encodedAddress = encodeURIComponent(address);
-                
                 // Create navigation options
                 const navigationOptions = [
                   {
@@ -436,7 +379,7 @@ const Header = () => {
                   },
                   {
                     name: "Waze",
-                    url: `https://www.waze.com/uk/live-map/directions/us/va/arlington/beyou-beauty-hub?to=place.ChIJ_SSTFQBLtokRH3f89OxwGYs`,
+                    url: `https://www.waze.com/en/live-map/directions/us/va/arlington/beyou-beauty-hub?to=place.ChIJ_SSTFQBLtokRH3f89OxwGYs`,
                     icon: "🚗"
                   }
                 ];
@@ -631,12 +574,7 @@ const Header = () => {
               <span className="flex items-center">
                 <span>BE</span>
                 <button
-                  onClick={() => {
-                    const element = document.getElementById('home');
-                    if (element) {
-                      element.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}
+                  onClick={() => scrollToSection('home')}
                   className="hover:opacity-70 transition-opacity duration-200 cursor-pointer mx-2 sm:mx-3 relative"
                   aria-label="BeYou BeautyHub - Return to homepage"
                 >

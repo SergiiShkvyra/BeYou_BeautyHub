@@ -1,5 +1,4 @@
-import React from 'react';
-import { Eye, Sparkles, Clock, Shield } from 'lucide-react';
+import { Eye, Sparkles, Clock } from 'lucide-react';
 
 const Services = () => {
   const services = [

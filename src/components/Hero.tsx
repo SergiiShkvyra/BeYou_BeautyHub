@@ -1,14 +1,7 @@
-import React from 'react';
 import { Star, Award, Users } from 'lucide-react';
+import { scrollToSection } from '../utils/interactions';
 
 const Hero = () => {
-  const scrollToContact = () => {
-    const element = document.getElementById('contact');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <section id="home" className="relative min-h-screen flex items-center pt-[180px] sm:pt-[170px] md:pt-[180px] w-full will-change-transform">
       {/* Background image */}
@@ -40,13 +33,8 @@ const Hero = () => {
           >
             Book Appointment
           </button>
-          <button 
-            onClick={() => {
-              const element = document.getElementById('services');
-              if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-              }
-            }}
+          <button
+            onClick={() => scrollToSection('services')}
             className="border-2 border-white text-white hover:bg-warm hover:text-olive px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200"
             aria-label="Scroll to Our Most Popular Services section"
             type="button"

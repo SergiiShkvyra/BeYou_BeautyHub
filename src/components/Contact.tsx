@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, Calendar, MessageSquare } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import { handlePhoneClick, copyEmailToClipboard } from '../utils/interactions';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -16,44 +17,6 @@ const Contact = () => {
     message: string;
   }>({ type: null, message: '' });
 
-  // Function to handle phone number click
-  const handlePhoneClick = (phoneNumber: string) => {
-    // Check if device is mobile
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    if (isMobile) {
-      // On mobile, open phone dialer
-      window.location.href = `tel:${phoneNumber}`;
-    } else {
-      // On desktop, copy to clipboard
-      navigator.clipboard.writeText(phoneNumber).then(() => {
-        // Show notification that number was copied
-        const notification = document.createElement('div');
-        notification.textContent = 'Phone number copied to clipboard!';
-        notification.style.cssText = `
-          position: fixed;
-          top: 20px;
-          right: 20px;
-          background: #505e47;
-          color: white;
-          padding: 12px 20px;
-          border-radius: 8px;
-          z-index: 10000;
-          font-size: 14px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        `;
-        document.body.appendChild(notification);
-        
-        // Remove notification after 3 seconds
-        setTimeout(() => {
-          document.body.removeChild(notification);
-        }, 3000);
-      }).catch(() => {
-        // Fallback if clipboard API fails
-        alert('Phone number: ' + phoneNumber);
-      });
-    }
-  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -175,85 +138,8 @@ const Contact = () => {
                 <Mail className="h-6 w-6 text-olive mt-1" />
                 <div>
                   <h4 className="font-semibold text-gray-900">Email</h4>
-                  <button 
-                    onClick={() => {
-                      const email = 'info@beyoubeautyhub.com';
-                      
-                      // Function to show notification
-                      const showNotification = (message: string) => {
-                        const notification = document.createElement('div');
-                        notification.textContent = message;
-                        notification.style.cssText = `
-                          position: fixed;
-                          top: 20px;
-                          right: 20px;
-                          background: #505e47;
-                          color: white;
-                          padding: 12px 20px;
-                          border-radius: 8px;
-                          z-index: 99999;
-                          font-size: 14px;
-                          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                          pointer-events: none;
-                          transform: translateX(0);
-                          transition: all 0.3s ease;
-                        `;
-                        document.body.appendChild(notification);
-                        
-                        // Animate in
-                        requestAnimationFrame(() => {
-                          notification.style.transform = 'translateX(0)';
-                          notification.style.opacity = '1';
-                        });
-                        
-                        // Remove notification after 3 seconds
-                        setTimeout(() => {
-                          notification.style.opacity = '0';
-                          notification.style.transform = 'translateX(100%)';
-                          setTimeout(() => {
-                            if (document.body.contains(notification)) {
-                              document.body.removeChild(notification);
-                            }
-                          }, 300);
-                        }, 3000);
-                      };
-                      
-                      // Try modern clipboard API first
-                      if (navigator.clipboard && navigator.clipboard.writeText) {
-                        navigator.clipboard.writeText(email).then(() => {
-                          showNotification('Email address copied to clipboard!');
-                        }).catch(() => {
-                          // Fallback for clipboard API failure
-                          showNotification('Email: ' + email);
-                        });
-                      } else {
-                        // Fallback for older browsers
-                        try {
-                          // Create a temporary textarea element
-                          const textArea = document.createElement('textarea');
-                          textArea.value = email;
-                          textArea.style.position = 'fixed';
-                          textArea.style.left = '-999999px';
-                          textArea.style.top = '-999999px';
-                          document.body.appendChild(textArea);
-                          textArea.focus();
-                          textArea.select();
-                          
-                          // Try to copy using execCommand
-                          const successful = document.execCommand('copy');
-                          document.body.removeChild(textArea);
-                          
-                          if (successful) {
-                            showNotification('Email address copied to clipboard!');
-                          } else {
-                            showNotification('Email: ' + email);
-                          }
-                        } catch (err) {
-                          showNotification('Email: ' + email);
-                        }
-                      }
-                    }}
+                  <button
+                    onClick={() => copyEmailToClipboard('info@beyoubeautyhub.com')}
                     className="text-gray-600 hover:text-olive transition-colors duration-200 cursor-pointer"
                   >
                     info@beyoubeautyhub.com
@@ -268,8 +154,6 @@ const Contact = () => {
                   <h4 className="font-semibold text-gray-900">Location</h4>
                   <button
                     onClick={() => {
-                      const address = "Salons by JC, 3865 Wilson Blvd, room 4, Arlington, VA 22203";
-                      
                       // Create navigation options
                       const navigationOptions = [
                         {
@@ -284,7 +168,7 @@ const Contact = () => {
                         },
                         {
                           name: "Waze",
-                          url: "https://www.waze.com/live-map/directions/us/va/arlington/beyou-beauty-hub?to=place.ChIJ_SSTFQBLtokRH3f89OxwGYs",
+                          url: "https://www.waze.com/en/live-map/directions/us/va/arlington/beyou-beauty-hub?to=place.ChIJ_SSTFQBLtokRH3f89OxwGYs",
                           icon: "🚗"
                         }
                       ];
@@ -424,32 +308,13 @@ const Contact = () => {
                   const isAndroid = /android/.test(userAgent);
                   const isIOS = /iphone|ipad|ipod/.test(userAgent);
                   const isMobile = isAndroid || isIOS || /mobile/.test(userAgent);
-                  
-                  if (isMobile) {
-                  }
+
                   if (isMobile) {
                     // SOLUTION: Use proper link creation with user-initiated click
                     // This bypasses Android's ERR_UNKNOWN_URL_SCHEME restriction
                     const smsUrl = `sms:${phoneNumber}`;
                     
                     try {
-                    
-                    // Add document-wide click listener to close modal
-                    const handleDocumentClick = (e: Event) => {
-                      const target = e.target as HTMLElement;
-                      // Check if click is outside the modal
-                      if (!modal.contains(target)) {
-                       if (document.body.contains(modal)) {
-                         document.body.removeChild(modal);
-                       }
-                        document.removeEventListener('click', handleDocumentClick);
-                      }
-                    };
-                    
-                    // Add listener after a small delay to prevent immediate closure
-                    setTimeout(() => {
-                      document.addEventListener('click', handleDocumentClick);
-                    }, 100);
                       // Create a proper link element
                       const link = document.createElement('a');
                       link.href = smsUrl;
@@ -489,7 +354,7 @@ const Contact = () => {
                         throw new Error('Event dispatch failed');
                       }
                       
-                    } catch (error) {
+                    } catch {
                       // Graceful fallback with clear instructions
                       const message = isAndroid 
                         ? `Unable to open messaging app automatically.\n\nPlease text us at: ${formattedNumber}\n\nSteps:\n1. Open your messaging app (Messages, Samsung Messages, etc.)\n2. Create new message\n3. Enter: ${formattedNumber}`
@@ -615,6 +480,7 @@ const Contact = () => {
                     <option value="brow-shaping">Eyebrow Shaping & Tinting</option>
                     <option value="brow-lamination">Brow Lamination</option>
                     <option value="consultation">Consultation</option>
+                    <option value="other">Other</option>
                   </select>
                 </div>
               </div>

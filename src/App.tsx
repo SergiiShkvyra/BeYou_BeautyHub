@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Services from './components/Services';
@@ -10,15 +9,12 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 
 function App() {
-  const [headerHeight, setHeaderHeight] = useState(120);
-
   useEffect(() => {
     // Calculate header height for proper body padding
     const calculateHeaderHeight = () => {
       const header = document.querySelector('header');
       if (header) {
         const height = header.offsetHeight;
-        setHeaderHeight(height);
         document.body.style.paddingTop = `${height}px`;
       }
     };

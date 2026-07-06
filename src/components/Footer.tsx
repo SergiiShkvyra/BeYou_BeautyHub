@@ -1,56 +1,12 @@
 import React from 'react';
-import { Heart, Instagram, Facebook, Twitter, MapPin, Phone, Mail, X } from 'lucide-react';
+import { Heart, Instagram, Facebook, MapPin, Phone, Mail, X } from 'lucide-react';
+import { scrollToSection, handlePhoneClick, copyEmailToClipboard } from '../utils/interactions';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const [showTermsModal, setShowTermsModal] = React.useState(false);
   const [showPrivacyModal, setShowPrivacyModal] = React.useState(false);
   const [showCookieModal, setShowCookieModal] = React.useState(false);
-
-  // Function to handle phone number click
-  const handlePhoneClick = (phoneNumber: string) => {
-    // Check if device is mobile
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    if (isMobile) {
-      // On mobile, open phone dialer
-      window.location.href = `tel:${phoneNumber}`;
-    } else {
-      // On desktop, copy to clipboard
-      navigator.clipboard.writeText(phoneNumber).then(() => {
-        // Show notification that number was copied
-        const notification = document.createElement('div');
-        notification.textContent = 'Phone number copied to clipboard!';
-        notification.style.cssText = `
-          position: fixed;
-          top: 20px;
-          right: 20px;
-          background: #505e47;
-          color: white;
-          padding: 12px 20px;
-          border-radius: 8px;
-          z-index: 10000;
-          font-size: 14px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        `;
-        document.body.appendChild(notification);
-        
-        // Remove notification after 3 seconds
-        setTimeout(() => {
-          document.body.removeChild(notification);
-        }, 3000);
-      }).catch(() => {
-        // Fallback if clipboard API fails
-        alert('Phone number: ' + phoneNumber);
-      });
-    }
-  };
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <footer className="bg-gray-800 text-warm">
@@ -114,8 +70,7 @@ const Footer = () => {
                 <MapPin className="h-5 w-5 text-olive mt-0.5" />
                 <button
                   onClick={() => {
-                    const address = "Salons by JC, 3865 Wilson Blvd, room 4, Arlington, VA 22203";
-                    
+
                     // Create navigation options
                     const navigationOptions = [
                       {
@@ -130,7 +85,7 @@ const Footer = () => {
                       },
                       {
                         name: "Waze",
-                        url: "https://www.waze.com/uk/live-map/directions/us/va/arlington/beyou-beauty-hub?to=place.ChIJ_SSTFQBLtokRH3f89OxwGYs",
+                        url: "https://www.waze.com/en/live-map/directions/us/va/arlington/beyou-beauty-hub?to=place.ChIJ_SSTFQBLtokRH3f89OxwGYs",
                         icon: "🚗"
                       }
                     ];
@@ -259,85 +214,8 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-5 w-5 text-olive" />
-                <button 
-                  onClick={() => {
-                    const email = 'info@beyoubeautyhub.com';
-                    
-                    // Function to show notification
-                    const showNotification = (message: string) => {
-                      const notification = document.createElement('div');
-                      notification.textContent = message;
-                      notification.style.cssText = `
-                        position: fixed;
-                        top: 20px;
-                        right: 20px;
-                        background: #505e47;
-                        color: white;
-                        padding: 12px 20px;
-                        border-radius: 8px;
-                        z-index: 99999;
-                        font-size: 14px;
-                        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                        pointer-events: none;
-                        transform: translateX(0);
-                        transition: all 0.3s ease;
-                      `;
-                      document.body.appendChild(notification);
-                      
-                      // Animate in
-                      requestAnimationFrame(() => {
-                        notification.style.transform = 'translateX(0)';
-                        notification.style.opacity = '1';
-                      });
-                      
-                      // Remove notification after 3 seconds
-                      setTimeout(() => {
-                        notification.style.opacity = '0';
-                        notification.style.transform = 'translateX(100%)';
-                        setTimeout(() => {
-                          if (document.body.contains(notification)) {
-                            document.body.removeChild(notification);
-                          }
-                        }, 300);
-                      }, 3000);
-                    };
-                    
-                    // Try modern clipboard API first
-                    if (navigator.clipboard && navigator.clipboard.writeText) {
-                      navigator.clipboard.writeText(email).then(() => {
-                        showNotification('Email address copied to clipboard!');
-                      }).catch(() => {
-                        // Fallback for clipboard API failure
-                        showNotification('Email: ' + email);
-                      });
-                    } else {
-                      // Fallback for older browsers
-                      try {
-                        // Create a temporary textarea element
-                        const textArea = document.createElement('textarea');
-                        textArea.value = email;
-                        textArea.style.position = 'fixed';
-                        textArea.style.left = '-999999px';
-                        textArea.style.top = '-999999px';
-                        document.body.appendChild(textArea);
-                        textArea.focus();
-                        textArea.select();
-                        
-                        // Try to copy using execCommand
-                        const successful = document.execCommand('copy');
-                        document.body.removeChild(textArea);
-                        
-                        if (successful) {
-                          showNotification('Email address copied to clipboard!');
-                        } else {
-                          showNotification('Email: ' + email);
-                        }
-                      } catch (err) {
-                        showNotification('Email: ' + email);
-                      }
-                    }
-                  }}
+                <button
+                  onClick={() => copyEmailToClipboard('info@beyoubeautyhub.com')}
                   className="text-gray-300 text-sm hover:text-olive transition-colors duration-200 cursor-pointer"
                 >
                   info@beyoubeautyhub.com
