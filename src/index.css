@@ -83,7 +83,6 @@ header {
 /* ULTIMATE NUCLEAR OPTION - Force header visibility with maximum specificity */
 header,
 header.bg-warm,
-.bg-warm,
 header[class*="bg-warm"],
 *[class*="Header"],
 header[style],
