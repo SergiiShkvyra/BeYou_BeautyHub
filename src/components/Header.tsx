@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Phone, MapPin } from 'lucide-react';
 import { scrollToSection, handlePhoneClick } from '../utils/interactions';
 
 const Header = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isNavigationModalOpen, setIsNavigationModalOpen] = useState(false);
+  const [isTopSectionCollapsed, setIsTopSectionCollapsed] = useState(false);
+  const lastScrollYRef = useRef(0);
 
   // ULTIMATE NUCLEAR OPTION: Force header to be visible at all times
   useEffect(() => {
@@ -12,6 +14,18 @@ const Header = () => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       setScrollY(currentScrollY);
+
+      // Collapse the top bar + logo row when scrolling down, drop it back down when scrolling up.
+      // Always fully expanded near the very top of the page regardless of direction.
+      const lastScrollY = lastScrollYRef.current;
+      if (currentScrollY <= 10) {
+        setIsTopSectionCollapsed(false);
+      } else if (currentScrollY > lastScrollY + 5) {
+        setIsTopSectionCollapsed(true);
+      } else if (currentScrollY < lastScrollY - 5) {
+        setIsTopSectionCollapsed(false);
+      }
+      lastScrollYRef.current = currentScrollY;
     };
 
     // Add scroll event listener with throttling for performance
@@ -148,6 +162,14 @@ const Header = () => {
         WebkitPosition: 'fixed'
       }}
     >
+      {/* Collapsible: top contact bar + logo row. Slides away on scroll-down, drops back on scroll-up. */}
+      <div
+        className="overflow-hidden transition-all duration-500 ease-in-out"
+        style={{
+          maxHeight: isTopSectionCollapsed ? '0px' : '400px',
+          opacity: isTopSectionCollapsed ? 0 : 1,
+        }}
+      >
       {/* Top contact bar */}
       <div className="py-0 px-4 w-full" style={{ margin: '0', padding: '0 1rem', width: '100%' }}>
         <div className="max-w-7xl mx-auto flex justify-between items-center text-sm text-olive">
@@ -601,8 +623,10 @@ const Header = () => {
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Horizontal Navigation Bar */}
+      {/* Horizontal Navigation Bar — always visible; sits at the very top once the section above collapses */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="border-t border-olive/20 py-0 mt-0">
           <nav className="flex justify-center items-center gap-1 sm:gap-4 lg:gap-6 max-w-4xl mx-auto px-1 py-0.5 sm:py-0 overflow-x-auto font-montserrat">
             {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => (
@@ -627,6 +651,7 @@ const Header = () => {
             ))}
           </nav>
         </div>
+      </div>
     </header>
   );
 };
