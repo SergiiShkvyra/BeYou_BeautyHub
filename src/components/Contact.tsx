@@ -105,7 +105,7 @@ const Contact = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Contact Information */}
-          <div>
+          <div className="bg-white rounded-2xl p-8 shadow-lg">
             <h3 className="text-2xl font-bold text-gray-900 mb-8">Get In Touch</h3>
             
             <div className="space-y-6">
@@ -423,7 +423,7 @@ const Contact = () => {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-olive focus:border-olive transition-colors"
+                    className="w-full px-4 py-3 border border-solid border-gray-200 rounded-lg bg-gradient-to-b from-gray-50 to-gray-100 focus:ring-3 focus:ring-olive focus:border-olive transition-colors"
                     placeholder="Your full name"
                   />
                 </div>
@@ -439,7 +439,7 @@ const Contact = () => {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:ring-2 focus:ring-olive focus:border-olive transition-colors"
+                    className="w-full px-4 py-3 border border-solid border-gray-200 rounded-lg bg-gradient-to-b from-gray-50 to-gray-100 focus:ring-3 focus:ring-olive focus:border-olive transition-colors"
                     placeholder="your.email@example.com"
                   />
                 </div>
@@ -456,7 +456,7 @@ const Contact = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:ring-2 focus:ring-olive focus:border-olive transition-colors"
+                    className="w-full px-4 py-3 border border-solid border-gray-200 rounded-lg bg-gradient-to-b from-gray-50 to-gray-100 focus:ring-3 focus:ring-olive focus:border-olive transition-colors"
                     placeholder="(571)-276-7014"
                   />
                 </div>
@@ -470,7 +470,7 @@ const Contact = () => {
                     name="service"
                     value={formData.service}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:ring-2 focus:ring-olive focus:border-olive transition-colors"
+                    className="w-full px-4 py-3 border border-solid border-gray-200 rounded-lg bg-gradient-to-b from-gray-50 to-gray-100 focus:ring-3 focus:ring-olive focus:border-olive transition-colors"
                   >
                     <option value="">Select a service</option>
                     <option value="lash-lift-tint">Lash Lift + Tinting</option>
@@ -495,7 +495,7 @@ const Contact = () => {
                   rows={4}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:ring-2 focus:ring-olive focus:border-olive transition-colors resize-none"
+                  className="w-full px-4 py-3 border border-solid border-gray-200 rounded-lg bg-gradient-to-b from-gray-50 to-gray-100 focus:ring-3 focus:ring-olive focus:border-olive transition-colors resize-none"
                   placeholder="Tell us about your desired look or any questions you have..."
                 ></textarea>
               </div>
