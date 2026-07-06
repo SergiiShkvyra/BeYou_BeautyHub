@@ -628,23 +628,23 @@ const Header = () => {
       {/* Horizontal Navigation Bar — always visible; sits at the very top once the section above collapses */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="border-t border-olive/20 py-0 mt-0">
-          <nav className="flex justify-center items-center gap-1 sm:gap-4 lg:gap-6 max-w-4xl mx-auto px-1 py-0.5 sm:py-0 overflow-x-auto font-montserrat">
+          <nav className="flex justify-center items-center gap-2 sm:gap-4 lg:gap-6 max-w-4xl mx-auto px-1 py-2 overflow-x-auto font-montserrat min-h-[48px]">
             {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => (
               <button
                 key={item}
                 onClick={() => scrollToSection(item.toLowerCase())}
-                onTouchStart={() => {}} 
+                onTouchStart={() => {}}
                 onTouchEnd={(e) => {
                   e.preventDefault();
                   scrollToSection(item.toLowerCase());
                 }}
-                style={{ 
+                style={{
                   WebkitTapHighlightColor: 'transparent',
                   touchAction: 'manipulation',
                   userSelect: 'none',
                   WebkitUserSelect: 'none'
                 }}
-                className="text-gray-700 hover:text-olive active:text-olive active:bg-olive/20 transition-colors duration-200 font-medium cursor-pointer px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg hover:bg-olive/10 focus:outline-none focus:text-olive text-xs sm:text-base whitespace-nowrap flex-shrink-0 select-none min-h-[40px] flex items-center"
+                className="bg-warm text-olive shadow-md hover:bg-olive hover:text-warm hover:shadow-xl hover:-translate-y-0.5 active:scale-95 active:shadow-md transition-all duration-200 font-medium cursor-pointer px-3 sm:px-4 py-1 sm:py-1.5 rounded-full focus:outline-none focus:ring-2 focus:ring-olive/40 text-xs sm:text-sm whitespace-nowrap flex-shrink-0 select-none min-h-[32px] flex items-center"
               >
                 {item}
               </button>
