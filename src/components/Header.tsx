@@ -6,6 +6,7 @@ const Header = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isNavigationModalOpen, setIsNavigationModalOpen] = useState(false);
   const [isTopSectionCollapsed, setIsTopSectionCollapsed] = useState(false);
+  const [pressedNavItem, setPressedNavItem] = useState<string | null>(null);
   const lastScrollYRef = useRef(0);
 
   // ULTIMATE NUCLEAR OPTION: Force header to be visible at all times
@@ -629,26 +630,41 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="border-t border-olive/20 py-0 mt-0">
           <nav className="flex justify-center items-center gap-2 sm:gap-4 lg:gap-6 max-w-4xl mx-auto px-1 py-2 overflow-x-auto font-montserrat min-h-[48px]">
-            {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => (
-              <button
-                key={item}
-                onClick={() => scrollToSection(item.toLowerCase())}
-                onTouchStart={() => {}}
-                onTouchEnd={(e) => {
-                  e.preventDefault();
-                  scrollToSection(item.toLowerCase());
-                }}
-                style={{
-                  WebkitTapHighlightColor: 'transparent',
-                  touchAction: 'manipulation',
-                  userSelect: 'none',
-                  WebkitUserSelect: 'none'
-                }}
-                className="bg-warm text-olive shadow-md hover:bg-olive hover:text-warm hover:shadow-xl hover:-translate-y-0.5 active:scale-95 active:shadow-md transition-all duration-200 font-medium cursor-pointer px-3 sm:px-4 py-1 sm:py-1.5 rounded-full focus:outline-none focus:ring-2 focus:ring-olive/40 text-xs sm:text-sm whitespace-nowrap flex-shrink-0 select-none min-h-[32px] flex items-center"
-              >
-                {item}
-              </button>
-            ))}
+            {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => {
+              const isPressed = pressedNavItem === item;
+              const releasePress = () => {
+                // Keep the pressed look on screen briefly so a quick tap is still visibly noticeable.
+                setTimeout(() => {
+                  setPressedNavItem((current) => (current === item ? null : current));
+                }, 200);
+              };
+              return (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item.toLowerCase())}
+                  onTouchStart={() => setPressedNavItem(item)}
+                  onTouchEnd={(e) => {
+                    e.preventDefault();
+                    scrollToSection(item.toLowerCase());
+                    releasePress();
+                  }}
+                  onMouseDown={() => setPressedNavItem(item)}
+                  onMouseUp={releasePress}
+                  onMouseLeave={() => setPressedNavItem((current) => (current === item ? null : current))}
+                  style={{
+                    WebkitTapHighlightColor: 'transparent',
+                    touchAction: 'manipulation',
+                    userSelect: 'none',
+                    WebkitUserSelect: 'none'
+                  }}
+                  className={`shadow-md hover:bg-olive hover:text-warm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-150 font-medium cursor-pointer px-3 sm:px-4 py-1 sm:py-1.5 rounded-full focus:outline-none focus:ring-2 focus:ring-olive/40 text-xs sm:text-sm whitespace-nowrap flex-shrink-0 select-none min-h-[32px] flex items-center ${
+                    isPressed ? 'bg-olive text-warm scale-95 shadow-md' : 'bg-warm text-olive'
+                  }`}
+                >
+                  {item}
+                </button>
+              );
+            })}
           </nav>
         </div>
       </div>
