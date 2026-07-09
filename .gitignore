@@ -24,3 +24,7 @@ vite.config.*.timestamp-*
 *.sln
 *.sw?
 .env
+
+# Test artifacts (reports/traces are regenerated per run; visual baselines in
+# tests/visual/__screenshots__ ARE tracked)
+test-results/
