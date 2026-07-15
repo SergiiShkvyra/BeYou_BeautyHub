@@ -28,8 +28,13 @@ function App() {
     // Initial calculation
     calculateHeaderHeight();
 
-    // Recalculate on resize
+    // Recalculate on resize — and once fonts/assets settle: the wordmark's
+    // web font loads after mount and changes the header's height, which
+    // otherwise leaves a stale body padding (a visible gap under the header
+    // on mobile).
     window.addEventListener('resize', calculateHeaderHeight);
+    window.addEventListener('load', calculateHeaderHeight);
+    document.fonts?.ready.then(calculateHeaderHeight).catch(() => {});
 
     // Fix for responsive mode white screen
     const handleResize = () => {
@@ -71,6 +76,7 @@ function App() {
       cleanupGlow();
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('resize', calculateHeaderHeight);
+      window.removeEventListener('load', calculateHeaderHeight);
       cleanupScroll();
     };
   }, []);
