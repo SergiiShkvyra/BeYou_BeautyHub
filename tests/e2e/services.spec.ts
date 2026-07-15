@@ -42,9 +42,9 @@ test.describe('Services section — Fresha booking links', () => {
       await stubWindowOpen(page);
       await gotoHome(page);
 
-      // Scope to the card: the div that contains this card's heading.
+      // Scope to the card: the article that contains this card's heading.
       const card = page
-        .locator('#services div.bg-white')
+        .locator('#services article')
         .filter({ has: page.getByRole('heading', { name: title, exact: true }) });
       await card.getByRole('button', { name: /book appointment/i }).click();
 
@@ -65,7 +65,7 @@ test.describe('Services section — Fresha booking links', () => {
     await gotoHome(page);
 
     const card = page
-      .locator('#services div.bg-white')
+      .locator('#services article')
       .filter({
         has: page.getByRole('heading', { name: CATCH_ALL.title, exact: true }),
       });

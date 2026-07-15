@@ -1,70 +1,125 @@
 import { Star, Award, Users } from 'lucide-react';
 import { scrollToSection } from '../utils/interactions';
+import { useReveal, gsap } from '../lib/useReveal';
+
+const stats = [
+  { icon: Users, value: '1400+', label: 'Happy Clients' },
+  { icon: Award, value: '3+', label: 'Years Experience' },
+  { icon: Star, value: '5', label: 'Average Rating' },
+];
 
 const Hero = () => {
+  const scope = useReveal<HTMLElement>((section) => {
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    tl.from('[data-hero-image]', { scale: 1.18, duration: 2.2, ease: 'power2.out' }, 0)
+      .from(
+        '[data-hero-line]',
+        { yPercent: 115, duration: 1.1, stagger: 0.14 },
+        0.25,
+      )
+      .from(
+        '[data-hero-fade]',
+        { y: 28, opacity: 0, duration: 0.9, stagger: 0.12 },
+        0.85,
+      );
+
+    // Slow parallax drift while the hero scrolls away
+    gsap.to('[data-hero-image]', {
+      yPercent: 14,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      },
+    });
+  });
+
   return (
-    <section id="home" className="relative min-h-screen flex items-center pt-[180px] sm:pt-[170px] md:pt-[180px] w-full will-change-transform">
+    <section
+      id="home"
+      ref={scope}
+      className="relative min-h-[100svh] flex items-end overflow-hidden"
+    >
       {/* Background image */}
-      <div className="absolute inset-0 z-0 will-change-transform">
+      <div className="absolute inset-0 z-0 overflow-hidden">
         <img
+          data-hero-image
           src="/images/t2001x1212.jpg"
           alt="Beautiful eyelash extensions"
-          className="w-full h-full object-cover min-h-screen will-change-transform"
+          className="w-full h-full object-cover scale-105"
           loading="eager"
           decoding="async"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/65"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-olive-ink/55 via-olive-ink/25 to-olive-ink/80"></div>
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-warm w-full">
-        <h1 className="text-4xl md:text-6xl font-inter mb-6 leading-tight">
-          Be natural. Be real.
-          <span className="text-warm block">BeYou.</span>
-        </h1>
-        <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto opacity-90">
-          Professional eyelash and eyebrow services that make you feel confident and beautiful every day
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pb-16 sm:pb-20 pt-40">
+        <p data-hero-fade className="micro-label !text-warm mb-6">
+          Lash &amp; Brow Studio — Arlington, VA
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-          <button
-            onClick={() => window.open('https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-gt6tu55b', '_blank')}
-            className="bg-olive hover:bg-warm text-white hover:text-olive px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 transform hover:scale-105"
-          >
-            Book Appointment
-          </button>
-          <button
-            onClick={() => scrollToSection('services')}
-            className="border-2 border-white text-white hover:bg-warm hover:text-olive px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200"
-            aria-label="Scroll to Our Most Popular Services section"
-            type="button"
-          >
-            View Services
-          </button>
-        </div>
+        <h1 className="font-display text-warm leading-[1.02] mb-8 text-[13vw] sm:text-7xl lg:text-8xl">
+          <span className="block overflow-hidden">
+            <span data-hero-line className="block">
+              Be natural. Be real.
+            </span>
+          </span>
+          <span className="block overflow-hidden">
+            <span data-hero-line className="block italic">
+              BeYou.
+            </span>
+          </span>
+        </h1>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8 max-w-4xl mx-auto px-4">
-          <div className="flex items-center justify-center space-x-3">
-            <Users className="h-8 w-8 text-warm" />
-            <div className="text-left">
-              <div className="text-3xl font-bold">1400+</div>
-              <div className="text-sm opacity-80">Happy Clients</div>
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
+          <div className="max-w-xl">
+            <p data-hero-fade className="text-base sm:text-lg text-cream leading-relaxed mb-8">
+              Professional eyelash and eyebrow services that make you feel
+              confident and beautiful every day
+            </p>
+
+            <div data-hero-fade className="flex flex-col sm:flex-row gap-4">
+              <button
+                onClick={() =>
+                  window.open(
+                    'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-gt6tu55b',
+                    '_blank',
+                  )
+                }
+                className="group bg-warm text-olive-ink px-9 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.18em] transition-all duration-300 hover:bg-olive hover:text-warm hover:-translate-y-0.5"
+              >
+                Book Appointment
+              </button>
+              <button
+                onClick={() => scrollToSection('services')}
+                className="border border-warm/60 text-warm px-9 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.18em] transition-all duration-300 hover:bg-warm hover:text-olive-ink hover:-translate-y-0.5"
+                aria-label="Scroll to Our Most Popular Services section"
+                type="button"
+              >
+                View Services
+              </button>
             </div>
           </div>
-          <div className="flex items-center justify-center space-x-3">
-            <Award className="h-8 w-8 text-warm" />
-            <div className="text-left">
-              <div className="text-3xl font-bold">3+</div>
-              <div className="text-sm opacity-80">Years Experience</div>
-            </div>
-          </div>
-          <div className="flex items-center justify-center space-x-3">
-            <Star className="h-8 w-8 text-warm" />
-            <div className="text-left">
-              <div className="text-3xl font-bold">5</div>
-              <div className="text-sm opacity-80">Average Rating</div>
-            </div>
+
+          {/* Stats */}
+          <div data-hero-fade className="flex items-stretch divide-x divide-warm/25">
+            {stats.map(({ icon: Icon, value, label }) => (
+              <div
+                key={label}
+                className="flex flex-col gap-1 px-6 first:pl-0 last:pr-0"
+              >
+                <Icon className="h-5 w-5 text-warm/80 mb-2" />
+                <div className="font-display text-3xl sm:text-4xl text-warm leading-none">
+                  {value}
+                </div>
+                <div className="text-[11px] uppercase tracking-[0.2em] text-cream/90 mt-1">
+                  {label}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

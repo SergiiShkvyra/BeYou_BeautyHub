@@ -1,4 +1,5 @@
 import { Star, Quote } from 'lucide-react';
+import { useReveal, revealChildren } from '../lib/useReveal';
 
 const Testimonials = () => {
   const testimonials = [
@@ -32,49 +33,84 @@ const Testimonials = () => {
     }
   ];
 
+  const scope = useReveal<HTMLElement>((section) => revealChildren(section));
+
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">What Our Clients Say</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+    <section ref={scope} className="py-24 sm:py-32 bg-warm/40">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+        <div className="text-center mb-16 sm:mb-20 max-w-3xl mx-auto">
+          <p data-reveal className="micro-label mb-5 justify-center">
+            Testimonials
+          </p>
+          <h2 data-reveal className="font-display text-4xl sm:text-5xl lg:text-6xl text-olive-ink leading-[1.05] mb-6">
+            What Our <span className="italic text-olive">Clients Say</span>
+          </h2>
+          <p data-reveal className="text-lg text-olive-ink/70">
             Don't just take our word for it - hear from our satisfied clients
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={index}
-              className="bg-olive rounded-2xl p-8 relative hover:shadow-lg transition-shadow duration-300"
-            >
-              <Quote className="absolute top-6 left-6 h-8 w-8 text-olive" />
-              
-              <div className="pt-8">
-                <div className="flex items-center mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          {testimonials.map((testimonial, index) => {
+            const inverted = index % 3 === 0;
+            return (
+              <figure
+                key={index}
+                data-reveal
+                className={`relative rounded-3xl p-8 lg:p-10 transition-all duration-500 hover:-translate-y-1.5 ${
+                  inverted
+                    ? 'bg-olive text-warm shadow-xl shadow-olive/25'
+                    : 'bg-white/70 border border-olive/15 text-olive-ink shadow-sm hover:shadow-xl hover:shadow-olive/10'
+                }`}
+              >
+                <Quote
+                  aria-hidden="true"
+                  className={`absolute top-8 right-8 h-10 w-10 ${
+                    inverted ? 'text-warm/25' : 'text-olive/15'
+                  }`}
+                />
+
+                <div className="flex items-center gap-1 mb-6">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                    <Star
+                      key={i}
+                      className={`h-4 w-4 fill-current ${
+                        inverted ? 'text-warm' : 'text-olive'
+                      }`}
+                    />
                   ))}
                 </div>
-                
-                <p className="text-warm mb-6 text-lg leading-relaxed">
-                  "{testimonial.text}"
-                </p>
-                
-                <div className="flex items-center">
+
+                <blockquote
+                  className={`font-display text-lg lg:text-xl leading-relaxed mb-8 ${
+                    inverted ? 'text-warm/95' : 'text-olive-ink/85'
+                  }`}
+                >
+                  “{testimonial.text}”
+                </blockquote>
+
+                <figcaption className="flex items-center">
                   <img
                     src={testimonial.image}
                     alt={testimonial.name}
-                    className="h-12 w-12 rounded-full object-cover mr-4"
+                    className={`h-12 w-12 rounded-full object-cover mr-4 ring-2 ${
+                      inverted ? 'ring-warm/40' : 'ring-olive/20'
+                    }`}
                   />
                   <div>
-                    <h4 className="font-semibold text-gray-900">{testimonial.name}</h4>
-                    <p className="text-sm text-warm">{testimonial.service}</p>
+                    <h4 className="font-semibold">{testimonial.name}</h4>
+                    <p
+                      className={`text-xs uppercase tracking-[0.15em] mt-0.5 ${
+                        inverted ? 'text-warm/90' : 'text-olive-ink/65'
+                      }`}
+                    >
+                      {testimonial.service}
+                    </p>
                   </div>
-                </div>
-              </div>
-            </div>
-          ))}
+                </figcaption>
+              </figure>
+            );
+          })}
         </div>
       </div>
     </section>

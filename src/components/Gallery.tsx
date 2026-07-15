@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useReveal, revealChildren } from '../lib/useReveal';
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
@@ -12,21 +13,21 @@ const Gallery = () => {
     const checkDevice = () => {
       const userAgent = navigator.userAgent.toLowerCase();
       const mobileKeywords = [
-        'android', 'webos', 'iphone', 'ipad', 'ipod', 'blackberry', 
+        'android', 'webos', 'iphone', 'ipad', 'ipod', 'blackberry',
         'iemobile', 'opera mini', 'mobile', 'tablet'
       ];
-      
+
       const isMobileDevice = mobileKeywords.some(keyword => userAgent.includes(keyword)) ||
                             window.innerWidth <= 768 ||
                             ('ontouchstart' in window) ||
                             (navigator.maxTouchPoints > 0);
-      
+
       setIsMobile(isMobileDevice);
     };
 
     checkDevice();
     window.addEventListener('resize', checkDevice);
-    
+
     return () => {
       window.removeEventListener('resize', checkDevice);
     };
@@ -84,7 +85,7 @@ const Gallery = () => {
 
   const handleTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
-    
+
     const distance = touchStart - touchEnd;
     const isLeftSwipe = distance > 50;
     const isRightSwipe = distance < -50;
@@ -139,49 +140,61 @@ const Gallery = () => {
     }
   ];
 
+  const scope = useReveal<HTMLElement>((section) => revealChildren(section));
+
+  // Editorial rhythm: alternating tile heights per column pair
+  const tall = 'h-[22rem] sm:h-[26rem]';
+  const short = 'h-64 sm:h-80';
+
   return (
-    <section id="gallery" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Work</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+    <section id="gallery" ref={scope} className="py-24 sm:py-32 bg-cream">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+        <div className="mb-16 sm:mb-20 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+          <div className="max-w-2xl">
+            <p data-reveal className="micro-label mb-5">
+              Gallery
+            </p>
+            <h2 data-reveal className="font-display text-4xl sm:text-5xl lg:text-6xl text-olive-ink leading-[1.05]">
+              Our <span className="italic text-olive">Work</span>
+            </h2>
+          </div>
+          <p data-reveal className="text-lg text-olive-ink/70 leading-relaxed max-w-md lg:text-right">
             See the beautiful transformations we've created for our clients
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 items-start">
           {images.map((image, index) => (
             <div
               key={index}
-              className={`relative group overflow-hidden rounded-2xl shadow-lg transition-all duration-300 will-change-transform ${
-                isMobile 
-                  ? 'cursor-default' 
-                  : 'cursor-pointer hover:shadow-xl'
+              data-reveal="image"
+              className={`relative group overflow-hidden rounded-2xl transition-all duration-500 will-change-transform ${
+                index % 2 === 0 ? tall : `${short} mt-6 sm:mt-10`
+              } ${
+                isMobile
+                  ? 'cursor-default'
+                  : 'cursor-pointer hover:shadow-2xl hover:shadow-olive/20'
               }`}
               onClick={() => handleImageClick(index)}
             >
               <img
                 src={image.src}
                 alt={image.alt}
-                className={`w-full h-64 object-cover transition-transform duration-500 will-change-transform ${
-                  isMobile 
-                    ? '' 
-                    : 'group-hover:scale-110'
+                className={`w-full h-full object-cover transition-transform duration-700 ease-out will-change-transform ${
+                  isMobile ? '' : 'group-hover:scale-110'
                 }`}
                 loading="lazy"
                 decoding="async"
               />
-              <div className={`absolute inset-0 bg-black bg-opacity-0 transition-all duration-300 flex items-center justify-center ${
-                isMobile 
-                  ? '' 
-                  : 'group-hover:bg-opacity-30'
+              <div className={`absolute inset-0 bg-olive-ink/0 transition-all duration-500 flex items-end justify-start p-5 ${
+                isMobile ? '' : 'group-hover:bg-olive-ink/35'
               }`}>
-                <div className={`text-white transition-opacity duration-300 text-center ${
-                  isMobile 
-                    ? 'opacity-0' 
-                    : 'opacity-0 group-hover:opacity-100'
+                <div className={`text-warm transition-all duration-500 ${
+                  isMobile
+                    ? 'opacity-0'
+                    : 'opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0'
                 }`}>
-                  <p className="text-lg font-semibold">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em]">
                     {isMobile ? '' : 'View Full Size'}
                   </p>
                 </div>
@@ -193,7 +206,7 @@ const Gallery = () => {
         {/* Modal */}
         {selectedImage !== null && (
           <div
-            className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4 cursor-pointer"
+            className="fixed inset-0 bg-olive-ink/95 z-50 flex items-center justify-center p-4 cursor-pointer"
             onClick={handleOverlayClick}
             onKeyDown={handleKeyDown}
             onTouchStart={handleTouchStart}
@@ -214,44 +227,44 @@ const Gallery = () => {
                     closeModal();
                   }
                 }}
-                className="absolute -top-2 -right-2 bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-800 hover:text-olive rounded-full p-3 z-20 transition-all duration-200 shadow-lg backdrop-blur-sm min-w-[48px] min-h-[48px] flex items-center justify-center"
+                className="absolute -top-2 -right-2 bg-cream/95 hover:bg-cream text-olive-ink hover:text-olive rounded-full p-3 z-20 transition-all duration-200 shadow-lg backdrop-blur-sm min-w-[48px] min-h-[48px] flex items-center justify-center"
                 aria-label="Close image modal"
                 type="button"
               >
                 <X className="h-6 w-6" />
               </button>
-              
+
               {/* Left Navigation Arrow */}
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   goToPrevious();
                 }}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full p-3 z-20 transition-all duration-200 opacity-0 group-hover:opacity-100 min-w-[48px] min-h-[48px] flex items-center justify-center"
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-olive-ink/50 hover:bg-olive-ink/75 text-warm rounded-full p-3 z-20 transition-all duration-200 opacity-0 group-hover:opacity-100 min-w-[48px] min-h-[48px] flex items-center justify-center"
                 aria-label="Previous image"
                 type="button"
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
-              
+
               {/* Right Navigation Arrow */}
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   goToNext();
                 }}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full p-3 z-20 transition-all duration-200 opacity-0 group-hover:opacity-100 min-w-[48px] min-h-[48px] flex items-center justify-center"
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-olive-ink/50 hover:bg-olive-ink/75 text-warm rounded-full p-3 z-20 transition-all duration-200 opacity-0 group-hover:opacity-100 min-w-[48px] min-h-[48px] flex items-center justify-center"
                 aria-label="Next image"
                 type="button"
               >
                 <ChevronRight className="h-6 w-6" />
               </button>
-              
+
               {/* Image counter */}
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-white px-4 py-2 rounded-full text-sm z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-olive-ink/60 text-warm px-4 py-2 rounded-full text-sm z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                 {selectedImage + 1} / {images.length}
               </div>
-              
+
               {/* Image container with click prevention */}
               <img
                 src={images[selectedImage].src}

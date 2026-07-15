@@ -9,22 +9,22 @@ const Footer = () => {
   const [showCookieModal, setShowCookieModal] = React.useState(false);
 
   return (
-    <footer className="bg-gray-800 text-warm">
+    <footer className="bg-olive-ink text-warm">
       {/* Main footer content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-2xl font-bold text-olive mb-4">BeYou BeautyHub</h3>
-            <p className="text-gray-300 mb-6 leading-relaxed">
+            <h3 className="font-display text-2xl text-warm mb-4">BeYou BeautyHub</h3>
+            <p className="text-warm/70 mb-6 leading-relaxed">
               Enhancing your natural beauty with professional eyelash and eyebrow services. 
               Your confidence is our passion.
             </p>
             <div className="flex space-x-4">
-              <a href="https://www.instagram.com/beyou_beautyhub" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-olive transition-colors duration-200">
+              <a href="https://www.instagram.com/beyou_beautyhub" target="_blank" rel="noopener noreferrer" className="text-warm/60 hover:text-cream transition-colors duration-200">
                 <Instagram className="h-6 w-6" />
               </a>
-              <a href="https://www.facebook.com/share/15Py4Ci4CV" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-olive transition-colors duration-200">
+              <a href="https://www.facebook.com/share/15Py4Ci4CV" target="_blank" rel="noopener noreferrer" className="text-warm/60 hover:text-cream transition-colors duration-200">
                 <Facebook className="h-6 w-6" />
               </a>
             </div>
@@ -34,13 +34,13 @@ const Footer = () => {
           <div className="flex flex-col lg:block">
             <div className="flex justify-between items-start lg:block">
               <div className="flex-1 lg:w-full">
-                <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+                <h4 className="text-[12px] font-semibold uppercase tracking-[0.25em] text-warm/80 mb-5">Quick Links</h4>
                 <ul className="space-y-2">
                   {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => (
                     <li key={item}>
                       <button
                         onClick={() => scrollToSection(item.toLowerCase())}
-                        className="text-gray-300 hover:text-olive transition-colors duration-200"
+                        className="text-warm/70 hover:text-cream transition-colors duration-200"
                       >
                         {item}
                       </button>
@@ -64,10 +64,10 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
+            <h4 className="text-[12px] font-semibold uppercase tracking-[0.25em] text-warm/80 mb-5">Contact Info</h4>
             <div className="space-y-3">
               <div className="flex items-start space-x-3">
-                <MapPin className="h-5 w-5 text-olive mt-0.5" />
+                <MapPin className="h-5 w-5 text-warm/60 mt-0.5" />
                 <button
                   onClick={() => {
 
@@ -197,26 +197,26 @@ const Footer = () => {
                       document.addEventListener('click', handleDocumentClick);
                     }, 100);
                   }}
-                  className="text-gray-300 text-sm hover:text-olive transition-colors duration-200 cursor-pointer text-left"
+                  className="text-warm/70 text-sm hover:text-cream transition-colors duration-200 cursor-pointer text-left"
                 >
                   Salons by JC, 3865 Wilson Blvd, room 4<br />
                   Arlington, VA 22203
                 </button>
               </div>
               <div className="flex items-center space-x-3">
-                <Phone className="h-5 w-5 text-olive" />
+                <Phone className="h-5 w-5 text-warm/60" />
                 <button 
                   onClick={() => handlePhoneClick('(571)-276-7014')}
-                  className="text-gray-300 text-sm hover:text-olive transition-colors duration-200 cursor-pointer"
+                  className="text-warm/70 text-sm hover:text-cream transition-colors duration-200 cursor-pointer"
                 >
                   (571)-276-7014
                 </button>
               </div>
               <div className="flex items-center space-x-3">
-                <Mail className="h-5 w-5 text-olive" />
+                <Mail className="h-5 w-5 text-warm/60" />
                 <button
                   onClick={() => copyEmailToClipboard('info@beyoubeautyhub.com')}
-                  className="text-gray-300 text-sm hover:text-olive transition-colors duration-200 cursor-pointer"
+                  className="text-warm/70 text-sm hover:text-cream transition-colors duration-200 cursor-pointer"
                 >
                   info@beyoubeautyhub.com
                 </button>
@@ -238,30 +238,30 @@ const Footer = () => {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-gray-800">
+      <div className="border-t border-warm/15">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-300 text-sm flex items-center">
+            <div className="text-warm/60 text-sm flex items-center">
               <span>© {currentYear} BeYou Beauty Hub. Made with </span>
-              <Heart className="h-4 w-4 text-olive mx-1 fill-current" />
+              <Heart className="h-4 w-4 text-warm mx-1 fill-current" />
               <span></span>
             </div>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <button 
                 onClick={() => setShowPrivacyModal(true)}
-                className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm"
+                className="text-warm/70 hover:text-cream transition-colors duration-200 text-sm"
               >
                 Privacy Policy
               </button>
               <button 
                 onClick={() => setShowTermsModal(true)}
-                className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm"
+                className="text-warm/70 hover:text-cream transition-colors duration-200 text-sm"
               >
                 Terms of Service
               </button>
               <button 
                 onClick={() => setShowCookieModal(true)}
-                className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm"
+                className="text-warm/70 hover:text-cream transition-colors duration-200 text-sm"
               >
                 Cookie Policy
               </button>

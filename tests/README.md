@@ -157,6 +157,16 @@ Do NOT delete `tests/visual/__screenshots__/` — those are the visual-regressio
 baselines (test inputs, not results); deleting them means regenerating with
 `npm run test:visual:update`.
 
+## Animations and determinism
+
+The whole suite runs with `reducedMotion: 'reduce'` (set in
+`playwright.config.ts`). The site honors `prefers-reduced-motion` by skipping
+all GSAP entrance/scroll animations, which makes tests deterministic: clicks
+can't race a mid-reveal element move, and screenshots never catch a half-faded
+state. Consequence: visual baselines show final resting states, and if you
+watch a `--headed` run you won't see the fancy animations — view those in a
+normal browser instead.
+
 ## Visual baselines
 
 Baselines live in `tests/visual/__screenshots__/` and are generated on THIS

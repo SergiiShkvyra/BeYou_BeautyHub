@@ -145,7 +145,7 @@ const Header = () => {
   const beautyHubOpacity = 1 - scrollProgress;
   return (
     <header 
-      className="bg-warm fixed top-0 left-0 right-0 w-full shadow-sm z-[99999] will-change-transform"
+      className="bg-cream/95 backdrop-blur-md fixed top-0 left-0 right-0 w-full shadow-[0_1px_0_0_rgba(80,94,71,0.15)] z-[99999] will-change-transform"
       style={{
         position: 'fixed',
         top: '0',
@@ -175,7 +175,7 @@ const Header = () => {
       >
       {/* Top contact bar */}
       <div className="py-0 px-4 w-full" style={{ margin: '0', padding: '0 1rem', width: '100%' }}>
-        <div className="max-w-7xl mx-auto flex justify-between items-center text-sm text-olive">
+        <div className="max-w-7xl mx-auto flex justify-between items-center text-xs text-olive py-1.5 border-b border-olive/10">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1">
               <Phone className="h-4 w-4" />
@@ -631,7 +631,7 @@ const Header = () => {
       {/* Horizontal Navigation Bar — always visible; sits at the very top once the section above collapses */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="border-t border-olive/20 py-0 mt-0">
-          <nav className="flex justify-center items-center gap-2 sm:gap-4 lg:gap-6 max-w-4xl mx-auto px-1 py-2 overflow-x-auto font-montserrat min-h-[48px]">
+          <nav className="flex justify-center items-center gap-0.5 sm:gap-4 lg:gap-6 max-w-4xl mx-auto px-1 py-2 overflow-x-auto font-montserrat min-h-[48px]">
             {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => {
               const isPressed = pressedNavItem === item;
               const releasePress = () => {
@@ -659,8 +659,10 @@ const Header = () => {
                     userSelect: 'none',
                     WebkitUserSelect: 'none'
                   }}
-                  className={`shadow-md hover:bg-olive hover:text-warm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-150 font-medium cursor-pointer px-3 sm:px-4 py-1 sm:py-1.5 rounded-full focus:outline-none focus:ring-2 focus:ring-olive/40 text-xs sm:text-sm whitespace-nowrap flex-shrink-0 select-none min-h-[32px] flex items-center ${
-                    isPressed ? 'bg-olive text-warm scale-95 shadow-md' : 'bg-warm text-olive'
+                  className={`relative font-montserrat font-semibold uppercase tracking-[0.1em] sm:tracking-[0.18em] cursor-pointer px-2 sm:px-4 py-2 text-[10px] sm:text-xs whitespace-nowrap flex-shrink-0 select-none min-h-[32px] flex items-center transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-olive/40 rounded-sm after:content-[''] after:absolute after:left-2 after:right-2 sm:after:left-4 sm:after:right-4 after:bottom-1 after:h-px after:bg-olive after:origin-left after:transition-transform after:duration-300 ${
+                    isPressed
+                      ? 'text-olive-deep after:scale-x-100'
+                      : 'text-olive after:scale-x-0 hover:after:scale-x-100 hover:text-olive-deep'
                   }`}
                 >
                   {item}

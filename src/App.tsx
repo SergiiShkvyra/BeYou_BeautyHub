@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
+import Marquee from './components/Marquee';
 import Services from './components/Services';
 import About from './components/About';
 import Gallery from './components/Gallery';
@@ -68,9 +69,10 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white w-full overflow-x-hidden will-change-scroll-position" style={{ margin: '0', padding: '0', border: '0' }}>
+    <div className="min-h-screen bg-cream w-full overflow-x-hidden">
       <Header />
       <Hero />
+      <Marquee />
       <Services />
       <About />
       <Gallery />

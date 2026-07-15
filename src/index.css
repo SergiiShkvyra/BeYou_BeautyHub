@@ -1,440 +1,178 @@
-/* Beauty Salon Typography - Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Edu+NSW+ACT+Foundation:wght@400;500;600;700&display=swap');
+/* BeYou BeautyHub — editorial design system */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap');
 
-/* Complete CSS reset and optimization */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-* {
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  outline: 0 !important;
-  box-sizing: border-box !important;
+:root {
+  --olive: #505e47;
+  --olive-deep: #3a4531;
+  --olive-ink: #262c20;
+  --warm: #dbd6b2;
+  --cream: #f5f2e6;
+  --hairline: rgba(80, 94, 71, 0.22);
 }
 
-/* Eliminate all potential white space sources */
+/* ---------------------------------------------------------------------------
+   Base document. min-height (NOT height) on html/body is required for
+   window.scrollY / scroll events to fire — do not change to height: 100%.
+   scroll-padding-top keeps anchored sections clear of the fixed header.
+--------------------------------------------------------------------------- */
 html {
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  min-height: 100% !important;
-  overflow-x: hidden !important;
-  -webkit-overflow-scrolling: touch !important;
-  scroll-behavior: smooth !important;
-  scroll-padding-top: 180px !important;
+  min-height: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  scroll-padding-top: 140px;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  min-height: 100% !important;
-  overflow-x: hidden !important;
-  max-width: 100vw !important;
-  -webkit-overflow-scrolling: touch !important;
-  scroll-behavior: smooth !important;
+  min-height: 100%;
+  overflow-x: hidden;
+  max-width: 100vw;
+  background: var(--cream);
+  color: var(--olive-ink);
+  font-family: 'Montserrat', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 #root {
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  min-height: 100vh !important;
-  width: 100% !important;
-  max-width: 100vw !important;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100vw;
 }
 
-/* Aggressive header positioning */
+/* ---------------------------------------------------------------------------
+   Fixed header. The React side (Header.tsx) additionally enforces these as
+   inline styles against mobile rendering quirks; this is the CSS backstop.
+   Scoped to `header` only — never add bare utility-class selectors here
+   (see CLAUDE.md: the old .bg-warm collision).
+--------------------------------------------------------------------------- */
 header {
-  position: fixed !important;
-  top: 0 !important;
-  bottom: auto !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100vw !important;
-  max-width: 100vw !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  z-index: 2147483647 !important;
-  transform: translateZ(0) !important;
-  backface-visibility: hidden !important;
-  will-change: transform !important;
-  box-sizing: border-box !important;
-  -webkit-transform: translateZ(0) !important;
-  -webkit-backface-visibility: hidden !important;
-  contain: layout style paint !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  overflow-y: visible !important;
-  overflow-x: hidden !important;
-  pointer-events: auto !important;
-  transition: none !important;
-  animation: none !important;
-  transform-style: preserve-3d !important;
-  perspective: 1000px !important;
-  isolation: isolate !important;
-  mix-blend-mode: normal !important;
-  -webkit-position: fixed !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  max-width: 100vw;
+  z-index: 99999;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
-/* ULTIMATE NUCLEAR OPTION - Force header visibility with maximum specificity */
-header,
-header.bg-warm,
-header[class*="bg-warm"],
-*[class*="Header"],
-header[style],
-header[class],
-div[class*="header"],
-div[class*="Header"] {
-  position: fixed !important;
-  top: 0 !important;
-  bottom: auto !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100vw !important;
-  max-width: 100vw !important;
-  z-index: 2147483647 !important;
-  transform: translate3d(0, 0, 0) !important;
-  -webkit-transform: translate3d(0, 0, 0) !important;
-  backface-visibility: hidden !important;
-  -webkit-backface-visibility: hidden !important;
-  contain: layout style paint !important;
-  will-change: transform !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  transition: none !important;
-  animation: none !important;
-  transform-style: preserve-3d !important;
-  isolation: isolate !important;
-  mix-blend-mode: normal !important;
+/* ---------------------------------------------------------------------------
+   Typography helpers (used across components)
+--------------------------------------------------------------------------- */
+.font-playfair {
+  font-family: 'Playfair Display', Georgia, serif;
 }
 
-/* Prevent any parent elements from hiding the header */
-body, html, #root, main, section, div {
-  transform: none !important;
+.font-montserrat {
+  font-family: 'Montserrat', system-ui, sans-serif;
 }
 
-/* Force header to always be on top of everything */
-header::before,
-header::after {
-  content: '' !important;
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  height: 0 !important;
-  z-index: 2147483646 !important;
-  pointer-events: none !important;
+/* Editorial micro-label: tiny uppercase tag above headings */
+.micro-label {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--olive);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-/* Prevent any element from overriding header position */
-header * {
-  position: relative !important;
-  z-index: inherit !important;
+.micro-label::before {
+  content: '';
+  width: 2rem;
+  height: 1px;
+  background: var(--olive);
+  opacity: 0.6;
 }
 
-/* Prevent scroll-based transforms from affecting header */
-@keyframes keepHeaderVisible {
-  0%, 100% {
-    position: fixed !important;
-    top: 0 !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    z-index: 2147483647 !important;
-  }
+/* Hairline rules */
+.hairline {
+  border-color: var(--hairline);
 }
 
-header {
-  animation: keepHeaderVisible 0.1s infinite !important;
+/* ---------------------------------------------------------------------------
+   Texture + polish
+--------------------------------------------------------------------------- */
+/* Subtle film grain over everything except header/modals (pointer-safe) */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Browser-specific overrides */
-@-moz-document url-prefix() {
-  /* Firefox specific */
-  header {
-    position: fixed !important;
-    top: 0 !important;
-    z-index: 99999 !important;
-  }
+::selection {
+  background: var(--olive);
+  color: var(--warm);
 }
 
-/* Safari specific */
-@supports (-webkit-appearance: none) {
-  header {
-    position: fixed !important;
-    top: 0 !important;
-    -webkit-transform: translate3d(0, 0, 0) !important;
-  }
+/* Slim branded scrollbar (WebKit) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--olive);
+  border-radius: 5px;
+  border: 2px solid var(--cream);
 }
 
-/* Chrome/Edge specific */
-@supports (background: -webkit-named-image(i)) {
-  header {
-    position: fixed !important;
-    top: 0 !important;
-    transform: translate3d(0, 0, 0) !important;
-  }
-}
-
-/* Internet Explorer fallback */
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-  header {
-    position: fixed !important;
-    top: 0 !important;
-    z-index: 99999 !important;
-  }
-}
-
-/* Mobile-specific sticky header fixes */
-@media screen and (max-width: 768px) {
-  header {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100vw !important;
-    z-index: 9999 !important;
-    -webkit-transform: translate3d(0, 0, 0) !important;
-    transform: translate3d(0, 0, 0) !important;
-    -webkit-backface-visibility: hidden !important;
-    backface-visibility: hidden !important;
-  }
-  
-  /* iOS Safari specific fixes */
-  @supports (-webkit-overflow-scrolling: touch) {
-    header {
-      position: fixed !important;
-      -webkit-transform: translate3d(0, 0, 0) !important;
-      transform: translate3d(0, 0, 0) !important;
-    }
-  }
-}
-
-/* Android Chrome specific fixes */
-@media screen and (max-width: 768px) and (-webkit-min-device-pixel-ratio: 1) {
-  header {
-    position: fixed !important;
-    top: 0 !important;
-    transform: translateZ(0) !important;
-  }
-}
-
-/* Hardware acceleration for smooth scrolling */
-* {
-  -webkit-transform: translateZ(0) !important;
-  -moz-transform: translateZ(0) !important;
-  -ms-transform: translateZ(0) !important;
-  -o-transform: translateZ(0) !important;
-  transform: translateZ(0) !important;
-}
-
-/* Optimize images for better scroll performance */
 img {
-  will-change: transform !important;
-  backface-visibility: hidden !important;
-  -webkit-backface-visibility: hidden !important;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
-/* Optimize animations and transitions */
-.transition-all,
-.transition-colors,
-.transition-transform {
-  will-change: transform, opacity !important;
-}
-
-/* Gallery modal navigation improvements */
+/* ---------------------------------------------------------------------------
+   Gallery modal on touch devices: arrows/counter always visible, big targets
+--------------------------------------------------------------------------- */
 @media (max-width: 768px) {
-  /* Make navigation arrows always visible on mobile */
-  .group .opacity-0.group-hover\\:opacity-100 {
+  .group .opacity-0.group-hover\:opacity-100 {
     opacity: 0.7 !important;
   }
-  
-  /* Larger touch targets on mobile */
-  .group button[aria-label="Previous image"],
-  .group button[aria-label="Next image"] {
+
+  .group button[aria-label='Previous image'],
+  .group button[aria-label='Next image'] {
     min-width: 56px !important;
     min-height: 56px !important;
     padding: 16px !important;
   }
-  
-  /* Always show image counter on mobile */
-  .group div:has(+ img) {
-    opacity: 0.8 !important;
-  }
 }
 
-/* Smooth transitions for gallery navigation */
-.group img {
-  transition: opacity 0.2s ease-in-out;
-}
-
-/* Prevent text selection during swipe gestures */
+/* Prevent text selection during swipe gestures in the gallery */
 .group {
   -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Fix for responsive mode white screen */
-@media screen and (max-width: 1024px) {
-  html, body, #root {
-    min-height: 100vh !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: 0 !important;
-    outline: 0 !important;
-  }
-  
-  body {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-  }
-  
+/* ---------------------------------------------------------------------------
+   Motion accessibility: kill smooth scroll + CSS loops for reduced motion.
+   (GSAP effects check the same media query in src/lib/useReveal.ts.)
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
   html {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
+    scroll-behavior: auto;
   }
-  
-  #root {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-  }
-}
-
-/* Ensure all containers respect viewport width */
-.container, .max-w-7xl {
-  max-width: 100% !important;
-  padding-left: 1rem !important;
-  padding-right: 1rem !important;
-  margin: 0 !important;
-}
-
-@media (max-width: 640px) {
-  .container, .max-w-7xl {
-    padding-left: 0.75rem !important;
-    padding-right: 0.75rem !important;
-    margin: 0 !important;
-  }
-  
-  body {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    min-height: 100vh !important;
-    background: transparent !important;
-  }
-  
-  html {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-  }
-  
-  #root {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-  }
-}
-
-/* Fix for responsive preview issues */
-@media (max-width: 768px) {
-  .min-h-screen {
-    min-height: 100vh !important;
-  }
-  
-  section {
-    width: 100% !important;
-    max-width: 100vw !important;
-    margin: 0 !important;
-  }
-  
-  body {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-  }
-  
-  html {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-  }
-  
-  #root {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-  }
-}
-
-/* Additional reset for iframe environments */
-html[data-iframe] {
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-}
-
-body[data-iframe] {
-  margin: 0 !important;
-  padding-top: 120px !important;
-  border: 0 !important;
-}
-
-/* Tailwind base styles */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Custom font classes for beauty salon branding */
-.font-playfair {
-  font-family: 'Playfair Display', serif;
-}
-
-.font-montserrat {
-  font-family: 'Montserrat', sans-serif;
-}
-
-.font-handwriting {
-  font-family: 'Edu NSW ACT Foundation', cursive, sans-serif;
-}
-
-/* High-quality image rendering */
-img {
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: -o-crisp-edges;
-  image-rendering: crisp-edges;
-  image-rendering: optimizeQuality;
-  -ms-interpolation-mode: bicubic;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-/* Specific fix for high-DPI displays */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  img {
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: optimizeQuality;
+  .animate-marquee,
+  .animate-flash {
+    animation: none !important;
   }
 }
