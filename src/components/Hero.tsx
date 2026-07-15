@@ -1,6 +1,7 @@
 import { Star, Award, Users } from 'lucide-react';
 import { scrollToSection } from '../utils/interactions';
 import { useReveal, gsap } from '../lib/useReveal';
+import { introPending, INTRO_DONE_EVENT } from '../lib/introState';
 
 const stats = [
   { icon: Users, value: '1400+', label: 'Happy Clients' },
@@ -10,7 +11,12 @@ const stats = [
 
 const Hero = () => {
   const scope = useReveal<HTMLElement>((section) => {
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    // While the intro overlay plays, hold the entrance on its first frame and
+    // release it the moment the intro's logo lands in the header.
+    const tl = gsap.timeline({
+      defaults: { ease: 'power3.out' },
+      paused: introPending,
+    });
     tl.from('[data-hero-image]', { scale: 1.18, duration: 2.2, ease: 'power2.out' }, 0)
       .from(
         '[data-hero-line]',
@@ -22,6 +28,13 @@ const Hero = () => {
         { y: 28, opacity: 0, duration: 0.9, stagger: 0.12 },
         0.85,
       );
+
+    if (introPending) {
+      tl.progress(0); // render the first frame so nothing flashes pre-reveal
+      window.addEventListener(INTRO_DONE_EVENT, () => tl.play(), {
+        once: true,
+      });
+    }
 
     // Slow parallax drift while the hero scrolls away
     gsap.to('[data-hero-image]', {

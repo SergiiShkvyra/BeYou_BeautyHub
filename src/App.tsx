@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { initCursorGlow } from './lib/cursorGlow';
+import IntroOverlay from './components/IntroOverlay';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Marquee from './components/Marquee';
@@ -73,6 +74,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-cream w-full overflow-x-hidden">
+      <IntroOverlay />
       <Header />
       <Hero />
       <Marquee />

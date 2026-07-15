@@ -163,6 +163,145 @@ header {
 }
 
 /* ---------------------------------------------------------------------------
+   First-visit intro (IntroOverlay.tsx): flower bloom → shining logo →
+   typewriter motto → logo flies into the header.
+--------------------------------------------------------------------------- */
+/* Lock on <html>: viewport scrolling belongs to the root element, so
+   overflow:hidden on body alone would NOT stop wheel scrolling.
+   Separate from .intro-active so the scroll stays locked through the logo's
+   landing (guaranteeing the header target can't move mid-flight) even after
+   the header itself is revealed. */
+html.intro-lock,
+html.intro-lock body {
+  overflow: hidden;
+}
+
+/* The header's force-visible loop sets inline styles; !important CSS is the
+   only thing that outranks them. Hidden during the intro, revealed at the
+   exact frame the flying logo lands in its slot. */
+body.intro-active header {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+}
+
+.intro-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 38%,
+    #f8f5e9 0%,
+    #ece7cf 45%,
+    #d6d0a8 100%
+  );
+}
+
+.intro-logo {
+  position: absolute;
+  /* Pre-position and hide via CSS so the very first paint (before GSAP's
+     first tick) never flashes the image at the overlay's top-left corner. */
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%) scale(0.07);
+  opacity: 0;
+  width: clamp(230px, 46vw, 370px);
+  height: auto;
+  will-change: transform;
+  image-rendering: high-quality;
+}
+
+.intro-motto {
+  position: absolute;
+  /* Same pre-paint guard as .intro-logo (the caret would flash otherwise) */
+  left: 50%;
+  top: 71%;
+  transform: translateX(-50%);
+  visibility: hidden;
+  margin: 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.25rem, 3.4vw, 2rem);
+  letter-spacing: 0.04em;
+  line-height: 1.55;
+  color: #4c6035; /* sampled from the logo PNG's ink */
+  white-space: pre-line; /* each phrase types onto its own line */
+  text-align: left;
+  /* Wider than the longest line, so the centered block's width (and
+     therefore its left edge) stays put while characters type in. */
+  min-width: 6.6em;
+}
+
+.intro-caret {
+  display: inline-block;
+  width: 0.55ch;
+  height: 1.05em;
+  margin-left: 2px;
+  background: #4c6035; /* match the motto/logo ink */
+  vertical-align: text-bottom;
+  animation: intro-caret-blink 1s steps(1) infinite;
+}
+
+@keyframes intro-caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   "Our schedule" → Hours highlight: one soft warm-gradient breath, at home
+   on the olive Get In Touch card. Padding + negative margin keep the glow
+   inset without shifting surrounding layout.
+--------------------------------------------------------------------------- */
+.schedule-highlight {
+  position: relative;
+  padding: 12px 14px;
+  margin: -12px -14px;
+  isolation: isolate; /* keeps the ::before layer above the card behind it */
+}
+
+/* Frame and inner glow live on ONE layer whose opacity fades — they appear
+   and vanish together, pixel-locked, with ~1.5s in / ~1s hold / ~1.5s out. */
+.schedule-highlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    rgba(219, 214, 178, 0.26),
+    rgba(245, 242, 230, 0.1) 60%,
+    rgba(219, 214, 178, 0.18)
+  );
+  box-shadow:
+    0 0 0 1px rgba(219, 214, 178, 0.35),
+    0 0 30px rgba(219, 214, 178, 0.22);
+  opacity: 0;
+  animation: schedule-glow 4s cubic-bezier(0.45, 0, 0.55, 1) 1 both;
+}
+
+@keyframes schedule-glow {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  38%,
+  62% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .schedule-highlight::before {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
    Texture + polish
 --------------------------------------------------------------------------- */
 /* Subtle film grain over everything except header/modals (pointer-safe) */

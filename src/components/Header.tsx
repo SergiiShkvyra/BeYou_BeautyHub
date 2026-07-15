@@ -548,29 +548,19 @@ const Header = () => {
                         behavior: 'smooth'
                       });
                       
-                      // Add blinking highlight effect
-                      const originalStyle = hoursDiv.getAttribute('style') || '';
-                      let blinkCount = 0;
-                      const maxBlinks = 6;
-                      
-                      const blink = () => {
-                        if (blinkCount < maxBlinks) {
-                          const isHighlighted = blinkCount % 2 === 0;
-                          (hoursDiv as HTMLElement).style.cssText = originalStyle + 
-                            (isHighlighted ? 
-                              '; background-color: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 8px; transition: all 0.3s ease;' : 
-                              '; transition: all 0.3s ease;'
-                            );
-                          blinkCount++;
-                          setTimeout(blink, 400);
-                        } else {
-                          // Reset to original style
-                          (hoursDiv as HTMLElement).style.cssText = originalStyle;
-                        }
-                      };
-                      
-                      // Start blinking after a short delay
-                      setTimeout(blink, 500);
+                      // Soft on-brand highlight: one gentle warm-gradient
+                      // breath (see .schedule-highlight in index.css).
+                      const el = hoursDiv as HTMLElement;
+                      setTimeout(() => {
+                        el.classList.remove('schedule-highlight');
+                        void el.offsetWidth; // restart the animation if re-clicked
+                        el.classList.add('schedule-highlight');
+                        el.addEventListener(
+                          'animationend',
+                          () => el.classList.remove('schedule-highlight'),
+                          { once: true },
+                        );
+                      }, 450);
                     }
                   }, 800); // Wait for scroll to complete
                 }
