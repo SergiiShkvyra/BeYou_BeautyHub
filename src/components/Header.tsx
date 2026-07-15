@@ -179,9 +179,9 @@ const Header = () => {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1">
               <Phone className="h-4 w-4" />
-              <button 
+              <button
                 onClick={() => handlePhoneClick('(571)-276-7014')}
-                className="hover:underline transition-all duration-200 cursor-pointer"
+                className="glow-text hover:underline transition-all duration-200 cursor-pointer"
               >
                 (571)-276-7014
               </button>
@@ -380,7 +380,7 @@ const Header = () => {
                   // Expose state setter to global scope for onclick handlers
                   window.headerComponent = { setIsNavigationModalOpen };
                 }}
-                className={`hover:underline transition-all duration-200 ${isNavigationModalOpen ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+                className={`glow-text hover:underline transition-all duration-200 ${isNavigationModalOpen ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
               >
                 <span>Salons by JC, 3865 Wilson Blvd, room 4, Arlington, VA 22203</span>
               </button>
@@ -515,7 +515,7 @@ const Header = () => {
                   document.addEventListener('click', handleDocumentClick);
                 }, 100);
               }}
-              className="cursor-pointer hover:underline hover:text-olive transition-all duration-200"
+              className="glow-text cursor-pointer hover:underline hover:text-olive transition-all duration-200"
               aria-label="Open BeYou BeautyHub location in navigation app"
               title="Click to choose navigation app"
             >
@@ -524,7 +524,7 @@ const Header = () => {
           </div>
           <div className="text-right">
             <div 
-              className="text-right text-sm leading-tight cursor-pointer hover:text-olive transition-colors duration-200"
+              className="glow-text text-right text-sm leading-tight cursor-pointer hover:text-olive transition-colors duration-200"
               onClick={() => {
                 // Scroll to contact section first
                 const contactSection = document.getElementById('contact');
@@ -597,7 +597,7 @@ const Header = () => {
           <div className="font-playfair font-bold text-olive relative w-full flex justify-center items-center">
             <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl tracking-wider leading-none flex items-end">
               <span className="flex items-center">
-                <span>BE</span>
+                <span className="glow-text glow-text-lg">BE</span>
                 <button
                   onClick={() => scrollToSection('home')}
                   className="hover:opacity-70 transition-opacity duration-200 cursor-pointer mx-2 sm:mx-3 relative"
@@ -611,7 +611,7 @@ const Header = () => {
                     decoding="async"
                   />
                 </button>
-                <span>YOU</span>
+                <span className="glow-text glow-text-lg">YOU</span>
               </span>
               <span 
                 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-light tracking-wide"
@@ -620,7 +620,7 @@ const Header = () => {
                   transition: 'opacity 0.3s ease-out'
                 }}
               >
-                <span className="text-xs sm:text-sm lg:text-base xl:text-lg font-playfair">Beauty Hub</span>
+                <span className="glow-text text-xs sm:text-sm lg:text-base xl:text-lg font-playfair">Beauty Hub</span>
               </span>
               </div>
             </div>
@@ -659,7 +659,7 @@ const Header = () => {
                     userSelect: 'none',
                     WebkitUserSelect: 'none'
                   }}
-                  className={`relative font-montserrat font-semibold uppercase tracking-[0.1em] sm:tracking-[0.18em] cursor-pointer px-2 sm:px-4 py-2 text-[10px] sm:text-xs whitespace-nowrap flex-shrink-0 select-none min-h-[32px] flex items-center transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-olive/40 rounded-sm after:content-[''] after:absolute after:left-2 after:right-2 sm:after:left-4 sm:after:right-4 after:bottom-1 after:h-px after:bg-olive after:origin-left after:transition-transform after:duration-300 ${
+                  className={`glow-text relative font-montserrat font-semibold uppercase tracking-[0.1em] sm:tracking-[0.18em] cursor-pointer px-2 sm:px-4 py-2 text-[10px] sm:text-xs whitespace-nowrap flex-shrink-0 select-none min-h-[32px] flex items-center transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-olive/40 rounded-sm after:content-[''] after:absolute after:left-2 after:right-2 sm:after:left-4 sm:after:right-4 after:bottom-1 after:h-px after:bg-olive after:origin-left after:transition-transform after:duration-300 ${
                     isPressed
                       ? 'text-olive-deep after:scale-x-100'
                       : 'text-olive after:scale-x-0 hover:after:scale-x-100 hover:text-olive-deep'

@@ -103,6 +103,66 @@ header {
 }
 
 /* ---------------------------------------------------------------------------
+   Cursor glow for primary buttons (.glow-btn) — a soft round light follows
+   the pointer, clipped INSIDE the button. Coordinates come from
+   src/lib/cursorGlow.ts. Hover-capable devices only.
+   Default light is warm (for olive/dark buttons); add .glow-dark on
+   light-surfaced buttons for an olive-tinted light instead.
+--------------------------------------------------------------------------- */
+.glow-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+@media (hover: hover) {
+  .glow-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    background: radial-gradient(
+      120px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+      var(--glow-color, rgba(255, 252, 235, 0.5)),
+      transparent 65%
+    );
+    pointer-events: none;
+  }
+
+  .glow-btn:hover::before {
+    opacity: 1;
+  }
+}
+
+.glow-dark {
+  --glow-color: rgba(80, 94, 71, 0.22);
+}
+
+/* Cursor light inside TEXT (header wordmark, nav links, contact bar).
+   On hover the glyphs become the mask for a radial gradient: a lighter
+   sage-gold spot at the cursor, the normal olive everywhere else — so the
+   light appears strictly inside the letterforms.
+   !important needed because Tailwind runs with important: true. */
+@media (hover: hover) {
+  .glow-text:hover {
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    color: transparent !important;
+    background-image: radial-gradient(
+      var(--glow-text-r, 80px) circle at var(--glow-x, 50%) var(--glow-y, 50%),
+      var(--glow-text-hi, #9db07f),
+      var(--glow-text-base, #505e47) 78%
+    );
+  }
+}
+
+/* Larger light for the big wordmark letters */
+.glow-text-lg {
+  --glow-text-r: 160px;
+}
+
+/* ---------------------------------------------------------------------------
    Texture + polish
 --------------------------------------------------------------------------- */
 /* Subtle film grain over everything except header/modals (pointer-safe) */

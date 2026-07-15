@@ -195,9 +195,9 @@ const Services = () => {
                         }
                       }
                     }}
-                    className={`w-full py-3.5 rounded-full text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-300 ${
+                    className={`glow-btn w-full py-3.5 rounded-full text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-300 ${
                       isFeatured
-                        ? 'bg-warm text-olive-ink hover:bg-cream'
+                        ? 'glow-dark bg-warm text-olive-ink hover:bg-cream'
                         : 'bg-olive text-warm hover:bg-olive-deep'
                     }`}
                     aria-label="Book appointment at Be You Beauty Hub"

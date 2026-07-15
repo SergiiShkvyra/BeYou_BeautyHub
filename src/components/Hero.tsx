@@ -89,13 +89,13 @@ const Hero = () => {
                     '_blank',
                   )
                 }
-                className="group bg-warm text-olive-ink px-9 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.18em] transition-all duration-300 hover:bg-olive hover:text-warm hover:-translate-y-0.5"
+                className="glow-btn group bg-warm text-olive-ink px-9 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.18em] transition-all duration-300 hover:bg-olive hover:text-warm hover:-translate-y-0.5"
               >
                 Book Appointment
               </button>
               <button
                 onClick={() => scrollToSection('services')}
-                className="border border-warm/60 text-warm px-9 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.18em] transition-all duration-300 hover:bg-warm hover:text-olive-ink hover:-translate-y-0.5"
+                className="glow-btn glow-dark border border-warm/60 text-warm px-9 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.18em] transition-all duration-300 hover:bg-warm hover:text-olive-ink hover:-translate-y-0.5"
                 aria-label="Scroll to Our Most Popular Services section"
                 type="button"
               >

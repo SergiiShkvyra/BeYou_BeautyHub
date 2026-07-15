@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { initCursorGlow } from './lib/cursorGlow';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Marquee from './components/Marquee';
@@ -60,8 +61,10 @@ function App() {
     };
     
     const cleanupScroll = optimizeScrolling();
-    
+    const cleanupGlow = initCursorGlow();
+
     return () => {
+      cleanupGlow();
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('resize', calculateHeaderHeight);
       cleanupScroll();

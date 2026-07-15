@@ -296,7 +296,7 @@ const Contact = () => {
             <div className="mt-8 space-y-4">
               <button
                 onClick={() => window.open('https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-gt6tu55b', '_blank')}
-                className="w-full bg-warm text-olive-ink py-4 rounded-full hover:bg-cream transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] flex items-center justify-center space-x-2"
+                className="glow-btn glow-dark w-full bg-warm text-olive-ink py-4 rounded-full hover:bg-cream transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] flex items-center justify-center space-x-2"
               >
                 <Calendar className="h-4 w-4" />
                 <span>Book Online</span>
@@ -390,7 +390,7 @@ const Contact = () => {
                     }
                   }
                 }}
-                className="w-full border border-warm/60 text-warm py-4 rounded-full hover:bg-warm hover:text-olive-ink transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] flex items-center justify-center space-x-2"
+                className="glow-btn glow-dark w-full border border-warm/60 text-warm py-4 rounded-full hover:bg-warm hover:text-olive-ink transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] flex items-center justify-center space-x-2"
               >
                 <MessageSquare className="h-4 w-4" />
                 <span>Text us</span>
@@ -506,7 +506,7 @@ const Contact = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`w-full py-3 rounded-lg font-semibold text-lg transition-colors duration-200 ${
+                className={`glow-btn glow-dark w-full py-3 rounded-lg font-semibold text-lg transition-colors duration-200 ${
                   isSubmitting
                     ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
                     : 'bg-olive text-white hover:bg-warm hover:text-olive'

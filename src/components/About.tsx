@@ -109,7 +109,7 @@ const About = () => {
             <button
               data-reveal
               onClick={() => window.open('https://www.instagram.com/beyou_beautyhub/#', '_blank')}
-              className="mt-10 bg-olive text-warm px-9 py-4 rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-olive-deep transition-all duration-300 hover:-translate-y-0.5"
+              className="glow-btn mt-10 bg-olive text-warm px-9 py-4 rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-olive-deep transition-all duration-300 hover:-translate-y-0.5"
             >
               Learn More About Us
             </button>
