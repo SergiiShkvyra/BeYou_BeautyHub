@@ -65,6 +65,17 @@ header {
   -webkit-backface-visibility: hidden;
 }
 
+/* Header surface: cream at the center warming toward the hero's warm tone
+   at the edges, slightly translucent over the backdrop blur. */
+.header-surface {
+  background: radial-gradient(
+    120% 180% at 50% 42%,
+    rgba(245, 242, 230, 0.85) 0%,
+    rgba(238, 231, 204, 0.87) 55%,
+    rgba(219, 214, 178, 0.92) 100%
+  );
+}
+
 /* ---------------------------------------------------------------------------
    Typography helpers (used across components)
 --------------------------------------------------------------------------- */
@@ -248,6 +259,48 @@ body.intro-active header {
 @keyframes intro-caret-blink {
   50% {
     opacity: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Nav click feedback: a brief pillow-shaped light — bright warm core,
+   transparent edges — that blooms and fades right after the click.
+   (Replaces the sticky focus box for mouse users; keyboard focus keeps a
+   visible ring via focus-visible.)
+--------------------------------------------------------------------------- */
+.nav-flash::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: radial-gradient(
+    55% 85% at 50% 50%,
+    rgba(228, 222, 186, 0.55) 0%,
+    rgba(219, 214, 178, 0.28) 55%,
+    rgba(219, 214, 178, 0) 100%
+  );
+  pointer-events: none;
+  animation: nav-flash 0.8s ease-out 1 both;
+}
+
+@keyframes nav-flash {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  22% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-flash::before {
+    animation: none;
   }
 }
 

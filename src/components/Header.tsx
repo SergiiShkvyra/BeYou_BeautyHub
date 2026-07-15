@@ -7,7 +7,20 @@ const Header = () => {
   const [isNavigationModalOpen, setIsNavigationModalOpen] = useState(false);
   const [isTopSectionCollapsed, setIsTopSectionCollapsed] = useState(false);
   const [pressedNavItem, setPressedNavItem] = useState<string | null>(null);
+  // Which nav item is currently showing its click-flash. Held in React state
+  // (not classList) because the header re-renders on every scroll frame and
+  // React rewrites className, wiping imperatively-added classes.
+  const [flashedNavItem, setFlashedNavItem] = useState<string | null>(null);
+  const flashTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const lastScrollYRef = useRef(0);
+
+  const flashNav = (item: string) => {
+    // Null first so a rapid re-click restarts the CSS animation.
+    setFlashedNavItem(null);
+    requestAnimationFrame(() => setFlashedNavItem(item));
+    clearTimeout(flashTimerRef.current);
+    flashTimerRef.current = setTimeout(() => setFlashedNavItem(null), 850);
+  };
 
   // ULTIMATE NUCLEAR OPTION: Force header to be visible at all times
   useEffect(() => {
@@ -144,8 +157,17 @@ const Header = () => {
   // Calculate opacity for "BeautyHub" (1 to 0)
   const beautyHubOpacity = 1 - scrollProgress;
   return (
-    <header 
-      className="bg-cream/95 backdrop-blur-md fixed top-0 left-0 right-0 w-full shadow-[0_1px_0_0_rgba(80,94,71,0.15)] z-[99999] will-change-transform"
+    <header
+      onClick={(e) => {
+        // Minimized header: a click anywhere on the bar (except an actual
+        // control, which keeps its own meaning) re-opens the top section.
+        // It stays open until the visitor scrolls down again — the scroll
+        // handler's existing down-collapse rule takes it from there.
+        if (!isTopSectionCollapsed) return;
+        if ((e.target as HTMLElement).closest('button, a')) return;
+        setIsTopSectionCollapsed(false);
+      }}
+      className="header-surface backdrop-blur-md fixed top-0 left-0 right-0 w-full shadow-[0_1px_0_0_rgba(80,94,71,0.15)] z-[99999] will-change-transform"
       style={{
         position: 'fixed',
         top: '0',
@@ -162,7 +184,8 @@ const Header = () => {
         boxSizing: 'border-box',
         WebkitTransform: 'translateZ(0)',
         WebkitBackfaceVisibility: 'hidden',
-        WebkitPosition: 'fixed'
+        WebkitPosition: 'fixed',
+        cursor: isTopSectionCollapsed ? 'pointer' : 'auto'
       }}
     >
       {/* Collapsible: top contact bar + logo row. Slides away on scroll-down, drops back on scroll-up. */}
@@ -633,10 +656,14 @@ const Header = () => {
               return (
                 <button
                   key={item}
-                  onClick={() => scrollToSection(item.toLowerCase())}
+                  onClick={() => {
+                    flashNav(item);
+                    scrollToSection(item.toLowerCase());
+                  }}
                   onTouchStart={() => setPressedNavItem(item)}
                   onTouchEnd={(e) => {
                     e.preventDefault();
+                    flashNav(item);
                     scrollToSection(item.toLowerCase());
                     releasePress();
                   }}
@@ -649,7 +676,7 @@ const Header = () => {
                     userSelect: 'none',
                     WebkitUserSelect: 'none'
                   }}
-                  className={`glow-text relative font-montserrat font-semibold uppercase tracking-[0.1em] sm:tracking-[0.18em] cursor-pointer px-2 sm:px-4 py-2 text-[10px] sm:text-xs whitespace-nowrap flex-shrink-0 select-none min-h-[32px] flex items-center transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-olive/40 rounded-sm after:content-[''] after:absolute after:left-2 after:right-2 sm:after:left-4 sm:after:right-4 after:bottom-1 after:h-px after:bg-olive after:origin-left after:transition-transform after:duration-300 ${
+                  className={`${flashedNavItem === item ? 'nav-flash ' : ''}glow-text relative font-montserrat font-semibold uppercase tracking-[0.1em] sm:tracking-[0.18em] cursor-pointer px-2 sm:px-4 py-2 text-[10px] sm:text-xs whitespace-nowrap flex-shrink-0 select-none min-h-[32px] flex items-center transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-olive/40 rounded-sm after:content-[''] after:absolute after:left-2 after:right-2 sm:after:left-4 sm:after:right-4 after:bottom-1 after:h-px after:bg-olive after:origin-left after:transition-transform after:duration-300 ${
                     isPressed
                       ? 'text-olive-deep after:scale-x-100'
                       : 'text-olive after:scale-x-0 hover:after:scale-x-100 hover:text-olive-deep'
