@@ -53,7 +53,7 @@ const Hero = () => {
     <section
       id="home"
       ref={scope}
-      className="relative min-h-[100svh] flex items-end overflow-hidden"
+      className="relative min-h-[calc(100svh-var(--header-h,170px))] flex items-end overflow-hidden"
     >
       {/* Background image */}
       <div className="absolute inset-0 z-0 overflow-hidden">

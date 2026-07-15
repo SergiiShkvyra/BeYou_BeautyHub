@@ -19,6 +19,9 @@ function App() {
       if (header) {
         const height = header.offsetHeight;
         document.body.style.paddingTop = `${height}px`;
+        // Published for layout math (e.g. the hero sizes itself to the
+        // viewport minus the header so its content fits the first screen).
+        document.documentElement.style.setProperty('--header-h', `${height}px`);
       }
     };
 

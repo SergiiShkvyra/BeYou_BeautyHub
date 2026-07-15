@@ -4,7 +4,8 @@ import { introPending, INTRO_DONE_EVENT } from '../lib/introState';
 
 /**
  * First-visit intro: on a warm gradient veil, the logo grows in at the
- * center (on first interaction, or by itself after 2s), the motto types
+ * center (on first interaction, or as soon as the logo image and motto font
+ * are loaded — capped at 1.8s), the motto types
  * itself out in three lines, then the veil dissolves over the already-built
  * site while the logo glides into its slot in the header between BE and YOU.
  *
@@ -187,7 +188,21 @@ const IntroOverlay = () => {
         runSequence();
       };
 
-      const timer = setTimeout(start, 2000);
+      // Auto-start as soon as the essentials are ready — the logo image is
+      // decoded and the motto's serif is loaded — plus a 250ms beat so the
+      // veil registers first. The 1.8s cap guarantees a start even if a
+      // decode/font promise hangs; any interaction still starts it instantly.
+      const capTimer = setTimeout(start, 1800);
+      let graceTimer: ReturnType<typeof setTimeout> | undefined;
+      const logoImg = root.querySelector<HTMLImageElement>('[data-intro-logo]');
+      Promise.all([
+        logoImg?.decode().catch(() => {}) ?? Promise.resolve(),
+        document.fonts?.load('1rem "Playfair Display"').catch(() => {}) ??
+          Promise.resolve(),
+      ]).then(() => {
+        graceTimer = setTimeout(start, 250);
+      });
+
       const events: (keyof WindowEventMap)[] = [
         'pointerdown',
         'wheel',
@@ -198,7 +213,8 @@ const IntroOverlay = () => {
         window.addEventListener(ev, start, { passive: true }),
       );
       const removeTriggers = () => {
-        clearTimeout(timer);
+        clearTimeout(capTimer);
+        if (graceTimer) clearTimeout(graceTimer);
         events.forEach((ev) => window.removeEventListener(ev, start));
       };
 
