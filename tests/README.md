@@ -5,6 +5,8 @@ live site; runs never send real emails (EmailJS is intercepted) and browsers
 run as Playwright's own isolated binaries — incognito-equivalent, fully
 separate from the browsers installed on this machine.
 
+//TODO: made sure that testing framework is alligned with the website redesign
+
 ## Commands
 
 | Command | What it does |
