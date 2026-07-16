@@ -61,7 +61,7 @@ const Hero = () => {
           data-hero-image
           src="/images/t2001x1212.jpg"
           alt="Beautiful eyelash extensions"
-          className="w-full h-full object-cover scale-105"
+          className="w-full h-full object-cover object-[50%_18%] scale-105"
           loading="eager"
           decoding="async"
         />
@@ -77,7 +77,9 @@ const Hero = () => {
         <h1 className="font-display text-warm leading-[1.02] mb-8 text-[13vw] sm:text-7xl lg:text-8xl">
           <span className="block overflow-hidden">
             <span data-hero-line className="block">
-              Be natural. Be real.
+              {/* One phrase per line on phones; single line from sm up */}
+              <span className="block sm:inline">Be natural. </span>
+              <span className="block sm:inline">Be real.</span>
             </span>
           </span>
           <span className="block overflow-hidden">

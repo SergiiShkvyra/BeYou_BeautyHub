@@ -53,11 +53,15 @@ const Testimonials = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {testimonials.map((testimonial, index) => {
             const inverted = index % 3 === 0;
+            // Single-column (mobile) order: swap cards 3 and 4 so the colors
+            // alternate olive/warm/olive/warm. Colors stay with their cards;
+            // md:order-none restores DOM order for the desktop 2×2 grid.
+            const mobileOrder = ['order-1', 'order-2', 'order-4', 'order-3'][index];
             return (
               <figure
                 key={index}
                 data-reveal
-                className={`relative rounded-3xl p-8 lg:p-10 transition-all duration-500 hover:-translate-y-1.5 ${
+                className={`${mobileOrder} md:order-none relative rounded-3xl p-8 lg:p-10 transition-all duration-500 hover:-translate-y-1.5 ${
                   inverted
                     ? 'bg-olive text-warm shadow-xl shadow-olive/25'
                     : 'bg-white/70 border border-olive/15 text-olive-ink shadow-sm hover:shadow-xl hover:shadow-olive/10'

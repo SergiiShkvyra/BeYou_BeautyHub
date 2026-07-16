@@ -1,6 +1,8 @@
 import React from 'react';
 import { Heart, Instagram, Facebook, MapPin, Phone, Mail, X } from 'lucide-react';
 import { scrollToSection, handlePhoneClick, copyEmailToClipboard } from '../utils/interactions';
+import { useReveal, ScrollTrigger } from '../lib/useReveal';
+import { createLogoSpin } from '../lib/logoSpin';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -8,8 +10,40 @@ const Footer = () => {
   const [showPrivacyModal, setShowPrivacyModal] = React.useState(false);
   const [showCookieModal, setShowCookieModal] = React.useState(false);
 
+  // Stage entrance for the footer logo: when it scrolls into view it spins
+  // around its vertical axis — starting gently, accelerating through the
+  // middle, easing to a stop over ~6 full turns — while a specular glint
+  // flashes each time the face sweeps past the viewer, like it's catching
+  // stage lights. Clicking the logo replays the show any time.
+  const scope = useReveal<HTMLElement>((footer) => {
+    // Both footer logos (desktop right column + mobile next to Quick Links)
+    // get the identical show; each spins when IT scrolls into view and
+    // replays on click/tap.
+    const logos = Array.from(
+      footer.querySelectorAll<HTMLElement>('[data-footer-logo]'),
+    );
+    const cleanups = logos.map((logo) => {
+      const spin = createLogoSpin(logo);
+      // Not `once`: a one-shot trigger can be consumed by transient layout
+      // states around the intro's scroll lock and then never fire for the
+      // user. Re-triggering on each entry is robust (and a nice touch);
+      // the isActive() guard stops boundary jitter from restarting mid-show.
+      ScrollTrigger.create({
+        trigger: logo,
+        start: 'top 92%',
+        onEnter: () => {
+          if (!spin.isActive()) spin.restart();
+        },
+      });
+      const replay = () => void spin.restart();
+      logo.addEventListener('click', replay);
+      return () => logo.removeEventListener('click', replay);
+    });
+    return () => cleanups.forEach((fn) => fn());
+  });
+
   return (
-    <footer className="bg-olive-ink text-warm">
+    <footer ref={scope} className="bg-olive-ink text-warm">
       {/* Main footer content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -52,9 +86,11 @@ const Footer = () => {
               {/* Logo for mobile - positioned next to Quick Links */}
               <div className="lg:hidden ml-8 flex-shrink-0">
                 <img
+                  data-footer-logo
                   src="/images/logoPSD-2.png"
                   alt="BeYou BeautyHub Logo"
-                  className="h-44 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-200"
+                  className="h-44 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-200 will-change-transform cursor-pointer"
+                  title="Spin me"
                   loading="lazy"
                   decoding="async"
                 />
@@ -227,9 +263,11 @@ const Footer = () => {
           {/* Logo for desktop only */}
           <div className="hidden lg:flex justify-end">
             <img
+              data-footer-logo
               src="/images/logoPSD-2.png"
               alt="BeYou BeautyHub Logo"
-              className="h-48 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-200"
+              className="h-48 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-200 will-change-transform cursor-pointer"
+              title="Spin me"
               loading="lazy"
               decoding="async"
             />

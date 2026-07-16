@@ -167,7 +167,7 @@ const Header = () => {
         if ((e.target as HTMLElement).closest('button, a')) return;
         setIsTopSectionCollapsed(false);
       }}
-      className="header-surface backdrop-blur-md fixed top-0 left-0 right-0 w-full shadow-[0_1px_0_0_rgba(80,94,71,0.15)] z-[99999] will-change-transform"
+      className="header-surface backdrop-blur-md fixed top-0 left-0 right-0 w-full z-[99999] will-change-transform"
       style={{
         position: 'fixed',
         top: '0',
@@ -198,7 +198,7 @@ const Header = () => {
       >
       {/* Top contact bar */}
       <div className="py-0 px-4 w-full" style={{ margin: '0', padding: '0 1rem', width: '100%' }}>
-        <div className="max-w-7xl mx-auto flex justify-between items-center text-xs text-olive py-1.5 border-b border-olive/10">
+        <div className="header-line-top max-w-7xl mx-auto flex justify-between items-center text-xs text-olive py-1.5 border-b border-olive/10">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1">
               <Phone className="h-4 w-4" />
@@ -549,44 +549,58 @@ const Header = () => {
             <div 
               className="glow-text text-right text-sm leading-tight cursor-pointer hover:text-olive transition-colors duration-200"
               onClick={() => {
-                // Scroll to contact section first
+                // ONE smooth scroll straight to the final position (the Hours
+                // block centered on screen). The old version chained a second
+                // smooth scroll off a timer while the first was still moving,
+                // which showed as a harsh jump near the end.
                 const contactSection = document.getElementById('contact');
-                if (contactSection) {
+                if (!contactSection) return;
+                const hoursDiv = contactSection
+                  .querySelector('.space-y-6')
+                  ?.querySelector('div:first-child') as HTMLElement | null;
+                if (!hoursDiv) {
                   contactSection.scrollIntoView({ behavior: 'smooth' });
-                  
-                  // After scrolling, find and highlight the Hours div
-                  setTimeout(() => {
-                    // Find the Hours div in the Contact section (now the first div in the space-y-6 container)
-                    const contactInfoContainer = contactSection.querySelector('.space-y-6');
-                    const hoursDiv = contactInfoContainer?.querySelector('div:first-child'); // The Hours div is now the first child
-                    if (hoursDiv) {
-                      // Center the Hours div on screen
-                      const rect = hoursDiv.getBoundingClientRect();
-                      const viewportHeight = window.innerHeight;
-                      const elementHeight = rect.height;
-                      const scrollOffset = window.scrollY + rect.top - (viewportHeight / 2) + (elementHeight / 2);
-                      
-                      window.scrollTo({
-                        top: scrollOffset,
-                        behavior: 'smooth'
-                      });
-                      
-                      // Soft on-brand highlight: one gentle warm-gradient
-                      // breath (see .schedule-highlight in index.css).
-                      const el = hoursDiv as HTMLElement;
-                      setTimeout(() => {
-                        el.classList.remove('schedule-highlight');
-                        void el.offsetWidth; // restart the animation if re-clicked
-                        el.classList.add('schedule-highlight');
-                        el.addEventListener(
-                          'animationend',
-                          () => el.classList.remove('schedule-highlight'),
-                          { once: true },
-                        );
-                      }, 450);
-                    }
-                  }, 800); // Wait for scroll to complete
+                  return;
                 }
+
+                // Element positions are stable, so the centered target can be
+                // computed up front in absolute document coordinates.
+                const rect = hoursDiv.getBoundingClientRect();
+                const target = Math.round(
+                  window.scrollY + rect.top - window.innerHeight / 2 + rect.height / 2,
+                );
+                window.scrollTo({ top: target, behavior: 'smooth' });
+
+                // Soft highlight once the scroll has actually settled —
+                // `scrollend` where supported, scroll-position stability as
+                // the fallback. Never both (guarded by `done`).
+                let done = false;
+                const startHighlight = () => {
+                  if (done) return;
+                  done = true;
+                  window.removeEventListener('scrollend', startHighlight);
+                  clearInterval(stabilityPoll);
+                  hoursDiv.classList.remove('schedule-highlight');
+                  void hoursDiv.offsetWidth; // restart the animation if re-clicked
+                  hoursDiv.classList.add('schedule-highlight');
+                  hoursDiv.addEventListener(
+                    'animationend',
+                    () => hoursDiv.classList.remove('schedule-highlight'),
+                    { once: true },
+                  );
+                };
+                window.addEventListener('scrollend', startHighlight, { once: true });
+                let lastY = -1;
+                let stableTicks = 0;
+                const stabilityPoll = setInterval(() => {
+                  if (window.scrollY === lastY) {
+                    stableTicks += 1;
+                    if (stableTicks >= 3) startHighlight();
+                  } else {
+                    stableTicks = 0;
+                    lastY = window.scrollY;
+                  }
+                }, 120);
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -619,7 +633,7 @@ const Header = () => {
                   <img
                     src="/images/tryLogo-1.png"
                     alt="BeYou BeautyHub Logo"
-                    className="h-12 w-auto sm:h-16 md:h-20 object-contain transition-all duration-200 ease-in-out hover:scale-105"
+                    className="logo-glow h-12 w-auto sm:h-16 md:h-20 object-contain transition-all duration-200 ease-in-out hover:scale-105"
                     loading="eager"
                     decoding="async"
                   />
@@ -643,7 +657,7 @@ const Header = () => {
 
       {/* Horizontal Navigation Bar — always visible; sits at the very top once the section above collapses */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="border-t border-olive/20 py-0 mt-0">
+        <div className="header-line-bottom border-t border-olive/20 py-0 mt-0">
           <nav className="flex justify-center items-center gap-0.5 sm:gap-4 lg:gap-6 max-w-4xl mx-auto px-1 py-2 overflow-x-auto font-montserrat min-h-[48px]">
             {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => {
               const isPressed = pressedNavItem === item;

@@ -16,7 +16,7 @@ import { introPending, INTRO_DONE_EVENT } from '../lib/introState';
  * Skipped under prefers-reduced-motion (keeps the test suite unaffected).
  */
 
-const PHRASES = ['Be natural.', 'Be real.', 'BeYou.'];
+const PHRASES = ['Be Natural.', 'Be Real.', 'BeYou.'];
 const CHAR_DELAY = 0.055; // s per typed character
 const PHRASE_PAUSE = 0.75; // s of stillness before each new line
 const TYPE_TOTAL =

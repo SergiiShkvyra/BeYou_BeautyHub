@@ -65,15 +65,30 @@ header {
   -webkit-backface-visibility: hidden;
 }
 
-/* Header surface: cream at the center warming toward the hero's warm tone
-   at the edges, slightly translucent over the backdrop blur. */
+/* Header surface: an editorial "spotlight" — a soft sheen along the top,
+   luminous cream around the wordmark, deepening through the intro screen's
+   warm tones into a rich vignette at the edges. */
 .header-surface {
-  background: radial-gradient(
-    120% 180% at 50% 42%,
-    rgba(245, 242, 230, 0.85) 0%,
-    rgba(238, 231, 204, 0.87) 55%,
-    rgba(219, 214, 178, 0.92) 100%
-  );
+  border-radius: 0 0 18px 18px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 253, 244, 0.55) 0%,
+      rgba(255, 253, 244, 0) 32%
+    ),
+    radial-gradient(
+      120% 200% at 50% 40%,
+      rgba(248, 245, 233, 0.92) 0%,
+      rgba(236, 229, 199, 0.9) 45%,
+      rgba(196, 187, 136, 0.93) 74%,
+      rgba(138, 129, 82, 0.96) 100%
+    );
+  /* Elevation: hairline seam + two soft olive shadow plumes, so the header
+     reads as a solid surface floating above the page. */
+  box-shadow:
+    0 1px 0 rgba(80, 94, 71, 0.14),
+    0 6px 16px rgba(58, 69, 49, 0.16),
+    0 20px 44px rgba(58, 69, 49, 0.12);
 }
 
 /* ---------------------------------------------------------------------------
@@ -168,9 +183,74 @@ header {
   }
 }
 
+/* Touch counterpart (no media gate): cursorGlow.ts adds .glow-touch while a
+   finger rests on or slides across the text, with --glow-x/y at the touch
+   point — the same light desktop users get from hovering. */
+.glow-text.glow-touch {
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  background-image: radial-gradient(
+    var(--glow-text-r, 80px) circle at var(--glow-x, 50%) var(--glow-y, 50%),
+    var(--glow-text-hi, #9db07f),
+    var(--glow-text-base, #505e47) 78%
+  );
+}
+
 /* Larger light for the big wordmark letters */
 .glow-text-lg {
   --glow-text-r: 160px;
+}
+
+/* Soft shadows hugging the header's two hairlines: strongest at the center,
+   melting away toward the edges (and away from the line). Pure decoration —
+   pointer-events none, zero layout impact. */
+.header-line-top {
+  position: relative;
+}
+.header-line-top::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 16px;
+  pointer-events: none;
+  background: radial-gradient(
+    58% 100% at 50% 100%,
+    rgba(58, 69, 49, 0.16),
+    rgba(58, 69, 49, 0) 72%
+  );
+}
+
+.header-line-bottom {
+  position: relative;
+}
+.header-line-bottom::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 16px;
+  pointer-events: none;
+  background: radial-gradient(
+    58% 100% at 50% 0%,
+    rgba(58, 69, 49, 0.16),
+    rgba(58, 69, 49, 0) 72%
+  );
+}
+
+/* Image counterpart of .glow-text for the header logo: a sage light that
+   hugs the artwork's strokes (drop-shadow follows the PNG alpha). */
+@media (hover: hover) {
+  .logo-glow {
+    transition: filter 0.3s ease;
+  }
+  .logo-glow:hover {
+    filter: brightness(1.12) drop-shadow(0 0 8px rgba(157, 176, 127, 0.75))
+      drop-shadow(0 0 20px rgba(157, 176, 127, 0.4));
+  }
 }
 
 /* ---------------------------------------------------------------------------

@@ -16,13 +16,28 @@ function App() {
     // Calculate header height for proper body padding
     const calculateHeaderHeight = () => {
       const header = document.querySelector('header');
-      if (header) {
-        const height = header.offsetHeight;
-        document.body.style.paddingTop = `${height}px`;
-        // Published for layout math (e.g. the hero sizes itself to the
-        // viewport minus the header so its content fits the first screen).
-        document.documentElement.style.setProperty('--header-h', `${height}px`);
+      if (!header) return;
+      // Only trust a measurement taken with the top section fully expanded.
+      // Real phones fire `resize` when the URL bar hides mid-scroll — if the
+      // header is collapsed (or mid-transition) at that moment, its height
+      // would poison the body padding with a too-small value.
+      const collapsible = header.querySelector<HTMLElement>(
+        ':scope > div.overflow-hidden',
+      );
+      if (collapsible) {
+        // Collapsed state is authoritative from the inline max-height the
+        // Header component drives; the height comparison (with a 2px
+        // tolerance for fractional-vs-integer rounding) catches mid-
+        // transition frames.
+        if (collapsible.style.maxHeight === '0px') return;
+        const rendered = collapsible.getBoundingClientRect().height;
+        if (rendered < collapsible.scrollHeight - 2) return;
       }
+      const height = header.offsetHeight;
+      document.body.style.paddingTop = `${height}px`;
+      // Published for layout math (e.g. the hero sizes itself to the
+      // viewport minus the header so its content fits the first screen).
+      document.documentElement.style.setProperty('--header-h', `${height}px`);
     };
 
     // Initial calculation

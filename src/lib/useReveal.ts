@@ -45,16 +45,18 @@ export function revealChildren(scope: HTMLElement) {
     // opacity (not autoAlpha): unrevealed elements must never be
     // visibility:hidden — screen readers and test tooling should still
     // consider them present.
+    // Timing is deliberately brisk: reveals that trail a fast scroll by a
+    // second read as "the page is slow", not as choreography.
     gsap.from(el, {
-      y: isImage ? 0 : 44,
-      scale: isImage ? 1.06 : 1,
+      y: isImage ? 0 : 28,
+      scale: isImage ? 1.05 : 1,
       opacity: 0,
-      duration: isImage ? 1.4 : 1,
+      duration: isImage ? 0.9 : 0.65,
       ease: 'power3.out',
-      delay: (i % 4) * 0.08,
+      delay: (i % 4) * 0.06,
       scrollTrigger: {
         trigger: el,
-        start: 'top 88%',
+        start: 'top 94%',
         once: true,
       },
     });
