@@ -56,7 +56,7 @@ const Hero = () => {
       className="relative [margin-top:calc(var(--header-h,170px)*-1)] min-h-[100svh] md:mt-0 md:min-h-[calc(100svh-var(--header-h,170px))] flex items-end overflow-hidden"
     >
       {/* Background image */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
+      <div className="hero-canvas-fade absolute inset-0 z-0 overflow-hidden">
         {/* Mobile: the image starts 64px down inside the hero so the photo's
             top (the brows) sits clearly below the ~128px header instead of
             hiding behind it — while still covering the header's rounded

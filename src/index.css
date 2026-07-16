@@ -95,6 +95,42 @@ header {
 }
 
 /* ---------------------------------------------------------------------------
+   Hero canvas top fade: the image (and its tint overlay) dissolve to
+   transparent at the very top — the zone tucked behind the header bar.
+   Mobile and desktop are tuned separately: the mobile hero extends the
+   full ~128px under the header (fade must finish before the rounded
+   corner zone at ~110px stays visible); the desktop hero meets the bar's
+   bottom edge, so it gets a shorter, gentler blend.
+--------------------------------------------------------------------------- */
+.hero-canvas-fade {
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 1) 108px
+  );
+  mask-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 1) 108px
+  );
+}
+
+@media (min-width: 768px) {
+  .hero-canvas-fade {
+    -webkit-mask-image: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 1) 56px
+    );
+    mask-image: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 1) 56px
+    );
+  }
+}
+
+/* ---------------------------------------------------------------------------
    Typography helpers (used across components)
 --------------------------------------------------------------------------- */
 .font-playfair {
