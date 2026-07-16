@@ -70,34 +70,21 @@ header {
    warm tones into a rich vignette at the edges. */
 .header-surface {
   border-radius: 0 0 18px 18px;
-}
-
-/* Mobile: Chromium's compositor unreliably honors border-radius on the
-   fixed header (opaque square corners painted over the hero on real
-   devices). clip-path is applied AS a compositor clip and cannot leak —
-   it guarantees the corner transparency. Outer shadows would be clipped
-   by it, so they're dropped below md (they read as a hairline there
-   anyway); desktop keeps radius + full elevation unchanged. */
-@media (max-width: 767px) {
-  .header-surface {
-    clip-path: inset(0 round 0 0 18px 18px);
-    box-shadow: none;
-  }
-}
-
-.header-surface {
+  /* One surface for every device — same translucency, same blur, same
+     shadow. Alphas sit in the middle: airier than the old desktop, more
+     solid than the blur-less mobile was. */
   background:
     linear-gradient(
       180deg,
-      rgba(255, 253, 244, 0.55) 0%,
+      rgba(255, 253, 244, 0.5) 0%,
       rgba(255, 253, 244, 0) 32%
     ),
     radial-gradient(
       120% 200% at 50% 40%,
-      rgba(248, 245, 233, 0.92) 0%,
-      rgba(236, 229, 199, 0.9) 45%,
-      rgba(196, 187, 136, 0.93) 74%,
-      rgba(138, 129, 82, 0.96) 100%
+      rgba(248, 245, 233, 0.84) 0%,
+      rgba(236, 229, 199, 0.82) 45%,
+      rgba(196, 187, 136, 0.86) 74%,
+      rgba(138, 129, 82, 0.9) 100%
     );
   /* Elevation: hairline seam + two soft olive shadow plumes, so the header
      reads as a solid surface floating above the page. */

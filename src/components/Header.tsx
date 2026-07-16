@@ -172,7 +172,7 @@ const Header = () => {
         if ((e.target as HTMLElement).closest('button, a')) return;
         setIsTopSectionCollapsed(false);
       }}
-      className="header-surface md:backdrop-blur-md fixed top-0 left-0 right-0 w-full z-[99999]"
+      className="header-surface backdrop-blur-md fixed top-0 left-0 right-0 w-full z-[99999]"
       style={{
         position: 'fixed',
         top: '0',
