@@ -70,12 +70,17 @@ const Header = () => {
         header.style.width = '100vw';
         header.style.maxWidth = '100vw';
         header.style.zIndex = '2147483647';
-        header.style.transform = 'translateZ(0)';
-        header.style.webkitTransform = 'translateZ(0)';
-        header.style.backfaceVisibility = 'hidden';
-        header.style.webkitBackfaceVisibility = 'hidden';
-        header.style.willChange = 'transform';
-        header.style.contain = 'layout style paint';
+        // NO GPU-layer promotion here (translateZ / will-change / contain
+        // paint / preserve-3d): a composited fixed layer with border-radius
+        // triggers a Chromium compositor bug that paints the rounded
+        // corners as opaque squares over the hero on real devices. The
+        // neutral values are set explicitly to overwrite older inline ones.
+        header.style.transform = 'none';
+        header.style.webkitTransform = 'none';
+        header.style.backfaceVisibility = 'visible';
+        header.style.webkitBackfaceVisibility = 'visible';
+        header.style.willChange = 'auto';
+        header.style.contain = 'none';
         
         // Force visibility properties
         header.style.display = 'block';
@@ -86,8 +91,8 @@ const Header = () => {
         // Prevent any scroll behavior or transforms
         header.style.overflowY = 'visible';
         header.style.overflowX = 'hidden';
-        header.style.transformStyle = 'preserve-3d';
-        header.style.perspective = '1000px';
+        header.style.transformStyle = 'flat';
+        header.style.perspective = 'none';
         
         // Prevent any CSS animations or transitions that might hide it
         header.style.transition = 'none';
@@ -167,7 +172,7 @@ const Header = () => {
         if ((e.target as HTMLElement).closest('button, a')) return;
         setIsTopSectionCollapsed(false);
       }}
-      className="header-surface md:backdrop-blur-md fixed top-0 left-0 right-0 w-full z-[99999] will-change-transform"
+      className="header-surface md:backdrop-blur-md fixed top-0 left-0 right-0 w-full z-[99999]"
       style={{
         position: 'fixed',
         top: '0',
@@ -178,13 +183,7 @@ const Header = () => {
         margin: '0',
         padding: '0',
         zIndex: '99999',
-        transform: 'translateZ(0)',
-        backfaceVisibility: 'hidden',
-        willChange: 'transform',
         boxSizing: 'border-box',
-        WebkitTransform: 'translateZ(0)',
-        WebkitBackfaceVisibility: 'hidden',
-        WebkitPosition: 'fixed',
         cursor: isTopSectionCollapsed ? 'pointer' : 'auto'
       }}
     >

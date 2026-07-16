@@ -70,6 +70,22 @@ header {
    warm tones into a rich vignette at the edges. */
 .header-surface {
   border-radius: 0 0 18px 18px;
+}
+
+/* Mobile: Chromium's compositor unreliably honors border-radius on the
+   fixed header (opaque square corners painted over the hero on real
+   devices). clip-path is applied AS a compositor clip and cannot leak —
+   it guarantees the corner transparency. Outer shadows would be clipped
+   by it, so they're dropped below md (they read as a hairline there
+   anyway); desktop keeps radius + full elevation unchanged. */
+@media (max-width: 767px) {
+  .header-surface {
+    clip-path: inset(0 round 0 0 18px 18px);
+    box-shadow: none;
+  }
+}
+
+.header-surface {
   background:
     linear-gradient(
       180deg,

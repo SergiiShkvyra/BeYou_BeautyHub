@@ -108,7 +108,11 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-cream w-full overflow-x-hidden">
+    // No overflow-x-hidden on this div: it would turn it into a clip box
+    // that truncates the hero's pulled-up top (the part that must show
+    // through the header's rounded corners on mobile). html/body already
+    // clip horizontal overflow.
+    <div className="min-h-screen bg-cream w-full">
       <IntroOverlay />
       <Header />
       <Hero />
