@@ -57,11 +57,16 @@ const Hero = () => {
     >
       {/* Background image */}
       <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* Mobile: the image starts 64px down inside the hero so the photo's
+            top (the brows) sits clearly below the ~128px header instead of
+            hiding behind it — while still covering the header's rounded
+            corner zone (which begins ~110px down). Desktop: photo anchored
+            to its top edge so the brows are never cropped. */}
         <img
           data-hero-image
           src="/images/t2001x1212.jpg"
           alt="Beautiful eyelash extensions"
-          className="w-full h-full object-cover object-[50%_18%] scale-105"
+          className="w-full mt-16 h-[calc(100%-4rem)] md:mt-0 md:h-full object-cover object-[60%_0%] md:object-[50%_0%] scale-105"
           loading="eager"
           decoding="async"
         />
