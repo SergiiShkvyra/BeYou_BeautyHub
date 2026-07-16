@@ -51,6 +51,16 @@ function App() {
     window.addEventListener('load', calculateHeaderHeight);
     document.fonts?.ready.then(calculateHeaderHeight).catch(() => {});
 
+    // The resize event can fire BEFORE the header reflows to the new
+    // viewport (verified: DevTools device-toolbar toggles left a stale
+    // desktop padding on a mobile-width header). ResizeObserver fires
+    // after layout whenever the header's actual size changes — it corrects
+    // every such case; the guard above keeps collapse animations from
+    // poisoning the value.
+    const headerEl = document.querySelector('header');
+    const headerResizeObserver = new ResizeObserver(() => calculateHeaderHeight());
+    if (headerEl) headerResizeObserver.observe(headerEl);
+
     // Fix for responsive mode white screen
     const handleResize = () => {
       const vh = window.innerHeight * 0.01;
@@ -89,6 +99,7 @@ function App() {
 
     return () => {
       cleanupGlow();
+      headerResizeObserver.disconnect();
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('resize', calculateHeaderHeight);
       window.removeEventListener('load', calculateHeaderHeight);
