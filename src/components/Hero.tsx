@@ -1,12 +1,15 @@
 import { Star, Award, Users } from 'lucide-react';
 import { scrollToSection } from '../utils/interactions';
-import { useReveal, gsap } from '../lib/useReveal';
+import { useReveal, gsap, ScrollTrigger } from '../lib/useReveal';
 import { introPending, INTRO_DONE_EVENT } from '../lib/introState';
 
+// value is the count-up target; suffix stays static beside it (the markup
+// keeps the full final value, so no-JS / reduced-motion visitors — and the
+// test suite — always see "1400+" etc. without any animation).
 const stats = [
-  { icon: Users, value: '1400+', label: 'Happy Clients' },
-  { icon: Award, value: '3+', label: 'Years Experience' },
-  { icon: Star, value: '5', label: 'Average Rating' },
+  { icon: Users, value: 1400, suffix: '+', label: 'Happy Clients' },
+  { icon: Award, value: 3, suffix: '+', label: 'Years Experience' },
+  { icon: Star, value: 5, suffix: '', label: 'Average Rating' },
 ];
 
 const Hero = () => {
@@ -28,6 +31,47 @@ const Hero = () => {
         { y: 28, opacity: 0, duration: 0.9, stagger: 0.12 },
         0.85,
       );
+
+    // Stat counters: zeroed while the entrance plays, then counting up to
+    // their targets only AFTER the rest of the hero animation has finished
+    // (appended at the timeline's end). ~1s ease-out rendering whole
+    // integers — the same feel as the reference site's count-up — and run
+    // once per page load. Skipped wholesale under prefers-reduced-motion
+    // (this whole callback never runs), leaving the static final values.
+    const counters = Array.from(
+      section.querySelectorAll<HTMLElement>('[data-count-to]'),
+    );
+    counters.forEach((el) => (el.textContent = '0'));
+    const startCounters = () => {
+      counters.forEach((el) => {
+        const target = Number(el.dataset.countTo);
+        const state = { v: 0 };
+        gsap.to(state, {
+          v: target,
+          duration: 1,
+          ease: 'power2.out',
+          onUpdate: () => {
+            el.textContent = String(Math.round(state.v));
+          },
+        });
+      });
+    };
+    // Landscape phones: the stats row sits below the fold, so counting at
+    // the entrance's end would play unseen — arm a one-shot ScrollTrigger
+    // and count when the row actually scrolls into view instead.
+    if (
+      window.matchMedia('(orientation: landscape) and (max-height: 500px)')
+        .matches
+    ) {
+      ScrollTrigger.create({
+        trigger: section.querySelector('[data-hero-stats]'),
+        start: 'top 95%',
+        once: true,
+        onEnter: startCounters,
+      });
+    } else {
+      tl.add(startCounters);
+    }
 
     if (introPending) {
       tl.progress(0); // render the first frame so nothing flashes pre-reveal
@@ -125,15 +169,20 @@ const Hero = () => {
           </div>
 
           {/* Stats */}
-          <div data-hero-fade className="flex items-stretch divide-x divide-warm/25">
-            {stats.map(({ icon: Icon, value, label }) => (
+          <div
+            data-hero-fade
+            data-hero-stats
+            className="flex items-stretch divide-x divide-warm/25"
+          >
+            {stats.map(({ icon: Icon, value, suffix, label }) => (
               <div
                 key={label}
                 className="flex flex-col gap-1 px-6 first:pl-0 last:pr-0"
               >
                 <Icon className="h-5 w-5 text-warm/80 mb-2" />
                 <div className="font-display text-3xl sm:text-4xl text-warm leading-none">
-                  {value}
+                  <span data-count-to={value}>{value}</span>
+                  {suffix}
                 </div>
                 <div className="text-[11px] uppercase tracking-[0.2em] text-cream/90 mt-1">
                   {label}
