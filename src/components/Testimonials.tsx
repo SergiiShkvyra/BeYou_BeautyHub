@@ -57,11 +57,15 @@ const Testimonials = () => {
         const line = row.querySelector('[data-stage-line]');
         const panel = row.querySelector('[data-stage-panel]');
         const typed = row.querySelector<HTMLElement>('[data-typed-text]');
+        // start 'top 70%': the row must be a third of the way up the screen
+        // before its entrance begins — starting at 85% felt like it fired
+        // the moment the row peeked in. Durations are ~1.4x the reference
+        // site's for a calmer, more deliberate pace.
         const tl = gsap.timeline({
-          scrollTrigger: { trigger: row, start: 'top 85%', once: true },
+          scrollTrigger: { trigger: row, start: 'top 70%', once: true },
         });
-        tl.from(node, { scale: 0.55, duration: 0.52, ease: 'back.out(1.7)' }, 0)
-          .from(node, { opacity: 0, duration: 0.3, ease: 'power1.out' }, 0);
+        tl.from(node, { scale: 0.55, duration: 0.7, ease: 'back.out(1.7)' }, 0)
+          .from(node, { opacity: 0, duration: 0.42, ease: 'power1.out' }, 0);
 
         if (typed) {
           // The "…and counting" ending: instead of sliding in, the line
@@ -96,12 +100,12 @@ const Testimonials = () => {
                 }
               },
             },
-            0.52,
+            0.7,
           );
         } else {
           tl.from(
             panel,
-            { x: 28, opacity: 0, duration: 0.62, ease: 'expo.out' },
+            { x: 28, opacity: 0, duration: 0.85, ease: 'expo.out' },
             0,
           );
         }
@@ -112,10 +116,10 @@ const Testimonials = () => {
             {
               scaleY: 0,
               transformOrigin: '50% 0%',
-              duration: 0.6,
+              duration: 0.85,
               ease: 'expo.out',
             },
-            0.13,
+            0.18,
           );
         }
       });
