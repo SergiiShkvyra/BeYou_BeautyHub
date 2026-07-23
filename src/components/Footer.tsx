@@ -53,11 +53,11 @@ const Footer = () => {
   const [showPrivacyModal, setShowPrivacyModal] = React.useState(false);
   const [showCookieModal, setShowCookieModal] = React.useState(false);
 
-  // Stage entrance for the footer logo: when it scrolls into view it spins
-  // around its vertical axis — starting gently, accelerating through the
-  // middle, easing to a stop over ~6 full turns — while a specular glint
-  // flashes each time the face sweeps past the viewer, like it's catching
-  // stage lights. Clicking the logo replays the show any time.
+  // Stage entrance for the footer logo: the FIRST time it scrolls into view
+  // it spins around its vertical axis — starting gently, accelerating
+  // through the middle, easing to a stop — while a specular glint flashes
+  // each time the face sweeps past the viewer, like it's catching stage
+  // lights. After that it only replays on click/tap.
   const scope = useReveal<HTMLElement>((footer) => {
     // Both footer logos (desktop right column + mobile next to Quick Links)
     // get the identical show; each spins when IT scrolls into view and
@@ -67,15 +67,19 @@ const Footer = () => {
     );
     const cleanups = logos.map((logo) => {
       const spin = createLogoSpin(logo);
-      // Not `once`: a one-shot trigger can be consumed by transient layout
-      // states around the intro's scroll lock and then never fire for the
-      // user. Re-triggering on each entry is robust (and a nice touch);
-      // the isActive() guard stops boundary jitter from restarting mid-show.
+      // Plays ONCE on the first genuine scroll-into-view, then the trigger
+      // retires — later visits don't re-spin; only a click replays. The
+      // manual flag (instead of `once: true`) keeps the old robustness:
+      // the trigger is only killed after a spin actually started, so a
+      // transient layout state can't consume the one shot silently.
       ScrollTrigger.create({
         trigger: logo,
         start: 'top 92%',
-        onEnter: () => {
-          if (!spin.isActive()) spin.restart();
+        onEnter: (self) => {
+          if (!spin.isActive()) {
+            spin.restart();
+            self.kill();
+          }
         },
       });
       const replay = () => void spin.restart();
