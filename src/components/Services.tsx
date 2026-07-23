@@ -9,6 +9,8 @@ const Services = () => {
       title: 'Signature Korean Lash lift',
       description: 'The luxury treatment-focused lash lift using advanced Korean technology to safely lift, nourish, and strengthen your natural lashes while creating a beautifully defined, long-lasting curl.',
       price: 'From $115',
+      // Limited-time offer: old price struck out, promo price beside it
+      promo: { was: '$115', now: '$105', note: 'Limited time' },
       duration: '60 min',
       features: ['Gentle, lash-health focused technique', 'Premium Korean formulas enriched with vitamins', 'Suitable for all lash types and complexities', 'Results last up to 8 weeks with minimal maintenance'],
       bookingUrl: 'https://www.fresha.com/book-now/beyou-beautyhub-j4ur9xlp/services?lid=2613695&eid=4605333&oiid=sv%3A27974629&share=true&pId=2531140',
@@ -82,6 +84,7 @@ const Services = () => {
           {services.map((service, index) => {
             const isFeatured = 'isFeatured' in service && service.isFeatured;
             const isNew = 'isNew' in service && service.isNew;
+            const promo = 'promo' in service ? service.promo : undefined;
 
             return (
               <article
@@ -135,11 +138,43 @@ const Services = () => {
                   </p>
 
                   <div
-                    className={`flex justify-between items-baseline border-t pt-5 mb-6 ${
-                      isFeatured ? 'border-warm/25' : 'hairline border-t'
-                    }`}
+                    className={`flex justify-between gap-3 border-t pt-5 mb-6 ${
+                      promo ? 'items-center' : 'items-baseline'
+                    } ${isFeatured ? 'border-warm/25' : 'hairline border-t'}`}
                   >
-                    <span className="font-display text-3xl">{service.price}</span>
+                    {promo ? (
+                      // Slightly smaller than the regular 3xl so the struck
+                      // old price + promo price fit on one line; the note
+                      // sits directly UNDER the promo price (it refers to
+                      // the price, not the duration) inside the same row
+                      // height — the card doesn't grow.
+                      <span className="relative font-display text-2xl whitespace-nowrap">
+                        From{' '}
+                        <s
+                          className={`text-base line-through decoration-2 ${
+                            isFeatured
+                              ? 'text-warm/50 decoration-warm/70'
+                              : 'text-olive-ink/40 decoration-olive/60'
+                          }`}
+                        >
+                          {promo.was}
+                        </s>{' '}
+                        {promo.now}
+                        {/* Absolutely positioned: renders in the row's
+                            existing bottom margin, adding no height */}
+                        <span
+                          className={`absolute left-0 top-full -mt-2.5 font-montserrat text-[11px] uppercase tracking-[0.18em] font-semibold ${
+                            isFeatured ? 'text-warm' : 'text-olive'
+                          }`}
+                        >
+                          {promo.note}
+                        </span>
+                      </span>
+                    ) : (
+                      <span className="font-display text-3xl">
+                        {service.price}
+                      </span>
+                    )}
                     {service.duration && (
                       <span
                         className={`text-[11px] uppercase tracking-[0.18em] ${
