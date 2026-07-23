@@ -130,10 +130,6 @@ const IntroOverlay = () => {
           0,
         );
 
-        // Let the page build itself now, hidden behind the veil, so the
-        // reveal shows a finished site instead of a sudden load-in.
-        tl.call(() => window.dispatchEvent(new Event(INTRO_DONE_EVENT)), [], 0.9);
-
         // 2) Typewriter motto, three lines with pauses
         tl.to(q('[data-motto]'), { autoAlpha: 1, duration: 0.3 }, 1.3);
         tl.call(() => mottoText && typeMotto(mottoText), [], 1.5);
@@ -141,14 +137,12 @@ const IntroOverlay = () => {
         tl.to({}, { duration: 0.6 }); // hold on the finished motto
 
         // Any click/tap while the intro is playing jumps straight to the
-        // hand-off (logo flight into the header). seek() suppresses the
-        // callbacks it jumps over, so the page-build event is dispatched
-        // manually (Hero listens with {once:true} — a double fire is
-        // harmless) and a pending typewriter timeout is cancelled.
+        // hand-off (logo flight into the header). The hand-off callback
+        // below still fires from there, so the hero-release event keeps its
+        // timing; a pending typewriter timeout is cancelled.
         tl.addLabel('handoff');
         const skipToHandoff = () => {
           if (tl.time() >= tl.labels.handoff) return;
-          window.dispatchEvent(new Event(INTRO_DONE_EVENT));
           tl.seek('handoff');
           if (typeTimeout) clearTimeout(typeTimeout);
         };
@@ -164,6 +158,13 @@ const IntroOverlay = () => {
           ease: 'power1.inOut',
         });
         tl.add(() => {
+          // Release the hero's entrance NOW — its text/buttons animate in
+          // while the veil dissolves and the logo flies home, so the
+          // visitor actually sees them (starting it any earlier hides the
+          // whole entrance behind the veil). Fires in the skip path too:
+          // seek('handoff') lands right on this callback.
+          window.dispatchEvent(new Event(INTRO_DONE_EVENT));
+
           // Reveal the (already settled) site's header; its own logo stays
           // invisible until ours lands in the slot.
           if (headerLogo) headerLogo.style.opacity = '0';

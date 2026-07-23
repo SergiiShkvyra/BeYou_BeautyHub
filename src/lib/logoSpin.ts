@@ -1,11 +1,11 @@
 import gsap from 'gsap';
 
 /**
- * The signature logo spin: ~6 turns around the vertical axis, easing
+ * The signature logo spin: ~4 turns around the vertical axis, easing
  * slow → fast → slow, with a stage-light glint flashing as each face sweeps
  * past the viewer. The glint is enveloped over the first/last 10% of the
  * spin so the glow fades in and out instead of snapping (rotation 0° and
- * 2160° are both face-on, i.e. peak-glint angles).
+ * 1440° are both face-on, i.e. peak-glint angles).
  *
  * Transitions are disabled during the spin (CSS `transition-all` on an
  * element would smear GSAP's per-frame transforms) and every inline style
@@ -17,8 +17,9 @@ export function createLogoSpin(el: HTMLElement): gsap.core.Tween {
     el,
     { rotationY: 0 },
     {
-      rotationY: 360 * 6,
-      duration: 5.4,
+      // 4 turns at the same angular pace as the original 6-turn/5.4s spin
+      rotationY: 360 * 4,
+      duration: 3.6,
       ease: 'power2.inOut',
       paused: true,
       onStart: () => {
