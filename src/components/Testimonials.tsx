@@ -1,6 +1,14 @@
 import { Star, Quote } from 'lucide-react';
 import { useReveal, revealChildren, gsap } from '../lib/useReveal';
 
+// ?reviews=true lands directly on the Reviews view — but only on the
+// WEBSITE. The Fresha app intercepts direct taps on fresha.com links
+// (universal/app links) and dumps the visitor on the venue screen,
+// ignoring the parameter — so the click handler below deliberately opens
+// this URL via a JS-set navigation, which app-link interception skips.
+const FRESHA_REVIEWS_URL =
+  'https://www.fresha.com/a/be-you-beauty-hub-arlington-3865-wilson-boulevard-sochrclt?pId=2531140&reviews=true';
+
 const Testimonials = () => {
   const testimonials = [
     {
@@ -247,10 +255,27 @@ const Testimonials = () => {
                   app on phones via Fresha's own universal-link handling). */}
               <p className="text-lg">
                 <a
-                  href="https://www.fresha.com/a/be-you-beauty-hub-arlington-3865-wilson-boulevard-sochrclt?pId=2531140&reviews=true"
+                  href={FRESHA_REVIEWS_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Read all our reviews on Fresha"
+                  onClick={(e) => {
+                    // Force the BROWSER (not the Fresha app): app links on
+                    // iOS/Android only trigger on real link taps, so opening
+                    // a blank tab and setting its location from JS keeps the
+                    // visitor on fresha.com's web page, where ?reviews=true
+                    // shows the Reviews view immediately.
+                    e.preventDefault();
+                    const w = window.open('about:blank', '_blank');
+                    if (w) {
+                      w.opener = null;
+                      w.location.href = FRESHA_REVIEWS_URL;
+                    } else {
+                      // Popup blocked: same-tab navigation still beats a
+                      // dead click.
+                      window.location.href = FRESHA_REVIEWS_URL;
+                    }
+                  }}
                   className="text-olive-ink/70 hover:text-olive transition-colors duration-200 underline-offset-4 hover:underline"
                 >
                   <span data-typed-text>
