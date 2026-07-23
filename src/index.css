@@ -130,6 +130,25 @@ header {
   }
 }
 
+/* Phones held sideways hit the md breakpoint (width >= 768px) but keep a
+   short viewport, so the desktop fade shows as a pale band under the bar
+   instead of hiding behind it. Kill the fade for that orientation only —
+   portrait phones and real desktops are untouched. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hero-canvas-fade {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  /* Make the "hero tucked ~20px under the bar" view the page's true top:
+     pull the hero up by (header height − 140px scroll anchor), so a Home
+     click lands at scrollY 0 and there is nothing higher to scroll to.
+     The id selector outranks Tailwind's md:mt-0 (both are !important). */
+  #home {
+    margin-top: calc(140px - var(--header-h, 160px)) !important;
+  }
+}
+
 /* ---------------------------------------------------------------------------
    Typography helpers (used across components)
 --------------------------------------------------------------------------- */
@@ -378,6 +397,26 @@ body.intro-active header {
 @keyframes intro-caret-blink {
   50% {
     opacity: 0;
+  }
+}
+
+/* Landscape phones (short viewport): the stacked center layout can't fit —
+   the logo would overflow the screen and sit on the motto. Side-by-side
+   instead: logo fills the left half (sized by viewport HEIGHT so it always
+   fits), motto types on the right, both vertically centered. These
+   percentages must stay in sync with the matching matchMedia branch in
+   IntroOverlay.tsx, which sets the same positions inline via GSAP. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .intro-logo {
+    left: 40%;
+    top: 50%;
+    width: auto;
+    height: 72svh;
+  }
+  .intro-motto {
+    left: 57%;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
 

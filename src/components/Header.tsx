@@ -671,12 +671,18 @@ const Header = () => {
                   key={item}
                   onClick={() => {
                     flashNav(item);
+                    // Home returns to the very top, where the header always
+                    // shows expanded — reopen it directly. The landscape-phone
+                    // scroll rule can't do it: Home lands at scrollY ≈ 20
+                    // (hero top minus scroll-padding), above its ≤10 gate.
+                    if (item === 'Home') setIsTopSectionCollapsed(false);
                     scrollToSection(item.toLowerCase());
                   }}
                   onTouchStart={() => setPressedNavItem(item)}
                   onTouchEnd={(e) => {
                     e.preventDefault();
                     flashNav(item);
+                    if (item === 'Home') setIsTopSectionCollapsed(false);
                     scrollToSection(item.toLowerCase());
                     releasePress();
                   }}

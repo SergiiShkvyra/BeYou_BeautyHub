@@ -60,12 +60,19 @@ const IntroOverlay = () => {
     const ctx = gsap.context(() => {
       const q = gsap.utils.selector(root);
 
-      // Anchor the logo slightly above center; motto flows underneath.
+      // Landscape phones can't fit the stacked layout: logo goes to the left
+      // half, motto to the right (percentages mirror the index.css media
+      // block that pre-positions the elements before GSAP's first tick).
+      const landscape = window.matchMedia(
+        '(orientation: landscape) and (max-height: 500px)',
+      ).matches;
+
+      // Portrait/desktop: logo slightly above center, motto underneath.
       // x/y: 0 clears the pixel offsets GSAP decomposes out of the CSS
       // translate() pre-paint guard — otherwise they'd stack with xPercent.
       gsap.set(q('[data-intro-logo]'), {
-        left: '50%',
-        top: '40%',
+        left: landscape ? '40%' : '50%',
+        top: landscape ? '50%' : '40%',
         x: 0,
         y: 0,
         xPercent: -50,
@@ -74,13 +81,16 @@ const IntroOverlay = () => {
         scale: 0.07,
       });
       gsap.set(q('[data-motto]'), {
-        left: '50%',
-        top: '71%',
+        left: landscape ? '57%' : '50%',
+        top: landscape ? '50%' : '71%',
         x: 0,
         y: 0,
-        xPercent: -50,
+        xPercent: landscape ? 0 : -50,
+        yPercent: landscape ? -50 : 0,
         autoAlpha: 0,
       });
+
+      let removeSkip: (() => void) | undefined;
 
       /** Typewriter: char by char, with a long still beat between phrases. */
       const typeMotto = (el: HTMLElement) => {
@@ -129,6 +139,22 @@ const IntroOverlay = () => {
         tl.call(() => mottoText && typeMotto(mottoText), [], 1.5);
         tl.to({}, { duration: TYPE_TOTAL }, 1.5); // spacer while typing
         tl.to({}, { duration: 0.6 }); // hold on the finished motto
+
+        // Any click/tap while the intro is playing jumps straight to the
+        // hand-off (logo flight into the header). seek() suppresses the
+        // callbacks it jumps over, so the page-build event is dispatched
+        // manually (Hero listens with {once:true} — a double fire is
+        // harmless) and a pending typewriter timeout is cancelled.
+        tl.addLabel('handoff');
+        const skipToHandoff = () => {
+          if (tl.time() >= tl.labels.handoff) return;
+          window.dispatchEvent(new Event(INTRO_DONE_EVENT));
+          tl.seek('handoff');
+          if (typeTimeout) clearTimeout(typeTimeout);
+        };
+        window.addEventListener('pointerdown', skipToHandoff);
+        removeSkip = () =>
+          window.removeEventListener('pointerdown', skipToHandoff);
 
         // 3) Hand-off: the motto cross-fade, the logo's flight home and the
         // veil dissolve all begin on the same beat.
@@ -220,6 +246,7 @@ const IntroOverlay = () => {
 
       const finish = () => {
         window.removeEventListener('scroll', pinToTop);
+        removeSkip?.();
         if (headerLogo) headerLogo.style.opacity = '';
         document.body.classList.remove('intro-active');
         document.documentElement.classList.remove('intro-active');
@@ -227,7 +254,10 @@ const IntroOverlay = () => {
         setActive(false);
       };
 
-      return removeTriggers;
+      return () => {
+        removeTriggers();
+        removeSkip?.();
+      };
     }, root);
 
     return () => {
