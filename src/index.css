@@ -400,6 +400,34 @@ body.intro-active header {
   }
 }
 
+/* Footer "Made with ♥" heart: two quick beats, then rest — repeating every
+   5s (the pulses live in the first 16% of the cycle). */
+.heart-beat {
+  animation: heart-beat 5s ease-in-out infinite;
+  transform-origin: 50% 50%;
+}
+
+@keyframes heart-beat {
+  0%,
+  16%,
+  100% {
+    transform: scale(1);
+  }
+  4%,
+  12% {
+    transform: scale(1.35);
+  }
+  8% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heart-beat {
+    animation: none;
+  }
+}
+
 /* Landscape phones (short viewport): the stacked center layout can't fit —
    the logo would overflow the screen and sit on the motto. Side-by-side
    instead: logo fills the left half (sized by viewport HEIGHT so it always

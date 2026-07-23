@@ -1,8 +1,51 @@
 import React from 'react';
 import { Heart, Instagram, Facebook, MapPin, Phone, Mail, X } from 'lucide-react';
 import { scrollToSection, handlePhoneClick, copyEmailToClipboard } from '../utils/interactions';
-import { useReveal, ScrollTrigger } from '../lib/useReveal';
+import { useReveal, ScrollTrigger, gsap } from '../lib/useReveal';
 import { createLogoSpin } from '../lib/logoSpin';
+
+// Easter egg: a small burst of hearts rising and zooming from the
+// "Made with ♥" icon. Elements live on <body> (position: fixed) and remove
+// themselves when their tween ends; skipped under prefers-reduced-motion
+// like every other animation on the site.
+const burstHearts = (origin: HTMLElement) => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const rect = origin.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const colors = ['#dbd6b2', '#f5f2e6', '#c9b98a'];
+  for (let i = 0; i < 7; i++) {
+    const el = document.createElement('span');
+    el.textContent = '♥';
+    el.setAttribute('aria-hidden', 'true');
+    el.style.cssText =
+      `position:fixed;left:${cx}px;top:${cy}px;` +
+      `color:${colors[i % colors.length]};font-size:15px;line-height:1;` +
+      'pointer-events:none;z-index:100000;will-change:transform,opacity;';
+    document.body.appendChild(el);
+
+    const rise = gsap.utils.random(1.1, 1.6);
+    const tl = gsap.timeline({ delay: i * 0.07, onComplete: () => el.remove() });
+    tl.fromTo(
+      el,
+      { xPercent: -50, yPercent: -50, scale: 0.35, opacity: 0 },
+      { opacity: 1, scale: gsap.utils.random(1.5, 2.4), duration: 0.25, ease: 'power1.out' },
+      0,
+    )
+      .to(
+        el,
+        {
+          x: gsap.utils.random(-42, 42),
+          y: gsap.utils.random(-150, -90),
+          rotation: gsap.utils.random(-25, 25),
+          duration: rise,
+          ease: 'power1.out',
+        },
+        0,
+      )
+      .to(el, { opacity: 0, duration: 0.45, ease: 'power1.in' }, rise - 0.45);
+  }
+};
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -281,7 +324,14 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-warm/60 text-sm flex items-center">
               <span>© {currentYear} BeYou Beauty Hub. Made with </span>
-              <Heart className="h-4 w-4 text-warm mx-1 fill-current" />
+              <button
+                type="button"
+                onClick={(e) => burstHearts(e.currentTarget)}
+                aria-label="Made with love — a little surprise"
+                className="mx-1 inline-flex cursor-pointer"
+              >
+                <Heart className="heart-beat h-4 w-4 text-warm fill-current" />
+              </button>
               <span></span>
             </div>
             <div className="flex space-x-6 mt-4 md:mt-0">
