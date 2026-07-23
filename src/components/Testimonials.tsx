@@ -241,11 +241,22 @@ const Testimonials = () => {
             <div data-stage-panel className="self-center">
               {/* Full text lives in the markup (reduced-motion / no-JS / tests
                   see it as-is); the reveal callback empties it and types it
-                  back in. The caret stays hidden except while typing. */}
-              <p className="text-lg text-olive-ink/70">
-                <span data-typed-text>
-                  …and counting. Your 5-star experience could be the next one we celebrate.
-                </span>
+                  back in. The caret stays hidden except while typing.
+                  The line links to the Fresha reviews section (the
+                  reviews=true param deep-links into Reviews in the Fresha
+                  app on phones via Fresha's own universal-link handling). */}
+              <p className="text-lg">
+                <a
+                  href="https://www.fresha.com/a/be-you-beauty-hub-arlington-3865-wilson-boulevard-sochrclt?pId=2531140&reviews=true"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Read all our reviews on Fresha"
+                  className="text-olive-ink/70 hover:text-olive transition-colors duration-200 underline-offset-4 hover:underline"
+                >
+                  <span data-typed-text>
+                    …and counting. Your 5-star experience could be the next one we celebrate.
+                  </span>
+                </a>
                 <span data-typed-caret className="intro-caret" hidden />
               </p>
             </div>
