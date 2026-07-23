@@ -70,7 +70,18 @@ const Hero = () => {
         onEnter: startCounters,
       });
     } else {
-      tl.add(startCounters);
+      // Start counting at the exact moment the stats row's fade-in begins
+      // (its slot in the [data-hero-fade] stagger: base 0.85s + 0.12s per
+      // preceding fade element) — the numbers are already rolling as they
+      // become visible, never sitting at a static 0.
+      const fades = Array.from(
+        section.querySelectorAll<HTMLElement>('[data-hero-fade]'),
+      );
+      const statsIndex = Math.max(
+        0,
+        fades.indexOf(section.querySelector('[data-hero-stats]') as HTMLElement),
+      );
+      tl.add(startCounters, 0.85 + statsIndex * 0.12);
     }
 
     if (introPending) {
