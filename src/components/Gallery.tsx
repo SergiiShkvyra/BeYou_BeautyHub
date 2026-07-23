@@ -142,9 +142,32 @@ const Gallery = () => {
 
   const scope = useReveal<HTMLElement>((section) => revealChildren(section));
 
-  // Editorial rhythm: alternating tile heights per column pair
-  const tall = 'h-[22rem] sm:h-[26rem]';
-  const short = 'h-64 sm:h-80';
+  // Editorial rhythm: alternating tile heights.
+  // Desktop (lg, 4 columns): tall/short alternates by index — unchanged,
+  // including the mt-10 stagger on short tiles.
+  // Mobile/tablet (2 columns): masonry — each column is its own flex stack
+  // (tall/short alternating, opposite phase per column), so every tile is
+  // top-aligned against the one above it with one consistent gap. The
+  // column wrappers dissolve at lg via `display: contents`, and lg:order
+  // restores the original left-to-right desktop sequence.
+  const tileHeight = (index: number) => {
+    const desktopTall = index % 2 === 0;
+    const mobileTall = (Math.floor(index / 2) + (index % 2)) % 2 === 0;
+    const mobile = mobileTall ? 'h-[22rem] sm:h-[26rem]' : 'h-64 sm:h-80';
+    const desktop = desktopTall ? 'lg:h-[26rem] lg:mt-0' : 'lg:h-80 lg:mt-10';
+    return `${mobile} ${desktop}`;
+  };
+  // Literal strings so Tailwind's scanner generates them (no template names)
+  const tileOrder = [
+    'lg:order-1',
+    'lg:order-2',
+    'lg:order-3',
+    'lg:order-4',
+    'lg:order-5',
+    'lg:order-6',
+    'lg:order-7',
+    'lg:order-8',
+  ];
 
   return (
     <section id="gallery" ref={scope} className="py-24 sm:py-32 bg-cream">
@@ -164,13 +187,18 @@ const Gallery = () => {
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 items-start">
-          {images.map((image, index) => (
+          {[0, 1].map((col) => (
+            <div key={col} className="flex flex-col gap-3 sm:gap-5 lg:contents">
+              {images
+                .map((image, index) => ({ image, index }))
+                .filter(({ index }) => index % 2 === col)
+                .map(({ image, index }) => (
             <div
               key={index}
               data-reveal="image"
-              className={`relative group overflow-hidden rounded-2xl transition-all duration-500 will-change-transform ${
-                index % 2 === 0 ? tall : `${short} mt-6 sm:mt-10`
-              } ${
+              className={`relative group overflow-hidden rounded-2xl transition-all duration-500 will-change-transform ${tileHeight(
+                index,
+              )} ${tileOrder[index]} ${
                 isMobile
                   ? 'cursor-default'
                   : 'cursor-pointer hover:shadow-2xl hover:shadow-olive/20'
@@ -199,6 +227,8 @@ const Gallery = () => {
                   </p>
                 </div>
               </div>
+            </div>
+                ))}
             </div>
           ))}
         </div>
