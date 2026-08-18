@@ -133,7 +133,12 @@ const Hero = () => {
           loading="eager"
           decoding="async"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-olive-ink/0 via-olive-ink/5 to-olive-ink/85"></div>
+        {/* Top and bottom both darken for legibility/depth, but the top
+            stop fades out again by 15% down — that boundary sits inside
+            (or right at the edge of) the zone already hidden behind the
+            header, so the brow/lash area just below the header stays
+            clear rather than getting dimmed a second time. */}
+        <div className="absolute inset-0 bg-gradient-to-b from-olive-ink/60 via-olive-ink/0 via-[15%] to-olive-ink/85"></div>
       </div>
 
       {/* Content */}
