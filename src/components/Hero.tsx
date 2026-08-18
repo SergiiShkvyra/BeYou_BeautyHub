@@ -133,12 +133,10 @@ const Hero = () => {
           loading="eager"
           decoding="async"
         />
-        {/* Top and bottom both darken for legibility/depth, but the top
-            stop fades out again by 15% down — that boundary sits inside
-            (or right at the edge of) the zone already hidden behind the
-            header, so the brow/lash area just below the header stays
-            clear rather than getting dimmed a second time. */}
-        <div className="absolute inset-0 bg-gradient-to-b from-olive-ink/60 via-olive-ink/0 via-[15%] to-olive-ink/85"></div>
+        {/* Darkens the whole photo, not just the edges — the warm-colored
+            copy (label, headline) sits in the middle of the hero too, and
+            a fully-clear middle band left it with little contrast there. */}
+        <div className="absolute inset-0 bg-gradient-to-b from-olive-ink/55 via-olive-ink/30 to-olive-ink/85"></div>
       </div>
 
       {/* Content */}
