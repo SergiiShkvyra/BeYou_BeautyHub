@@ -19,20 +19,18 @@ function App() {
       if (!header) return;
       // Only trust a measurement taken with the top section fully expanded.
       // Real phones fire `resize` when the URL bar hides mid-scroll — if the
-      // header is collapsed (or mid-transition) at that moment, its height
-      // would poison the body padding with a too-small value.
+      // header is collapsed at that moment, its height would poison the
+      // body padding with a too-small value. The Header component's own
+      // inline max-height is the authoritative signal for this (unlike a
+      // getBoundingClientRect/scrollHeight comparison, which turned out to
+      // read as "still short" on a plain reload — reproducibly, not just as
+      // a one-off transition frame — for reasons unrelated to collapse
+      // state, and could leave --header-h permanently unset since every
+      // trigger below only ever fires once each).
       const collapsible = header.querySelector<HTMLElement>(
         ':scope > div.overflow-hidden',
       );
-      if (collapsible) {
-        // Collapsed state is authoritative from the inline max-height the
-        // Header component drives; the height comparison (with a 2px
-        // tolerance for fractional-vs-integer rounding) catches mid-
-        // transition frames.
-        if (collapsible.style.maxHeight === '0px') return;
-        const rendered = collapsible.getBoundingClientRect().height;
-        if (rendered < collapsible.scrollHeight - 2) return;
-      }
+      if (collapsible?.style.maxHeight === '0px') return;
       const height = header.offsetHeight;
       document.body.style.paddingTop = `${height}px`;
       // Published for layout math (e.g. the hero sizes itself to the

@@ -147,6 +147,18 @@ header {
   #home {
     margin-top: calc(140px - var(--header-h, 160px)) !important;
   }
+
+  /* The hero image's own md:mt-28 offset (tuned for a fully-tucked-behind-
+     header desktop/tablet hero) assumes the ~112px it pushes down stays
+     hidden under the header. Here the section above is barely tucked at
+     all (~20px, not header height), so that same offset would push the
+     image well past the header's bottom edge and expose a gap of bare
+     background. Drop back to flush-with-container, matching how this
+     orientation always positioned the image before that offset existed. */
+  #home [data-hero-image] {
+    margin-top: 0 !important;
+    height: 100% !important;
+  }
 }
 
 /* ---------------------------------------------------------------------------

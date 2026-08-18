@@ -108,24 +108,32 @@ const Hero = () => {
     <section
       id="home"
       ref={scope}
-      className="relative [margin-top:calc(var(--header-h,170px)*-1)] min-h-[100svh] md:mt-0 md:min-h-[calc(100svh-var(--header-h,170px))] flex items-end overflow-hidden"
+      className="relative [margin-top:calc(var(--header-h,170px)*-1)] min-h-[100svh] flex items-end overflow-hidden"
     >
       {/* Background image */}
       <div className="hero-canvas-fade absolute inset-0 z-0 overflow-hidden">
-        {/* Mobile: the image starts 64px down inside the hero so the photo's
-            top (the brows) sits clearly below the ~128px header instead of
-            hiding behind it — while still covering the header's rounded
-            corner zone (which begins ~110px down). Desktop: photo anchored
-            to its top edge so the brows are never cropped. */}
+        {/* The image starts pushed down inside the (header-tucked) hero so
+            the brows/lashes — the entire point of a lash & brow studio site
+            — land clearly below the header, using the empty hair/forehead
+            headroom in the source photo rather than the header cutting into
+            the brow line. The offset is bigger at md+ than on mobile: at
+            tablet/desktop-ish aspect ratios (roughly 1.3–1.6, i.e. most
+            non-ultra-wide windows) object-fit: cover ends up scaling to the
+            container's HEIGHT rather than its width, which shrinks the
+            effective on-screen scale — and with it, the brow's pixel
+            distance from the top — well below what the same 64px offset
+            gives on mobile or on wide/short windows. 112px stays safely
+            under the measured header height (~160px on tablet/desktop, vs
+            ~128px on mobile) in every aspect ratio tested. */}
         <img
           data-hero-image
           src="/images/t2001x1212.jpg"
           alt="Beautiful eyelash extensions"
-          className="w-full mt-16 h-[calc(100%-4rem)] md:mt-0 md:h-full object-cover object-[60%_0%] md:object-[50%_0%] scale-105"
+          className="w-full mt-16 h-[calc(100%-4rem)] md:mt-28 md:h-[calc(100%-7rem)] object-cover object-[60%_0%] md:object-[50%_0%]"
           loading="eager"
           decoding="async"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-olive-ink/55 via-olive-ink/25 to-olive-ink/80"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-olive-ink/0 via-olive-ink/5 to-olive-ink/85"></div>
       </div>
 
       {/* Content */}
