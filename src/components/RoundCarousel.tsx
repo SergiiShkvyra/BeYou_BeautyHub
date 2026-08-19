@@ -174,6 +174,7 @@ export default function RoundCarousel({
   return (
     <div
       style={{
+        position: 'relative',
         width: '100%',
         height: '100%',
         display: 'flex',
@@ -187,53 +188,82 @@ export default function RoundCarousel({
         // being cropped; the box's own size is unchanged.
         overflow: 'visible',
         background,
-        perspective: `${perspective}px`,
-        cursor: drag ? 'grab' : 'default',
-        touchAction: 'none',
       }}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onPointerCancel={onPointerUp}
     >
-      <div style={{ transformStyle: 'preserve-3d', transform: `rotateX(${tilt}deg)` }}>
-        <div
-          ref={ringRef}
-          style={{
-            position: 'relative',
-            width: imageWidth,
-            height: imageHeight,
-            transformStyle: 'preserve-3d',
-          }}
-        >
-          {images.map((image, i) => (
-            <div
-              key={image.src}
-              style={{
-                position: 'absolute',
-                inset: 0,
-                transform: `rotateY(${i * angle}deg) translateZ(${radius}px)`,
-                transformStyle: 'preserve-3d',
-              }}
-            >
-              <div style={{ ...faceBase, boxShadow: '0 10px 30px rgba(0,0,0,0.35)' }}>
-                <img
-                  src={image.src}
-                  alt={image.alt}
-                  style={imgStyle}
-                  draggable={false}
-                  loading="lazy"
-                  decoding="async"
-                />
+      {/* 3D SCENE — pointer-events: none so the side cards spilling outside
+          the box below (and any empty space around them) never intercept a
+          touch. Only the HIT ZONE re-enables pointer-events, so a touch that
+          starts on a spilled-out side card (or the empty margin beside the
+          carousel) falls through to the page underneath and scrolls
+          normally instead of getting eaten by this component's drag. */}
+      <div
+        style={{
+          pointerEvents: 'none',
+          perspective: `${perspective}px`,
+        }}
+      >
+        <div style={{ transformStyle: 'preserve-3d', transform: `rotateX(${tilt}deg)` }}>
+          <div
+            ref={ringRef}
+            style={{
+              position: 'relative',
+              width: imageWidth,
+              height: imageHeight,
+              transformStyle: 'preserve-3d',
+            }}
+          >
+            {images.map((image, i) => (
+              <div
+                key={image.src}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  transform: `rotateY(${i * angle}deg) translateZ(${radius}px)`,
+                  transformStyle: 'preserve-3d',
+                }}
+              >
+                <div style={{ ...faceBase, boxShadow: '0 10px 30px rgba(0,0,0,0.35)' }}>
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    style={imgStyle}
+                    draggable={false}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                {/* Back face — visible through the ring at some rotations, dimmed */}
+                <div style={{ ...faceBase, transform: 'rotateY(180deg)', filter: `brightness(${innerDim / 10})` }}>
+                  <img src={image.src} alt="" style={imgStyle} draggable={false} aria-hidden="true" />
+                </div>
               </div>
-              {/* Back face — visible through the ring at some rotations, dimmed */}
-              <div style={{ ...faceBase, transform: 'rotateY(180deg)', filter: `brightness(${innerDim / 10})` }}>
-                <img src={image.src} alt="" style={imgStyle} draggable={false} aria-hidden="true" />
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
+
+      {/* HIT ZONE — invisible, sized to exactly the front card's own box
+          (imageWidth × imageHeight, centered), so drag/touch only responds
+          within that box — never over the spilled-out side cards or the
+          surrounding empty space, which is what let a touch there hijack
+          page scroll before. */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: imageWidth,
+          height: imageHeight,
+          pointerEvents: 'auto',
+          cursor: drag ? 'grab' : 'default',
+          touchAction: 'none',
+        }}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+      />
     </div>
   );
 }
