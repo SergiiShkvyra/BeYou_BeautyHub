@@ -8,6 +8,11 @@ const HOLD = 0.85; // seconds a word stays fully visible
 const LAST_HOLD_EXTRA = 1; // extra seconds "BeYou." lingers before its morph-out
 const LAST_SCALE = 1.2; // "BeYou." renders 20% bigger than the other two words
 const COLOR = '#505E47';
+// A skip mid-animation used to jump straight to the reveal label — the exact
+// instant "BeYou." starts fading out — so it was barely glimpsed. Skipping
+// now lands this much earlier instead, so it's held fully visible for a
+// beat before its already-scheduled morph-out carries it into the reveal.
+const SKIP_HOLD_EXTRA = 0.7;
 
 interface PhraseMorphProps {
   fontSizePx: number;
@@ -85,10 +90,19 @@ export default function PhraseMorph({
 
     const skip = () => {
       if (tl.time() >= tl.labels.reveal) return;
-      // seek()'s second arg is suppressEvents — false so the .call() sitting
-      // exactly at the 'reveal' label still fires; the default (true) would
-      // silently skip it, and IntroOverlay would never hear the reveal.
-      tl.seek('reveal', false);
+      // Land SKIP_HOLD_EXTRA seconds before the reveal rather than on it, so
+      // "BeYou." gets a guaranteed beat fully visible before its morph-out
+      // starts — playback (already running, not paused) carries it the rest
+      // of the way there naturally, firing the 'reveal' label's .call() in
+      // real time same as an unskipped run. A click already inside that
+      // final stretch is left alone rather than rewound.
+      const holdUntil = Math.max(0, tl.labels.reveal - SKIP_HOLD_EXTRA);
+      if (tl.time() < holdUntil) {
+        // seek()'s second arg is suppressEvents — false so any .call()s
+        // between here and holdUntil still fire; the default (true) would
+        // silently skip them.
+        tl.seek(holdUntil, false);
+      }
     };
     window.addEventListener('pointerdown', skip);
 

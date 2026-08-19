@@ -8,7 +8,7 @@ import { introPending, INTRO_DONE_EVENT } from '../lib/introState';
 // test suite — always see "1400+" etc. without any animation).
 const stats = [
   { icon: Users, value: 1400, suffix: '+', label: 'Happy Clients' },
-  { icon: Award, value: 3, suffix: '+', label: 'Years Experience' },
+  { icon: Award, value: 4, suffix: '+', label: 'Years Experience' },
   { icon: Star, value: 5, suffix: '', label: 'Average Rating' },
 ];
 
