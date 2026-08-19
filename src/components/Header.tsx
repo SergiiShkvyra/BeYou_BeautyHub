@@ -61,28 +61,6 @@ const Header = () => {
     const forceHeaderVisible = () => {
       const header = document.querySelector('header');
       if (header) {
-        // Fast path: this runs on every animation frame (plus intervals and
-        // a pile of events), and unconditionally writing ~30 style props
-        // invalidates the header's style each time — measurable scroll jank
-        // during the intro hand-off. If the critical inline styles are
-        // already in force, skip all writes; any external tampering fails
-        // one of these sentinels and triggers the full re-enforcement
-        // below, so the guard's semantics are unchanged. (Values compare
-        // against the browser's readback serialization, e.g. top '0px'.)
-        const s = header.style;
-        if (
-          s.position === 'fixed' &&
-          s.top === '0px' &&
-          s.display === 'block' &&
-          s.visibility === 'visible' &&
-          s.opacity === '1' &&
-          s.zIndex === '2147483647' &&
-          s.transform === 'none' &&
-          s.width === '100vw'
-        ) {
-          return;
-        }
-
         // ULTIMATE AGGRESSIVE: Force all positioning and visibility properties
         header.style.position = 'fixed';
         header.style.top = '0';

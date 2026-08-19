@@ -129,7 +129,7 @@ const Hero = () => {
           data-hero-image
           src="/images/t2001x1212.jpg"
           alt="Beautiful eyelash extensions"
-          className="w-full mt-16 h-[calc(100%-4rem)] md:mt-28 md:h-[calc(100%-7rem)] object-cover object-[60%_0%] md:object-[50%_0%] will-change-transform"
+          className="w-full mt-16 h-[calc(100%-4rem)] md:mt-28 md:h-[calc(100%-7rem)] object-cover object-[60%_0%] md:object-[50%_0%]"
           loading="eager"
           decoding="async"
         />
