@@ -12,7 +12,7 @@ const COLOR = '#505E47';
 // instant "BeYou." starts fading out — so it was barely glimpsed. Skipping
 // now lands this much earlier instead, so it's held fully visible for a
 // beat before its already-scheduled morph-out carries it into the reveal.
-const SKIP_HOLD_EXTRA = 0.7;
+const SKIP_HOLD_EXTRA = 0.5;
 
 interface PhraseMorphProps {
   fontSizePx: number;

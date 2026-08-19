@@ -43,9 +43,15 @@ const IntroOverlay = () => {
     // history.scrollRestoration='manual' before the bundle runs; on top of
     // that, pin the page to the very top and hold it there for as long as
     // the intro is on screen (Chromium can still write a restored offset
-    // asynchronously after first paint).
+    // asynchronously after first paint). Stops correcting the instant
+    // handleReveal fires (revealedRef flips true) — scroll unlocks that
+    // same moment, and fighting the user's own scroll input during the
+    // veil's fade-out (this effect's cleanup doesn't run until handleDone,
+    // ~1.35s later) is exactly what made scrolling look like it kept
+    // snapping back to the top right after a skip.
     window.scrollTo(0, 0);
     const pinToTop = () => {
+      if (revealedRef.current) return;
       if (window.scrollY !== 0) window.scrollTo(0, 0);
     };
     window.addEventListener('scroll', pinToTop, { passive: true });
@@ -107,7 +113,13 @@ const IntroOverlay = () => {
   // Fires once (guarded — PhraseMorph's own skip-seek can in principle
   // reach this at the same moment the timeline's natural progression
   // would have): reveal the header/hero and start fading the black veil,
-  // timed to finish exactly when the text's own morph-out does.
+  // timed to finish exactly when the text's own morph-out does. Scroll
+  // unlocks here too, not in handleDone — the header/hero are already on
+  // screen at this point, so there's no reason to keep the page frozen for
+  // the ~1.35s it then takes the now-mostly-transparent veil to finish
+  // dissolving on top of them (that extra wait was especially noticeable
+  // right after a skip, since it happens on top of content the user can
+  // already see and is trying to interact with).
   const handleReveal = () => {
     if (revealedRef.current) return;
     revealedRef.current = true;
@@ -115,6 +127,7 @@ const IntroOverlay = () => {
     window.dispatchEvent(new Event(INTRO_DONE_EVENT));
     document.body.classList.remove('intro-active');
     document.documentElement.classList.remove('intro-active');
+    document.documentElement.classList.remove('intro-lock');
 
     if (bgRef.current) {
       gsap.to(bgRef.current, { opacity: 0, duration: MORPH, ease: 'power2.inOut' });
@@ -122,7 +135,6 @@ const IntroOverlay = () => {
   };
 
   const handleDone = () => {
-    document.documentElement.classList.remove('intro-lock');
     setActive(false);
   };
 

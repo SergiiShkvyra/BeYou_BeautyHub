@@ -381,9 +381,11 @@ header {
    reveal, fading together with the veil to uncover the landing page.
 --------------------------------------------------------------------------- */
 /* Lock on <html>: viewport scrolling belongs to the root element, so
-   overflow:hidden on body alone would NOT stop wheel scrolling. Separate
-   from .intro-active so the scroll stays locked until the reveal fade has
-   fully finished, not just started. */
+   overflow:hidden on body alone would NOT stop wheel scrolling. Removed in
+   IntroOverlay.tsx's handleReveal — same moment the header/hero become
+   visible and INTRO_DONE_EVENT fires — not handleDone, so the page doesn't
+   stay frozen for the ~1.35s it then takes the veil to finish fading out
+   on top of content the user can already see and interact with. */
 html.intro-lock,
 html.intro-lock body {
   overflow: hidden;
