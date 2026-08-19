@@ -21,9 +21,13 @@ import { Sparkle } from 'lucide-react';
  * element actually changes (not on every pixel of motion), since
  * getComputedStyle forces a style recalculation.
  *
- * Fine-pointer devices only (`(pointer: fine)`): touchscreens have no
- * hovering cursor to replace, and the CSS `cursor: none` rule is scoped the
- * same way so mobile never loses its native tap feedback for nothing.
+ * Real mouse/trackpad input only. `(pointer: fine)` gates the CSS side
+ * (`.no-native-cursor`, toggled below), but that's a device-level media
+ * query — a hybrid touchscreen laptop still matches it even while the user
+ * is actively touching the screen. So `onMove` ALSO checks `e.pointerType`
+ * per event: touch (and pen) pointermoves are ignored outright rather than
+ * moving/showing the glyph and then hiding it again, which is what caused
+ * it to visibly glitch under a fingertip on touch devices.
  */
 export default function SparkleCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
@@ -41,6 +45,7 @@ export default function SparkleCursor() {
 
     let lastTarget: Element | null = null;
     const onMove = (e: PointerEvent) => {
+      if (e.pointerType !== 'mouse') return;
       el.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
 
       const target = e.target as Element | null;

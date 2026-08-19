@@ -178,10 +178,13 @@ const MAX_SPREAD = 10 / 5;
 const DEPTH = 100;
 const MOTION_SENSITIVITY = 250;
 const MOTION_CURVE = 24 / 100;
-const HIDE_ON_MOBILE = true;
-
 const RING_FRAMES = 400;
-const MOBILE_QUERY = "(max-width: 768px)";
+// Pointer capability, not viewport width: a narrow desktop window with a
+// real mouse should still show the trail, and a wide touchscreen
+// tablet/hybrid laptop shouldn't just because it happens to be wide. Actual
+// touch input is also filtered per-event in onMove (a hybrid device can
+// have a fine pointer available while the CURRENT interaction is a touch).
+const FINE_POINTER_QUERY = "(pointer: fine)";
 
 type RGB = { r: number; g: number; b: number };
 
@@ -255,8 +258,8 @@ function OriginkitBaseStarCursor(props: StarCursorProps) {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const mobile = window.matchMedia(MOBILE_QUERY);
-    let disabled = HIDE_ON_MOBILE && mobile.matches;
+    const finePointer = window.matchMedia(FINE_POINTER_QUERY);
+    let disabled = !finePointer.matches;
 
     let width = Math.max(1, canvas.clientWidth);
     let height = Math.max(1, canvas.clientHeight);
@@ -350,6 +353,11 @@ function OriginkitBaseStarCursor(props: StarCursorProps) {
     };
 
     const onMove = (e: PointerEvent) => {
+      // Real mouse/trackpad input only — touch (and pen) are ignored
+      // outright rather than driving the trail and getting hidden again,
+      // which is what made the effect glitch/flash under a fingertip and
+      // still occasionally trail between unrelated taps on touch devices.
+      if (e.pointerType !== "mouse") return;
       const rect = canvas.getBoundingClientRect();
       const over =
         e.clientX >= rect.left &&
@@ -426,10 +434,10 @@ function OriginkitBaseStarCursor(props: StarCursorProps) {
       ro.observe(canvas);
     }
 
-    const onMobileChange = (e: MediaQueryListEvent) => {
-      disabled = HIDE_ON_MOBILE && e.matches;
+    const onFinePointerChange = (e: MediaQueryListEvent) => {
+      disabled = !e.matches;
     };
-    mobile.addEventListener("change", onMobileChange);
+    finePointer.addEventListener("change", onFinePointerChange);
 
     let raf = 0;
     const frame = (now: number) => {
@@ -470,7 +478,7 @@ function OriginkitBaseStarCursor(props: StarCursorProps) {
       document.documentElement.removeEventListener("pointerleave", onWindowLeave);
       window.removeEventListener("resize", resize);
       ro?.disconnect();
-      mobile.removeEventListener("change", onMobileChange);
+      finePointer.removeEventListener("change", onFinePointerChange);
       geometry.dispose();
       material.dispose();
       renderer.dispose();
