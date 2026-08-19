@@ -324,22 +324,22 @@ header {
 }
 
 /* ---------------------------------------------------------------------------
-   First-visit intro (IntroOverlay.tsx): flower bloom → shining logo →
-   typewriter motto → logo flies into the header.
+   First-visit intro (IntroOverlay.tsx): brand phrases morph one into the
+   next on a black veil; the last word's own morph-out doubles as the
+   reveal, fading together with the veil to uncover the landing page.
 --------------------------------------------------------------------------- */
 /* Lock on <html>: viewport scrolling belongs to the root element, so
-   overflow:hidden on body alone would NOT stop wheel scrolling.
-   Separate from .intro-active so the scroll stays locked through the logo's
-   landing (guaranteeing the header target can't move mid-flight) even after
-   the header itself is revealed. */
+   overflow:hidden on body alone would NOT stop wheel scrolling. Separate
+   from .intro-active so the scroll stays locked until the reveal fade has
+   fully finished, not just started. */
 html.intro-lock,
 html.intro-lock body {
   overflow: hidden;
 }
 
 /* The header's force-visible loop sets inline styles; !important CSS is the
-   only thing that outranks them. Hidden during the intro, revealed at the
-   exact frame the flying logo lands in its slot. */
+   only thing that outranks them. Hidden during the intro, revealed the
+   instant the reveal (last word's morph-out + veil fade) begins. */
 body.intro-active header {
   opacity: 0 !important;
   visibility: hidden !important;
@@ -354,54 +354,28 @@ body.intro-active header {
 .intro-bg {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    circle at 50% 38%,
-    #f8f5e9 0%,
-    #ece7cf 45%,
-    #d6d0a8 100%
-  );
+  background: #000000;
 }
 
-.intro-logo {
+/* Centers PhraseMorph's phrase — not a hard boundary, the text isn't
+   clipped to it (overflow is visible), just a stable anchor point. */
+.intro-stage {
   position: absolute;
-  /* Pre-position and hide via CSS so the very first paint (before GSAP's
-     first tick) never flashes the image at the overlay's top-left corner. */
   left: 50%;
-  top: 40%;
-  transform: translate(-50%, -50%) scale(0.07);
-  opacity: 0;
-  width: clamp(230px, 46vw, 370px);
-  height: auto;
-  will-change: transform;
-  image-rendering: high-quality;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92vw, 900px);
+  height: clamp(140px, 26vw, 260px);
 }
 
-.intro-motto {
-  position: absolute;
-  /* Same pre-paint guard as .intro-logo (the caret would flash otherwise) */
-  left: 50%;
-  top: 71%;
-  transform: translateX(-50%);
-  visibility: hidden;
-  margin: 0;
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(1.25rem, 3.4vw, 2rem);
-  letter-spacing: 0.04em;
-  line-height: 1.55;
-  color: #4c6035; /* sampled from the logo PNG's ink */
-  white-space: pre-line; /* each phrase types onto its own line */
-  text-align: left;
-  /* Wider than the longest line, so the centered block's width (and
-     therefore its left edge) stays put while characters type in. */
-  min-width: 6.6em;
-}
-
+/* Blinking typewriter caret — used by the Testimonials "and counting" line,
+   not just the intro. */
 .intro-caret {
   display: inline-block;
   width: 0.55ch;
   height: 1.05em;
   margin-left: 2px;
-  background: #4c6035; /* match the motto/logo ink */
+  background: #4c6035;
   vertical-align: text-bottom;
   animation: intro-caret-blink 1s steps(1) infinite;
 }
@@ -440,23 +414,13 @@ body.intro-active header {
   }
 }
 
-/* Landscape phones (short viewport): the stacked center layout can't fit —
-   the logo would overflow the screen and sit on the motto. Side-by-side
-   instead: logo fills the left half (sized by viewport HEIGHT so it always
-   fits), motto types on the right, both vertically centered. These
-   percentages must stay in sync with the matching matchMedia branch in
-   IntroOverlay.tsx, which sets the same positions inline via GSAP. */
+/* Landscape phones (short viewport): shrink the stage box's own height to
+   match — PhraseMorph's font size independently caps by viewport height
+   too (see intro/metrics.ts), this just keeps the anchor box itself
+   proportionate. */
 @media (orientation: landscape) and (max-height: 500px) {
-  .intro-logo {
-    left: 40%;
-    top: 50%;
-    width: auto;
-    height: 72svh;
-  }
-  .intro-motto {
-    left: 57%;
-    top: 50%;
-    transform: translateY(-50%);
+  .intro-stage {
+    height: min(140px, 55svh);
   }
 }
 

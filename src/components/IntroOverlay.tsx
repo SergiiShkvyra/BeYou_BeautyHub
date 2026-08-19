@@ -1,46 +1,49 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { introPending, INTRO_DONE_EVENT } from '../lib/introState';
+import PhraseMorph, { MORPH } from './intro/PhraseMorph';
+import { introPhraseFontSizePx } from './intro/metrics';
 
 /**
- * First-visit intro: on a warm gradient veil, the logo grows in at the
- * center (on first interaction, or as soon as the logo image and motto font
- * are loaded — capped at 1.8s), the motto types
- * itself out in three lines, then the veil dissolves over the already-built
- * site while the logo glides into its slot in the header between BE and YOU.
+ * First-visit intro: on a black veil, the brand phrases morph one into the
+ * next (blur/scale cross-dissolve, PhraseMorph) — "Be Natural." → "Be
+ * Real." → "BeYou." — and the last word's own morph-out doubles as the
+ * reveal: the text dissolves while the black veil fades with it, on the
+ * same beat, uncovering the already-built landing page underneath. No
+ * logo animation — the header's own logo is simply revealed as part of
+ * the page once the veil is gone.
  *
  * The header is z-index-pinned above everything by its force-visible loop,
  * so during the intro it is hidden via `body.intro-active header` CSS and
- * revealed as the hand-off begins.
+ * revealed the instant the reveal begins.
  *
  * Skipped under prefers-reduced-motion (keeps the test suite unaffected).
  */
 
-const PHRASES = ['Be Natural.', 'Be Real.', 'BeYou.'];
-const CHAR_DELAY = 0.055; // s per typed character
-const PHRASE_PAUSE = 0.75; // s of stillness before each new line
-const TYPE_TOTAL =
-  PHRASES.join('').length * CHAR_DELAY +
-  (PHRASES.length - 1) * PHRASE_PAUSE +
-  0.4;
-
 const IntroOverlay = () => {
   const [active, setActive] = useState(introPending);
-  const rootRef = useRef<HTMLDivElement | null>(null);
-  const startedRef = useRef(false);
+  const [started, setStarted] = useState(false);
+  const [fontSizePx, setFontSizePx] = useState(() =>
+    introPhraseFontSizePx(
+      typeof window !== 'undefined' ? window.innerWidth : 1280,
+      typeof window !== 'undefined' ? window.innerHeight : 800,
+    ),
+  );
+  const bgRef = useRef<HTMLDivElement | null>(null);
+  const revealedRef = useRef(false);
 
-  // useLayoutEffect: GSAP must position/hide the elements BEFORE the first
-  // paint, or the raw <img> flashes at the overlay's top-left for a frame.
+  // Scroll pin + lock classes + the start trigger, for as long as the
+  // overlay is mounted. The "click anywhere to skip" listener now lives
+  // inside PhraseMorph itself, since it's the only thing worth skipping.
   useLayoutEffect(() => {
-    if (!active || !rootRef.current) return;
-    const root = rootRef.current;
+    if (!active) return;
 
     // On reload the browser restores the previous scroll position, which
-    // would make the intro reveal a mid-page view and strand the logo's
-    // landing. index.html already sets history.scrollRestoration='manual'
-    // before the bundle runs; on top of that, pin the page to the very top
-    // and hold it there for as long as the intro is on screen (Chromium can
-    // still write a restored offset asynchronously after first paint).
+    // would make the intro reveal a mid-page view. index.html already sets
+    // history.scrollRestoration='manual' before the bundle runs; on top of
+    // that, pin the page to the very top and hold it there for as long as
+    // the intro is on screen (Chromium can still write a restored offset
+    // asynchronously after first paint).
     window.scrollTo(0, 0);
     const pinToTop = () => {
       if (window.scrollY !== 0) window.scrollTo(0, 0);
@@ -51,247 +54,93 @@ const IntroOverlay = () => {
     document.documentElement.classList.add('intro-active');
     document.documentElement.classList.add('intro-lock');
 
-    const headerLogo = document.querySelector<HTMLImageElement>(
-      'header img[alt="BeYou BeautyHub Logo"]',
+    const onResize = () =>
+      setFontSizePx(introPhraseFontSizePx(window.innerWidth, window.innerHeight));
+    window.addEventListener('resize', onResize, { passive: true });
+
+    let hasStarted = false;
+    const start = () => {
+      if (hasStarted) return;
+      hasStarted = true;
+      removeTriggers();
+      setStarted(true);
+    };
+
+    // Auto-start as soon as the essentials are ready — the phrase's serif
+    // is loaded — plus a 250ms beat so the veil registers first. The 1.8s
+    // cap guarantees a start even if the font-load promise hangs; any
+    // interaction still starts it instantly.
+    const capTimer = setTimeout(start, 1800);
+    let graceTimer: ReturnType<typeof setTimeout> | undefined;
+    (
+      document.fonts?.load('700 1rem "Playfair Display"').catch(() => {}) ??
+      Promise.resolve()
+    ).then(() => {
+      graceTimer = setTimeout(start, 250);
+    });
+
+    const startEvents: (keyof WindowEventMap)[] = [
+      'pointerdown',
+      'wheel',
+      'touchmove',
+      'keydown',
+    ];
+    startEvents.forEach((ev) =>
+      window.addEventListener(ev, start, { passive: true }),
     );
-
-    let typeTimeout: ReturnType<typeof setTimeout> | undefined;
-
-    const ctx = gsap.context(() => {
-      const q = gsap.utils.selector(root);
-
-      // Landscape phones can't fit the stacked layout: logo goes to the left
-      // half, motto to the right (percentages mirror the index.css media
-      // block that pre-positions the elements before GSAP's first tick).
-      const landscape = window.matchMedia(
-        '(orientation: landscape) and (max-height: 500px)',
-      ).matches;
-
-      // Portrait/desktop: logo slightly above center, motto underneath.
-      // x/y: 0 clears the pixel offsets GSAP decomposes out of the CSS
-      // translate() pre-paint guard — otherwise they'd stack with xPercent.
-      gsap.set(q('[data-intro-logo]'), {
-        left: landscape ? '40%' : '50%',
-        top: landscape ? '50%' : '40%',
-        x: 0,
-        y: 0,
-        xPercent: -50,
-        yPercent: -50,
-        opacity: 0,
-        scale: 0.07,
-      });
-      gsap.set(q('[data-motto]'), {
-        left: landscape ? '57%' : '50%',
-        top: landscape ? '50%' : '71%',
-        x: 0,
-        y: 0,
-        xPercent: landscape ? 0 : -50,
-        yPercent: landscape ? -50 : 0,
-        autoAlpha: 0,
-      });
-
-      let removeSkip: (() => void) | undefined;
-
-      /** Typewriter: char by char, with a long still beat between phrases. */
-      const typeMotto = (el: HTMLElement) => {
-        let phrase = 0;
-        let char = 0;
-        let out = '';
-        const step = () => {
-          const current = PHRASES[phrase];
-          out += current[char];
-          el.textContent = out;
-          char += 1;
-          let delay = CHAR_DELAY * 1000;
-          if (char >= current.length) {
-            phrase += 1;
-            char = 0;
-            if (phrase >= PHRASES.length) return;
-            out += '\n';
-            delay = PHRASE_PAUSE * 1000;
-          }
-          typeTimeout = setTimeout(step, delay);
-        };
-        step();
-      };
-
-      const runSequence = () => {
-        const mottoText = root.querySelector<HTMLElement>('[data-motto-text]');
-
-        const tl = gsap.timeline({
-          defaults: { ease: 'power2.out' },
-          onComplete: finish,
-        });
-
-        // 1) The logo grows in at the center of the veil
-        tl.to(
-          q('[data-intro-logo]'),
-          { opacity: 1, scale: 1, duration: 1.6, ease: 'power3.out' },
-          0,
-        );
-
-        // 2) Typewriter motto, three lines with pauses
-        tl.to(q('[data-motto]'), { autoAlpha: 1, duration: 0.3 }, 1.3);
-        tl.call(() => mottoText && typeMotto(mottoText), [], 1.5);
-        tl.to({}, { duration: TYPE_TOTAL }, 1.5); // spacer while typing
-        tl.to({}, { duration: 0.6 }); // hold on the finished motto
-
-        // Any click/tap while the intro is playing jumps straight to the
-        // hand-off (logo flight into the header). The hand-off callback
-        // below still fires from there, so the hero-release event keeps its
-        // timing; a pending typewriter timeout is cancelled.
-        tl.addLabel('handoff');
-        const skipToHandoff = () => {
-          if (tl.time() >= tl.labels.handoff) return;
-          tl.seek('handoff');
-          if (typeTimeout) clearTimeout(typeTimeout);
-        };
-        window.addEventListener('pointerdown', skipToHandoff);
-        removeSkip = () =>
-          window.removeEventListener('pointerdown', skipToHandoff);
-
-        // 3) Hand-off: the motto cross-fade, the logo's flight home and the
-        // veil dissolve all begin on the same beat.
-        tl.to(q('[data-motto]'), {
-          autoAlpha: 0,
-          duration: 0.9,
-          ease: 'power1.inOut',
-        });
-        tl.add(() => {
-          // Release the hero's entrance NOW — its text/buttons animate in
-          // while the veil dissolves and the logo flies home, so the
-          // visitor actually sees them (starting it any earlier hides the
-          // whole entrance behind the veil). Fires in the skip path too:
-          // seek('handoff') lands right on this callback.
-          window.dispatchEvent(new Event(INTRO_DONE_EVENT));
-
-          // Reveal the (already settled) site's header; its own logo stays
-          // invisible until ours lands in the slot.
-          if (headerLogo) headerLogo.style.opacity = '0';
-          document.body.classList.remove('intro-active');
-          document.documentElement.classList.remove('intro-active');
-
-          const logoEl = q('[data-intro-logo]')[0] as HTMLElement;
-          if (headerLogo && logoEl) {
-            const from = logoEl.getBoundingClientRect();
-            const to = headerLogo.getBoundingClientRect();
-            const currentScale = gsap.getProperty(logoEl, 'scale') as number;
-            gsap.to(logoEl, {
-              x: `+=${to.left + to.width / 2 - (from.left + from.width / 2)}`,
-              y: `+=${to.top + to.height / 2 - (from.top + from.height / 2)}`,
-              scale: currentScale * (to.height / from.height),
-              duration: 1.5,
-              ease: 'power2.inOut',
-            });
-            // Touchdown cross-fade over the flight's slow tail: the natively
-            // rendered (crisp) header logo fades in while the transform-scaled
-            // one fades out, hiding the resample seam an instant swap shows.
-            gsap.to(headerLogo, {
-              opacity: 1,
-              duration: 0.4,
-              delay: 1.15,
-              ease: 'power1.inOut',
-            });
-            gsap.to(logoEl, {
-              opacity: 0,
-              duration: 0.4,
-              delay: 1.2,
-              ease: 'power1.inOut',
-            });
-          }
-        }, '<');
-        tl.to(
-          q('[data-bg]'),
-          { opacity: 0, duration: 1.35, ease: 'power2.inOut' },
-          '<',
-        );
-        tl.to({}, { duration: 1.55 }); // flight time + touchdown beat
-      };
-
-      const start = () => {
-        if (startedRef.current) return;
-        startedRef.current = true;
-        removeTriggers();
-        runSequence();
-      };
-
-      // Auto-start as soon as the essentials are ready — the logo image is
-      // decoded and the motto's serif is loaded — plus a 250ms beat so the
-      // veil registers first. The 1.8s cap guarantees a start even if a
-      // decode/font promise hangs; any interaction still starts it instantly.
-      const capTimer = setTimeout(start, 1800);
-      let graceTimer: ReturnType<typeof setTimeout> | undefined;
-      const logoImg = root.querySelector<HTMLImageElement>('[data-intro-logo]');
-      Promise.all([
-        logoImg?.decode().catch(() => {}) ?? Promise.resolve(),
-        document.fonts?.load('1rem "Playfair Display"').catch(() => {}) ??
-          Promise.resolve(),
-      ]).then(() => {
-        graceTimer = setTimeout(start, 250);
-      });
-
-      const events: (keyof WindowEventMap)[] = [
-        'pointerdown',
-        'wheel',
-        'touchmove',
-        'keydown',
-      ];
-      events.forEach((ev) =>
-        window.addEventListener(ev, start, { passive: true }),
-      );
-      const removeTriggers = () => {
-        clearTimeout(capTimer);
-        if (graceTimer) clearTimeout(graceTimer);
-        events.forEach((ev) => window.removeEventListener(ev, start));
-      };
-
-      const finish = () => {
-        window.removeEventListener('scroll', pinToTop);
-        removeSkip?.();
-        if (headerLogo) headerLogo.style.opacity = '';
-        document.body.classList.remove('intro-active');
-        document.documentElement.classList.remove('intro-active');
-        document.documentElement.classList.remove('intro-lock');
-        setActive(false);
-      };
-
-      return () => {
-        removeTriggers();
-        removeSkip?.();
-      };
-    }, root);
+    const removeTriggers = () => {
+      clearTimeout(capTimer);
+      if (graceTimer) clearTimeout(graceTimer);
+      startEvents.forEach((ev) => window.removeEventListener(ev, start));
+    };
 
     return () => {
+      removeTriggers();
       window.removeEventListener('scroll', pinToTop);
-      if (typeTimeout) clearTimeout(typeTimeout);
-      ctx.revert();
-      if (headerLogo) headerLogo.style.opacity = '';
+      window.removeEventListener('resize', onResize);
       document.body.classList.remove('intro-active');
       document.documentElement.classList.remove('intro-active');
       document.documentElement.classList.remove('intro-lock');
     };
   }, [active]);
 
+  // Fires once (guarded — PhraseMorph's own skip-seek can in principle
+  // reach this at the same moment the timeline's natural progression
+  // would have): reveal the header/hero and start fading the black veil,
+  // timed to finish exactly when the text's own morph-out does.
+  const handleReveal = () => {
+    if (revealedRef.current) return;
+    revealedRef.current = true;
+
+    window.dispatchEvent(new Event(INTRO_DONE_EVENT));
+    document.body.classList.remove('intro-active');
+    document.documentElement.classList.remove('intro-active');
+
+    if (bgRef.current) {
+      gsap.to(bgRef.current, { opacity: 0, duration: MORPH, ease: 'power2.inOut' });
+    }
+  };
+
+  const handleDone = () => {
+    document.documentElement.classList.remove('intro-lock');
+    setActive(false);
+  };
+
   if (!active) return null;
 
   return (
-    <div ref={rootRef} className="intro-overlay" aria-hidden="true">
-      <div data-bg className="intro-bg" />
+    <div className="intro-overlay" aria-hidden="true">
+      <div ref={bgRef} data-bg className="intro-bg" />
 
-      {/* The logo that grows in and lands in the header */}
-      <img
-        data-intro-logo
-        className="intro-logo"
-        src="/images/tryLogo-1.png"
-        alt=""
-        draggable={false}
-      />
-
-      {/* Typewriter motto, one phrase per line */}
-      <p data-motto className="intro-motto">
-        <span data-motto-text></span>
-        <span className="intro-caret" />
-      </p>
+      <div className="intro-stage">
+        {started && (
+          <PhraseMorph
+            fontSizePx={fontSizePx}
+            onLastMorphOutStart={handleReveal}
+            onDone={handleDone}
+          />
+        )}
+      </div>
     </div>
   );
 };
