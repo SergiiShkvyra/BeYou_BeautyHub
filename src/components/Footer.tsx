@@ -192,60 +192,65 @@ const Footer = () => {
                     const modalContent = document.createElement('div');
                     modalContent.style.cssText = `
                       background: #dbd6b2;
-                      border-radius: 12px;
-                      padding: 24px;
+                      border: 1px solid rgba(38, 44, 32, 0.15);
+                      border-radius: 28px;
+                      padding: 32px 28px;
                       max-width: 320px;
                       width: 100%;
-                      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+                      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
                     `;
-                    
+
                     modalContent.innerHTML = `
-                      <h3 style="margin: 0 0 24px 0; font-size: 18px; font-weight: 600; color: #505e47; line-height: 1.6; text-align: center;">
+                      <h3 style="margin: 0 0 28px 0; font-size: 20px; font-weight: 700; color: #505e47; text-align: center; font-family: inherit;">
                         Choose Navigation App
                       </h3>
-                      <div style="margin: 0 0 16px 0; height: 1px;"></div>
-                      <div style="display: flex; flex-direction: column; gap: 20px;">
+                      <div style="display: flex; flex-direction: column; gap: 14px;">
                         ${navigationOptions.map(option => `
-                          <button 
+                          <button
                             onclick="window.open('${option.url}', '_blank'); document.body.removeChild(document.querySelector('[data-navigation-modal]'))"
                             style="
-                              display: flex;
-                              align-items: center;
-                             gap: 8px;
-                              padding: 12px 16px;
-                              border: 2px solid #505e47;
-                              border-radius: 8px;
-                              background: #dbd6b2;
+                              display: block;
+                              width: 100%;
+                              padding: 16px 20px;
+                              border: none;
+                              border-radius: 9999px;
+                              background: #505e47;
+                              color: #dbd6b2;
                               cursor: pointer;
-                              transition: all 0.2s;
-                              font-size: 16px;
-                              font-weight: 500;
-                              color: #505e47;
-                             margin: 0;
+                              transition: background-color 0.2s;
+                              font-size: 13px;
+                              font-weight: 700;
+                              letter-spacing: 0.15em;
+                              text-transform: uppercase;
+                              text-align: center;
+                              margin: 0;
                             "
-                            onmouseover="this.style.borderColor='#3a4a35'; this.style.backgroundColor='#c9c4a0'"
-                            onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#dbd6b2'"
+                            onmouseover="this.style.backgroundColor='#3a4531'"
+                            onmouseout="this.style.backgroundColor='#505e47'"
                           >
-                           <span style="font-size: 20px; margin-right: 12px; background: transparent; color: inherit;">${option.icon}</span>
-                           <span style="background: transparent; color: inherit;">Open in ${option.name}</span>
+                            Open in ${option.name}
                           </button>
                         `).join('')}
                       </div>
-                      <button 
+                      <button
                         onclick="document.body.removeChild(document.querySelector('[data-navigation-modal]'))"
                         style="
-                          margin-top: 16px;
+                          display: block;
                           width: 100%;
-                          padding: 10px;
-                          border: 1px solid #505e47;
-                          border-radius: 6px;
-                          background: #dbd6b2;
+                          margin-top: 18px;
+                          padding: 14px 20px;
+                          border: 1.5px solid #505e47;
+                          border-radius: 9999px;
+                          background: transparent;
                           cursor: pointer;
+                          transition: background-color 0.2s;
                           font-size: 14px;
+                          font-weight: 500;
                           color: #505e47;
+                          text-align: center;
                         "
-                        onmouseover="this.style.backgroundColor='#c9c4a0'"
-                        onmouseout="this.style.backgroundColor='#dbd6b2'"
+                        onmouseover="this.style.backgroundColor='rgba(80, 94, 71, 0.08)'"
+                        onmouseout="this.style.backgroundColor='transparent'"
                       >
                         Cancel
                       </button>
