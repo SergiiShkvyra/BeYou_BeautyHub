@@ -590,3 +590,21 @@ img {
     animation: none !important;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Custom sparkle cursor (SparkleCursor.tsx). `cursor` is an INHERITED
+   property, so setting it here on <html> only affects elements that don't
+   declare their own value — every native interactive element already does
+   (Tailwind Preflight sets `cursor: pointer` on button/[role=button]; the
+   UA stylesheet sets it on links, and `auto` — itself an explicit value,
+   not "unset" — on text inputs/textareas/selects), and so does any custom
+   element carrying Tailwind's `cursor-pointer` utility. No `!important` or
+   wildcard `*` needed: those elements simply never inherit this rule, which
+   is exactly what lets them keep showing their own native shape while
+   everything else falls back to the sparkle. SparkleCursor.tsx reads each
+   hovered element's OWN computed cursor to decide when to hide itself, so
+   the two mechanisms are self-consistent by construction.
+--------------------------------------------------------------------------- */
+.no-native-cursor {
+  cursor: none;
+}

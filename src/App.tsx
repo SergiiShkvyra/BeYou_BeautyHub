@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { initCursorGlow } from './lib/cursorGlow';
+import GlitterCursor from './components/GlitterCursor';
+import SparkleCursor from './components/SparkleCursor';
 import IntroOverlay from './components/IntroOverlay';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -121,6 +123,20 @@ function App() {
       <Testimonials />
       <Contact />
       <Footer />
+      {/* Site-wide glitter cursor trail. Fixed + pointer-events-none so it
+          never intercepts clicks; the component's own logic disables itself
+          on mobile (<=768px) and hides when the pointer leaves the window.
+          Mounted AFTER IntroOverlay (z-index 100000) and Header (z-index
+          2147483647) and matching the header's z-index so it wins the
+          stacking tie by DOM order — otherwise the WebGL canvas renders but
+          is hidden behind their opaque backgrounds, and the trail silently
+          disappears during the intro and over the header bar. */}
+      <div className="pointer-events-none fixed inset-0 z-[2147483647]">
+        <GlitterCursor label={false} starColor="#f2c94c" />
+      </div>
+      {/* Mounted last so it paints above the glitter trail (same z-index,
+          later DOM wins the tie). */}
+      <SparkleCursor />
     </div>
   );
 }
