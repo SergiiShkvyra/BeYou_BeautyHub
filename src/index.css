@@ -409,6 +409,10 @@ body.intro-active header {
   position: absolute;
   inset: 0;
   background: #000000;
+  /* Own compositor layer: the dissolve at hand-off animates opacity over a
+     page that is itself animating (hero zoom, headline rise) — without
+     this, every fade frame repaints the full viewport. */
+  will-change: opacity;
 }
 
 /* Centers PhraseMorph's phrase — not a hard boundary, the text isn't
