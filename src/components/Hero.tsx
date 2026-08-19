@@ -175,7 +175,7 @@ const Hero = () => {
                     '_blank',
                   )
                 }
-                className="glow-btn group bg-olive text-warm px-9 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.18em] transition-all duration-300 hover:bg-olive hover:text-warm hover:-translate-y-0.5"
+                className="glow-btn glow-sweep group bg-olive text-warm px-9 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.18em] transition-all duration-300 hover:bg-olive hover:text-warm hover:-translate-y-0.5"
               >
                 Book Appointment
               </button>

@@ -235,6 +235,58 @@ header {
   --glow-color: rgba(80, 94, 71, 0.22);
 }
 
+/* ---------------------------------------------------------------------------
+   Ambient attention-grabbing sweep (.glow-sweep) — a light band travels
+   left-to-right across the button on its own, with NO hover/interaction
+   required, unlike .glow-btn's cursor-follow glow above (a separate
+   pseudo-element — ::after vs ::before — so the two layer independently on
+   the same button). 4s loop: 1s sweeping across (0%–25% of the keyframes),
+   then held off-screen for the remaining 3s before repeating. Relies on
+   .glow-btn's `overflow: hidden` to stay clipped inside the button's
+   rounded shape.
+
+   On hover, this pauses and fades out (below) so it doesn't fight visually
+   with .glow-btn's cursor-follow glow — the ambient sweep is specifically
+   for grabbing attention while the button ISN'T being interacted with.
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .glow-sweep::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      100deg,
+      transparent 20%,
+      rgba(255, 252, 235, 0.237) 50%,
+      transparent 80%
+    );
+    transform: translateX(-120%);
+    pointer-events: none;
+    animation: glow-sweep-loop 4s ease-in-out infinite;
+    transition: opacity 0.25s ease;
+  }
+}
+
+@keyframes glow-sweep-loop {
+  0% {
+    transform: translateX(-120%);
+  }
+  25% {
+    transform: translateX(120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+@media (hover: hover) {
+  .glow-sweep:hover::after {
+    animation-play-state: paused;
+    opacity: 0;
+  }
+}
+
 /* Cursor light inside TEXT (header wordmark, nav links, contact bar).
    On hover the glyphs become the mask for a radial gradient: a lighter
    sage-gold spot at the cursor, the normal olive everywhere else — so the
