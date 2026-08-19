@@ -179,7 +179,13 @@ export default function RoundCarousel({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        overflow: 'hidden',
+        // Not hidden: the tilt+perspective make each card's rendered extent
+        // taller than the box, especially at the imageWidth/imageHeight
+        // this project uses on small screens — clipping to the box cut
+        // images off sharply at the top/sides. Left visible so the full
+        // images always show, spilling above/beside the box rather than
+        // being cropped; the box's own size is unchanged.
+        overflow: 'visible',
         background,
         perspective: `${perspective}px`,
         cursor: drag ? 'grab' : 'default',
