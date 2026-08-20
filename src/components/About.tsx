@@ -52,9 +52,9 @@ const About = () => {
             >
               <img
                 data-about-image
-                src="/images/about/shutterstock_2496592773_small.jpg"
+                src="/images/about/About_smaller.jpg"
                 alt="Beautiful woman with natural makeup showcasing skincare and beauty"
-                className="w-full h-[26rem] lg:h-[34rem] object-cover scale-110"
+                className="w-full h-[26rem] lg:h-[34rem] object-cover object-top scale-110 origin-top"
                 loading="lazy"
                 decoding="async"
               />
