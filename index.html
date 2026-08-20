@@ -5,6 +5,11 @@
     <link rel="icon" type="image/png" href="/images/tryLogo-1.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BeYou Beauty Hub</title>
+    <script>
+      // Disable the browser's scroll restoration before anything renders:
+      // the intro animation must always play from the very top of the page.
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    </script>
   </head>
   <body>
     <div id="root"></div>

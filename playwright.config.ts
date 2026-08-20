@@ -34,6 +34,10 @@ export default defineConfig({
     baseURL: 'http://localhost:4173',
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
+    // The site honors prefers-reduced-motion (GSAP effects are skipped), so
+    // running the suite in that mode makes clicks and screenshots
+    // deterministic — no mid-reveal element movement races.
+    contextOptions: { reducedMotion: 'reduce' },
     // Slow every browser action down for human-watchable headed runs:
     //   $env:SLOWMO = "500"; npx playwright test ... --headed
     // (value = pause in ms between actions; unset = full speed)

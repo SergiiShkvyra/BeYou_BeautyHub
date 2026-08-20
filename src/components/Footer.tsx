@@ -1,6 +1,51 @@
 import React from 'react';
 import { Heart, Instagram, Facebook, MapPin, Phone, Mail, X } from 'lucide-react';
 import { scrollToSection, handlePhoneClick, copyEmailToClipboard } from '../utils/interactions';
+import { useReveal, ScrollTrigger, gsap } from '../lib/useReveal';
+import { createLogoSpin } from '../lib/logoSpin';
+
+// Easter egg: a small burst of hearts rising and zooming from the
+// "Made with ♥" icon. Elements live on <body> (position: fixed) and remove
+// themselves when their tween ends; skipped under prefers-reduced-motion
+// like every other animation on the site.
+const burstHearts = (origin: HTMLElement) => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const rect = origin.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const colors = ['#dbd6b2', '#f5f2e6', '#c9b98a'];
+  for (let i = 0; i < 7; i++) {
+    const el = document.createElement('span');
+    el.textContent = '♥';
+    el.setAttribute('aria-hidden', 'true');
+    el.style.cssText =
+      `position:fixed;left:${cx}px;top:${cy}px;` +
+      `color:${colors[i % colors.length]};font-size:15px;line-height:1;` +
+      'pointer-events:none;z-index:100000;will-change:transform,opacity;';
+    document.body.appendChild(el);
+
+    const rise = gsap.utils.random(1.1, 1.6);
+    const tl = gsap.timeline({ delay: i * 0.07, onComplete: () => el.remove() });
+    tl.fromTo(
+      el,
+      { xPercent: -50, yPercent: -50, scale: 0.35, opacity: 0 },
+      { opacity: 1, scale: gsap.utils.random(1.5, 2.4), duration: 0.25, ease: 'power1.out' },
+      0,
+    )
+      .to(
+        el,
+        {
+          x: gsap.utils.random(-42, 42),
+          y: gsap.utils.random(-150, -90),
+          rotation: gsap.utils.random(-25, 25),
+          duration: rise,
+          ease: 'power1.out',
+        },
+        0,
+      )
+      .to(el, { opacity: 0, duration: 0.45, ease: 'power1.in' }, rise - 0.45);
+  }
+};
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -8,23 +53,59 @@ const Footer = () => {
   const [showPrivacyModal, setShowPrivacyModal] = React.useState(false);
   const [showCookieModal, setShowCookieModal] = React.useState(false);
 
+  // Stage entrance for the footer logo: the FIRST time it scrolls into view
+  // it spins around its vertical axis — starting gently, accelerating
+  // through the middle, easing to a stop — while a specular glint flashes
+  // each time the face sweeps past the viewer, like it's catching stage
+  // lights. After that it only replays on click/tap.
+  const scope = useReveal<HTMLElement>((footer) => {
+    // Both footer logos (desktop right column + mobile next to Quick Links)
+    // get the identical show; each spins when IT scrolls into view and
+    // replays on click/tap.
+    const logos = Array.from(
+      footer.querySelectorAll<HTMLElement>('[data-footer-logo]'),
+    );
+    const cleanups = logos.map((logo) => {
+      const spin = createLogoSpin(logo);
+      // Plays ONCE on the first genuine scroll-into-view, then the trigger
+      // retires — later visits don't re-spin; only a click replays. The
+      // manual flag (instead of `once: true`) keeps the old robustness:
+      // the trigger is only killed after a spin actually started, so a
+      // transient layout state can't consume the one shot silently.
+      ScrollTrigger.create({
+        trigger: logo,
+        start: 'top 92%',
+        onEnter: (self) => {
+          if (!spin.isActive()) {
+            spin.restart();
+            self.kill();
+          }
+        },
+      });
+      const replay = () => void spin.restart();
+      logo.addEventListener('click', replay);
+      return () => logo.removeEventListener('click', replay);
+    });
+    return () => cleanups.forEach((fn) => fn());
+  });
+
   return (
-    <footer className="bg-gray-800 text-warm">
+    <footer ref={scope} className="bg-olive-ink text-warm">
       {/* Main footer content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-2xl font-bold text-olive mb-4">BeYou BeautyHub</h3>
-            <p className="text-gray-300 mb-6 leading-relaxed">
+            <h3 className="font-display text-2xl text-warm mb-4">BeYou BeautyHub</h3>
+            <p className="text-warm/70 mb-6 leading-relaxed">
               Enhancing your natural beauty with professional eyelash and eyebrow services. 
               Your confidence is our passion.
             </p>
             <div className="flex space-x-4">
-              <a href="https://www.instagram.com/beyou_beautyhub" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-olive transition-colors duration-200">
+              <a href="https://www.instagram.com/beyou_beautyhub" target="_blank" rel="noopener noreferrer" className="text-warm/60 hover:text-cream transition-colors duration-200">
                 <Instagram className="h-6 w-6" />
               </a>
-              <a href="https://www.facebook.com/share/15Py4Ci4CV" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-olive transition-colors duration-200">
+              <a href="https://www.facebook.com/share/15Py4Ci4CV" target="_blank" rel="noopener noreferrer" className="text-warm/60 hover:text-cream transition-colors duration-200">
                 <Facebook className="h-6 w-6" />
               </a>
             </div>
@@ -34,13 +115,13 @@ const Footer = () => {
           <div className="flex flex-col lg:block">
             <div className="flex justify-between items-start lg:block">
               <div className="flex-1 lg:w-full">
-                <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+                <h4 className="text-[12px] font-semibold uppercase tracking-[0.25em] text-warm/80 mb-5">Quick Links</h4>
                 <ul className="space-y-2">
                   {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => (
                     <li key={item}>
                       <button
                         onClick={() => scrollToSection(item.toLowerCase())}
-                        className="text-gray-300 hover:text-olive transition-colors duration-200"
+                        className="text-warm/70 hover:text-cream transition-colors duration-200"
                       >
                         {item}
                       </button>
@@ -52,9 +133,11 @@ const Footer = () => {
               {/* Logo for mobile - positioned next to Quick Links */}
               <div className="lg:hidden ml-8 flex-shrink-0">
                 <img
+                  data-footer-logo
                   src="/images/logoPSD-2.png"
                   alt="BeYou BeautyHub Logo"
-                  className="h-44 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-200"
+                  className="h-44 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-200 will-change-transform cursor-pointer"
+                  title="Spin me"
                   loading="lazy"
                   decoding="async"
                 />
@@ -64,10 +147,10 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
+            <h4 className="text-[12px] font-semibold uppercase tracking-[0.25em] text-warm/80 mb-5">Contact Info</h4>
             <div className="space-y-3">
               <div className="flex items-start space-x-3">
-                <MapPin className="h-5 w-5 text-olive mt-0.5" />
+                <MapPin className="h-5 w-5 text-warm/60 mt-0.5" />
                 <button
                   onClick={() => {
 
@@ -109,60 +192,65 @@ const Footer = () => {
                     const modalContent = document.createElement('div');
                     modalContent.style.cssText = `
                       background: #dbd6b2;
-                      border-radius: 12px;
-                      padding: 24px;
+                      border: 1px solid rgba(38, 44, 32, 0.15);
+                      border-radius: 28px;
+                      padding: 32px 28px;
                       max-width: 320px;
                       width: 100%;
-                      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+                      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
                     `;
-                    
+
                     modalContent.innerHTML = `
-                      <h3 style="margin: 0 0 24px 0; font-size: 18px; font-weight: 600; color: #505e47; line-height: 1.6; text-align: center;">
+                      <h3 style="margin: 0 0 28px 0; font-size: 20px; font-weight: 700; color: #505e47; text-align: center; font-family: inherit;">
                         Choose Navigation App
                       </h3>
-                      <div style="margin: 0 0 16px 0; height: 1px;"></div>
-                      <div style="display: flex; flex-direction: column; gap: 20px;">
+                      <div style="display: flex; flex-direction: column; gap: 14px;">
                         ${navigationOptions.map(option => `
-                          <button 
+                          <button
                             onclick="window.open('${option.url}', '_blank'); document.body.removeChild(document.querySelector('[data-navigation-modal]'))"
                             style="
-                              display: flex;
-                              align-items: center;
-                             gap: 8px;
-                              padding: 12px 16px;
-                              border: 2px solid #505e47;
-                              border-radius: 8px;
-                              background: #dbd6b2;
+                              display: block;
+                              width: 100%;
+                              padding: 16px 20px;
+                              border: none;
+                              border-radius: 9999px;
+                              background: #505e47;
+                              color: #dbd6b2;
                               cursor: pointer;
-                              transition: all 0.2s;
-                              font-size: 16px;
-                              font-weight: 500;
-                              color: #505e47;
-                             margin: 0;
+                              transition: background-color 0.2s;
+                              font-size: 13px;
+                              font-weight: 700;
+                              letter-spacing: 0.15em;
+                              text-transform: uppercase;
+                              text-align: center;
+                              margin: 0;
                             "
-                            onmouseover="this.style.borderColor='#3a4a35'; this.style.backgroundColor='#c9c4a0'"
-                            onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#dbd6b2'"
+                            onmouseover="this.style.backgroundColor='#3a4531'"
+                            onmouseout="this.style.backgroundColor='#505e47'"
                           >
-                           <span style="font-size: 20px; margin-right: 12px; background: transparent; color: inherit;">${option.icon}</span>
-                           <span style="background: transparent; color: inherit;">Open in ${option.name}</span>
+                            Open in ${option.name}
                           </button>
                         `).join('')}
                       </div>
-                      <button 
+                      <button
                         onclick="document.body.removeChild(document.querySelector('[data-navigation-modal]'))"
                         style="
-                          margin-top: 16px;
+                          display: block;
                           width: 100%;
-                          padding: 10px;
-                          border: 1px solid #505e47;
-                          border-radius: 6px;
-                          background: #dbd6b2;
+                          margin-top: 18px;
+                          padding: 14px 20px;
+                          border: 1.5px solid #505e47;
+                          border-radius: 9999px;
+                          background: transparent;
                           cursor: pointer;
+                          transition: background-color 0.2s;
                           font-size: 14px;
+                          font-weight: 500;
                           color: #505e47;
+                          text-align: center;
                         "
-                        onmouseover="this.style.backgroundColor='#c9c4a0'"
-                        onmouseout="this.style.backgroundColor='#dbd6b2'"
+                        onmouseover="this.style.backgroundColor='rgba(80, 94, 71, 0.08)'"
+                        onmouseout="this.style.backgroundColor='transparent'"
                       >
                         Cancel
                       </button>
@@ -197,26 +285,26 @@ const Footer = () => {
                       document.addEventListener('click', handleDocumentClick);
                     }, 100);
                   }}
-                  className="text-gray-300 text-sm hover:text-olive transition-colors duration-200 cursor-pointer text-left"
+                  className="text-warm/70 text-sm hover:text-cream transition-colors duration-200 cursor-pointer text-left"
                 >
                   Salons by JC, 3865 Wilson Blvd, room 4<br />
                   Arlington, VA 22203
                 </button>
               </div>
               <div className="flex items-center space-x-3">
-                <Phone className="h-5 w-5 text-olive" />
+                <Phone className="h-5 w-5 text-warm/60" />
                 <button 
                   onClick={() => handlePhoneClick('(571)-276-7014')}
-                  className="text-gray-300 text-sm hover:text-olive transition-colors duration-200 cursor-pointer"
+                  className="text-warm/70 text-sm hover:text-cream transition-colors duration-200 cursor-pointer"
                 >
                   (571)-276-7014
                 </button>
               </div>
               <div className="flex items-center space-x-3">
-                <Mail className="h-5 w-5 text-olive" />
+                <Mail className="h-5 w-5 text-warm/60" />
                 <button
                   onClick={() => copyEmailToClipboard('info@beyoubeautyhub.com')}
-                  className="text-gray-300 text-sm hover:text-olive transition-colors duration-200 cursor-pointer"
+                  className="text-warm/70 text-sm hover:text-cream transition-colors duration-200 cursor-pointer"
                 >
                   info@beyoubeautyhub.com
                 </button>
@@ -227,9 +315,11 @@ const Footer = () => {
           {/* Logo for desktop only */}
           <div className="hidden lg:flex justify-end">
             <img
+              data-footer-logo
               src="/images/logoPSD-2.png"
               alt="BeYou BeautyHub Logo"
-              className="h-48 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-200"
+              className="h-48 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-200 will-change-transform cursor-pointer"
+              title="Spin me"
               loading="lazy"
               decoding="async"
             />
@@ -238,30 +328,37 @@ const Footer = () => {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-gray-800">
+      <div className="border-t border-warm/15">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-300 text-sm flex items-center">
+            <div className="text-warm/60 text-sm flex items-center">
               <span>© {currentYear} BeYou Beauty Hub. Made with </span>
-              <Heart className="h-4 w-4 text-olive mx-1 fill-current" />
+              <button
+                type="button"
+                onClick={(e) => burstHearts(e.currentTarget)}
+                aria-label="Made with love — a little surprise"
+                className="mx-1 inline-flex cursor-pointer"
+              >
+                <Heart className="heart-beat h-4 w-4 text-warm fill-current" />
+              </button>
               <span></span>
             </div>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <button 
                 onClick={() => setShowPrivacyModal(true)}
-                className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm"
+                className="text-warm/70 hover:text-cream transition-colors duration-200 text-sm"
               >
                 Privacy Policy
               </button>
               <button 
                 onClick={() => setShowTermsModal(true)}
-                className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm"
+                className="text-warm/70 hover:text-cream transition-colors duration-200 text-sm"
               >
                 Terms of Service
               </button>
               <button 
                 onClick={() => setShowCookieModal(true)}
-                className="text-gray-300 hover:text-olive transition-colors duration-200 text-sm"
+                className="text-warm/70 hover:text-cream transition-colors duration-200 text-sm"
               >
                 Cookie Policy
               </button>

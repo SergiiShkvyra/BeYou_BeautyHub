@@ -94,26 +94,29 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Book Your Appointment</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+    <section id="contact" className="py-24 sm:py-32 bg-cream">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+        <div className="text-center mb-16 sm:mb-20 max-w-3xl mx-auto">
+          <p className="micro-label mb-5 justify-center">Contact</p>
+          <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-olive-ink leading-[1.05] mb-6">
+            Book Your <span className="italic text-olive">Appointment</span>
+          </h2>
+          <p className="text-lg text-olive-ink/70">
             Ready to enhance your natural beauty? Get in touch with us today
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Contact Information */}
-          <div className="bg-white rounded-2xl p-8 shadow-lg">
-            <h3 className="text-2xl font-bold text-gray-900 mb-8">Get In Touch</h3>
+          <div className="bg-olive text-warm rounded-3xl p-8 lg:p-10 shadow-xl shadow-olive/20">
+            <h3 className="font-display text-3xl mb-10">Get In Touch</h3>
             
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
-                <Clock className="h-6 w-6 text-olive mt-1" />
+                <Clock className="h-5 w-5 text-warm/80 mt-1" />
                 <div>
-                  <h4 className="font-semibold text-gray-900">Hours</h4>
-                  <p className="text-gray-600">
+                  <h4 className="font-semibold text-warm">Hours</h4>
+                  <p className="text-warm/85">
                     Mon-Fri: 10:00 AM - 7:00 PM<br />
                     Sat: 10:00 AM - 5:00 PM
                   </p>
@@ -121,37 +124,37 @@ const Contact = () => {
               </div>
 
               <div className="flex items-start space-x-4">
-                <Phone className="h-6 w-6 text-olive mt-1" />
+                <Phone className="h-5 w-5 text-warm/80 mt-1" />
                 <div>
-                  <h4 className="font-semibold text-gray-900">Phone</h4>
-                  <button 
+                  <h4 className="font-semibold text-warm">Phone</h4>
+                  <button
                     onClick={() => handlePhoneClick('(571)-276-7014')}
-                    className="text-gray-600 hover:text-olive transition-colors duration-200 cursor-pointer"
+                    className="text-warm hover:text-cream underline-offset-4 hover:underline transition-colors duration-200 cursor-pointer"
                   >
                     (571)-276-7014
                   </button>
-                  <p className="text-sm text-gray-500">Call or text us anytime</p>
+                  <p className="text-sm text-warm/80">Call or text us anytime</p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-4">
-                <Mail className="h-6 w-6 text-olive mt-1" />
+                <Mail className="h-5 w-5 text-warm/80 mt-1" />
                 <div>
-                  <h4 className="font-semibold text-gray-900">Email</h4>
+                  <h4 className="font-semibold text-warm">Email</h4>
                   <button
                     onClick={() => copyEmailToClipboard('info@beyoubeautyhub.com')}
-                    className="text-gray-600 hover:text-olive transition-colors duration-200 cursor-pointer"
+                    className="text-warm hover:text-cream underline-offset-4 hover:underline transition-colors duration-200 cursor-pointer"
                   >
                     info@beyoubeautyhub.com
                   </button>
-                  <p className="text-sm text-gray-500">We'll respond within 24 hours</p>
+                  <p className="text-sm text-warm/80">We'll respond within 24 hours</p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-4">
-                <MapPin className="h-6 w-6 text-olive mt-1" />
+                <MapPin className="h-5 w-5 text-warm/80 mt-1" />
                 <div>
-                  <h4 className="font-semibold text-gray-900">Location</h4>
+                  <h4 className="font-semibold text-warm">Location</h4>
                   <button
                     onClick={() => {
                       // Create navigation options
@@ -192,60 +195,65 @@ const Contact = () => {
                       const modalContent = document.createElement('div');
                       modalContent.style.cssText = `
                         background: #dbd6b2;
-                        border-radius: 12px;
+                        border: 1px solid rgba(38, 44, 32, 0.15);
+                        border-radius: 28px;
                         padding: 32px 28px;
                         max-width: 320px;
                         width: 100%;
-                        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+                        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
                       `;
-                      
+
                       modalContent.innerHTML = `
-                        <h3 style="margin: 0 0 24px 0; font-size: 18px; font-weight: 600; color: #505e47; line-height: 1.6; text-align: center;">
+                        <h3 style="margin: 0 0 28px 0; font-size: 20px; font-weight: 700; color: #505e47; text-align: center; font-family: inherit;">
                           Choose Navigation App
                         </h3>
-                        <div style="margin: 0 0 16px 0; height: 1px;"></div>
-                        <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <div style="display: flex; flex-direction: column; gap: 14px;">
                           ${navigationOptions.map(option => `
-                            <button 
+                            <button
                               onclick="window.open('${option.url}', '_blank'); document.body.removeChild(document.querySelector('[data-navigation-modal]'))"
                               style="
-                                display: flex;
-                                align-items: center;
-                               gap: 12px;
-                                padding: 16px 18px;
-                                border: 2px solid #505e47;
-                                border-radius: 8px;
-                                background: #dbd6b2;
+                                display: block;
+                                width: 100%;
+                                padding: 16px 20px;
+                                border: none;
+                                border-radius: 9999px;
+                                background: #505e47;
+                                color: #dbd6b2;
                                 cursor: pointer;
-                                transition: all 0.2s;
-                                font-size: 16px;
-                                font-weight: 500;
-                                color: #505e47;
-                               margin: 0;
+                                transition: background-color 0.2s;
+                                font-size: 13px;
+                                font-weight: 700;
+                                letter-spacing: 0.15em;
+                                text-transform: uppercase;
+                                text-align: center;
+                                margin: 0;
                               "
-                              onmouseover="this.style.borderColor='#3a4a35'; this.style.backgroundColor='#c9c4a0'"
-                              onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#dbd6b2'"
+                              onmouseover="this.style.backgroundColor='#3a4531'"
+                              onmouseout="this.style.backgroundColor='#505e47'"
                             >
-                             <span style="font-size: 20px; background: transparent; color: inherit;">${option.icon}</span>
-                             <span style="background: transparent; color: inherit;">Open in ${option.name}</span>
+                              Open in ${option.name}
                             </button>
                           `).join('')}
                         </div>
-                        <button 
+                        <button
                           onclick="document.body.removeChild(document.querySelector('[data-navigation-modal]'))"
                           style="
-                            margin-top: 24px;
+                            display: block;
                             width: 100%;
-                            padding: 12px;
-                            border: 1px solid #505e47;
-                            border-radius: 6px;
-                            background: #dbd6b2;
+                            margin-top: 18px;
+                            padding: 14px 20px;
+                            border: 1.5px solid #505e47;
+                            border-radius: 9999px;
+                            background: transparent;
                             cursor: pointer;
+                            transition: background-color 0.2s;
                             font-size: 14px;
+                            font-weight: 500;
                             color: #505e47;
+                            text-align: center;
                           "
-                          onmouseover="this.style.backgroundColor='#c9c4a0'"
-                          onmouseout="this.style.backgroundColor='#dbd6b2'"
+                          onmouseover="this.style.backgroundColor='rgba(80, 94, 71, 0.08)'"
+                          onmouseout="this.style.backgroundColor='transparent'"
                         >
                           Cancel
                         </button>
@@ -280,22 +288,22 @@ const Contact = () => {
                         document.addEventListener('click', handleDocumentClick);
                       }, 100);
                     }}
-                    className="text-gray-600 hover:text-olive transition-colors duration-200 cursor-pointer text-left"
+                    className="text-warm hover:text-cream underline-offset-4 hover:underline transition-colors duration-200 cursor-pointer text-left"
                   >
                     Salons by JC, 3865 Wilson Blvd, room 4<br />Arlington, VA 22203
                   </button>
-                  <p className="hidden text-sm text-gray-500">Free parking available</p>
+                  <p className="hidden text-sm text-warm/80">Free parking available</p>
                 </div>
               </div>
             </div>
 
             {/* Quick Actions */}
             <div className="mt-8 space-y-4">
-              <button 
+              <button
                 onClick={() => window.open('https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-gt6tu55b', '_blank')}
-                className="w-full bg-olive text-white py-3 rounded-full hover:bg-warm hover:text-olive transition-colors duration-200 font-semibold flex items-center justify-center space-x-2"
+                className="glow-btn glow-dark w-full bg-warm text-olive-ink py-4 rounded-full hover:bg-cream transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] flex items-center justify-center space-x-2"
               >
-                <Calendar className="h-5 w-5" />
+                <Calendar className="h-4 w-4" />
                 <span>Book Online</span>
               </button>
               <button 
@@ -387,17 +395,17 @@ const Contact = () => {
                     }
                   }
                 }}
-                className="w-full border-2 border-olive text-olive py-3 rounded-full hover:bg-olive hover:text-white transition-colors duration-200 font-semibold flex items-center justify-center space-x-2"
+                className="glow-btn glow-dark w-full border border-warm/60 text-warm py-4 rounded-full hover:bg-warm hover:text-olive-ink transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] flex items-center justify-center space-x-2"
               >
-                <MessageSquare className="h-5 w-5" />
+                <MessageSquare className="h-4 w-4" />
                 <span>Text us</span>
               </button>
             </div>
           </div>
 
           {/* Contact Form */}
-          <div className="bg-white rounded-2xl p-8 shadow-lg">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">Send Us an Email</h3>
+          <div className="bg-white/70 border border-olive/15 rounded-3xl p-8 lg:p-10 shadow-sm">
+            <h3 className="font-display text-3xl text-olive-ink mb-8">Send Us an Email</h3>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Status Message */}
@@ -413,7 +421,7 @@ const Contact = () => {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="name" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-olive-ink/70 mb-2.5">
                     Full Name *
                   </label>
                   <input
@@ -423,13 +431,13 @@ const Contact = () => {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-solid border-gray-200 rounded-lg bg-gradient-to-b from-gray-50 to-gray-100 focus:ring-3 focus:ring-olive focus:border-olive transition-colors"
+                    className="w-full px-5 py-3.5 border border-olive/20 rounded-xl bg-white placeholder:text-olive-ink/35 focus:outline-none focus:ring-2 focus:ring-olive/50 focus:border-olive transition-all duration-200"
                     placeholder="Your full name"
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="email" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-olive-ink/70 mb-2.5">
                     Email Address *
                   </label>
                   <input
@@ -439,7 +447,7 @@ const Contact = () => {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-solid border-gray-200 rounded-lg bg-gradient-to-b from-gray-50 to-gray-100 focus:ring-3 focus:ring-olive focus:border-olive transition-colors"
+                    className="w-full px-5 py-3.5 border border-olive/20 rounded-xl bg-white placeholder:text-olive-ink/35 focus:outline-none focus:ring-2 focus:ring-olive/50 focus:border-olive transition-all duration-200"
                     placeholder="your.email@example.com"
                   />
                 </div>
@@ -447,7 +455,7 @@ const Contact = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="phone" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-olive-ink/70 mb-2.5">
                     Phone Number
                   </label>
                   <input
@@ -456,13 +464,13 @@ const Contact = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-solid border-gray-200 rounded-lg bg-gradient-to-b from-gray-50 to-gray-100 focus:ring-3 focus:ring-olive focus:border-olive transition-colors"
+                    className="w-full px-5 py-3.5 border border-olive/20 rounded-xl bg-white placeholder:text-olive-ink/35 focus:outline-none focus:ring-2 focus:ring-olive/50 focus:border-olive transition-all duration-200"
                     placeholder="(571)-276-7014"
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="service" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-olive-ink/70 mb-2.5">
                     Service Interest
                   </label>
                   <select
@@ -470,7 +478,7 @@ const Contact = () => {
                     name="service"
                     value={formData.service}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-solid border-gray-200 rounded-lg bg-gradient-to-b from-gray-50 to-gray-100 focus:ring-3 focus:ring-olive focus:border-olive transition-colors"
+                    className="w-full px-5 py-3.5 border border-olive/20 rounded-xl bg-white placeholder:text-olive-ink/35 focus:outline-none focus:ring-2 focus:ring-olive/50 focus:border-olive transition-all duration-200"
                   >
                     <option value="">Select a service</option>
                     <option value="lash-lift-tint">Lash Lift + Tinting</option>
@@ -486,7 +494,7 @@ const Contact = () => {
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="message" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-olive-ink/70 mb-2.5">
                   Message *
                 </label>
                 <textarea
@@ -495,7 +503,7 @@ const Contact = () => {
                   rows={4}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-solid border-gray-200 rounded-lg bg-gradient-to-b from-gray-50 to-gray-100 focus:ring-3 focus:ring-olive focus:border-olive transition-colors resize-none"
+                  className="w-full px-5 py-3.5 border border-olive/20 rounded-xl bg-white placeholder:text-olive-ink/35 focus:outline-none focus:ring-2 focus:ring-olive/50 focus:border-olive transition-all duration-200 resize-none"
                   placeholder="Tell us about your desired look or any questions you have..."
                 ></textarea>
               </div>
@@ -503,7 +511,7 @@ const Contact = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`w-full py-3 rounded-lg font-semibold text-lg transition-colors duration-200 ${
+                className={`glow-btn glow-dark w-full py-3 rounded-lg font-semibold text-lg transition-colors duration-200 ${
                   isSubmitting
                     ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
                     : 'bg-olive text-white hover:bg-warm hover:text-olive'

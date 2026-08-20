@@ -15,10 +15,10 @@ const NAV_ITEMS = [
  * avoids a race where scrollY is still stable in the frames right after the
  * click, before the smooth scroll begins.
  *
- * index.css sets `scroll-padding-top: 180px` so scrollIntoView deliberately
- * rests each section 180px down, clear of the fixed header — hence the bound.
+ * index.css sets `scroll-padding-top: 140px` so scrollIntoView deliberately
+ * rests each section 140px down, clear of the fixed header — hence the bound.
  */
-const SCROLL_PADDING_TOP = 180;
+const SCROLL_PADDING_TOP = 140;
 
 async function expectSectionAtTop(page: Page, section: string) {
   // Two-sided bound: when scrolling UP to a section it starts above the

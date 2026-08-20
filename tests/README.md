@@ -5,6 +5,8 @@ live site; runs never send real emails (EmailJS is intercepted) and browsers
 run as Playwright's own isolated binaries — incognito-equivalent, fully
 separate from the browsers installed on this machine.
 
+//TODO: made sure that testing framework is alligned with the redesigned website
+
 ## Commands
 
 | Command | What it does |
@@ -156,6 +158,16 @@ Remove-Item -Recurse -Force test-results
 Do NOT delete `tests/visual/__screenshots__/` — those are the visual-regression
 baselines (test inputs, not results); deleting them means regenerating with
 `npm run test:visual:update`.
+
+## Animations and determinism
+
+The whole suite runs with `reducedMotion: 'reduce'` (set in
+`playwright.config.ts`). The site honors `prefers-reduced-motion` by skipping
+all GSAP entrance/scroll animations, which makes tests deterministic: clicks
+can't race a mid-reveal element move, and screenshots never catch a half-faded
+state. Consequence: visual baselines show final resting states, and if you
+watch a `--headed` run you won't see the fancy animations — view those in a
+normal browser instead.
 
 ## Visual baselines
 

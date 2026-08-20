@@ -7,7 +7,20 @@ const Header = () => {
   const [isNavigationModalOpen, setIsNavigationModalOpen] = useState(false);
   const [isTopSectionCollapsed, setIsTopSectionCollapsed] = useState(false);
   const [pressedNavItem, setPressedNavItem] = useState<string | null>(null);
+  // Which nav item is currently showing its click-flash. Held in React state
+  // (not classList) because the header re-renders on every scroll frame and
+  // React rewrites className, wiping imperatively-added classes.
+  const [flashedNavItem, setFlashedNavItem] = useState<string | null>(null);
+  const flashTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const lastScrollYRef = useRef(0);
+
+  const flashNav = (item: string) => {
+    // Null first so a rapid re-click restarts the CSS animation.
+    setFlashedNavItem(null);
+    requestAnimationFrame(() => setFlashedNavItem(item));
+    clearTimeout(flashTimerRef.current);
+    flashTimerRef.current = setTimeout(() => setFlashedNavItem(null), 850);
+  };
 
   // ULTIMATE NUCLEAR OPTION: Force header to be visible at all times
   useEffect(() => {
@@ -57,12 +70,17 @@ const Header = () => {
         header.style.width = '100vw';
         header.style.maxWidth = '100vw';
         header.style.zIndex = '2147483647';
-        header.style.transform = 'translateZ(0)';
-        header.style.webkitTransform = 'translateZ(0)';
-        header.style.backfaceVisibility = 'hidden';
-        header.style.webkitBackfaceVisibility = 'hidden';
-        header.style.willChange = 'transform';
-        header.style.contain = 'layout style paint';
+        // NO GPU-layer promotion here (translateZ / will-change / contain
+        // paint / preserve-3d): a composited fixed layer with border-radius
+        // triggers a Chromium compositor bug that paints the rounded
+        // corners as opaque squares over the hero on real devices. The
+        // neutral values are set explicitly to overwrite older inline ones.
+        header.style.transform = 'none';
+        header.style.webkitTransform = 'none';
+        header.style.backfaceVisibility = 'visible';
+        header.style.webkitBackfaceVisibility = 'visible';
+        header.style.willChange = 'auto';
+        header.style.contain = 'none';
         
         // Force visibility properties
         header.style.display = 'block';
@@ -73,8 +91,8 @@ const Header = () => {
         // Prevent any scroll behavior or transforms
         header.style.overflowY = 'visible';
         header.style.overflowX = 'hidden';
-        header.style.transformStyle = 'preserve-3d';
-        header.style.perspective = '1000px';
+        header.style.transformStyle = 'flat';
+        header.style.perspective = 'none';
         
         // Prevent any CSS animations or transitions that might hide it
         header.style.transition = 'none';
@@ -144,8 +162,17 @@ const Header = () => {
   // Calculate opacity for "BeautyHub" (1 to 0)
   const beautyHubOpacity = 1 - scrollProgress;
   return (
-    <header 
-      className="bg-warm fixed top-0 left-0 right-0 w-full shadow-sm z-[99999] will-change-transform"
+    <header
+      onClick={(e) => {
+        // Minimized header: a click anywhere on the bar (except an actual
+        // control, which keeps its own meaning) re-opens the top section.
+        // It stays open until the visitor scrolls down again — the scroll
+        // handler's existing down-collapse rule takes it from there.
+        if (!isTopSectionCollapsed) return;
+        if ((e.target as HTMLElement).closest('button, a')) return;
+        setIsTopSectionCollapsed(false);
+      }}
+      className="header-surface backdrop-blur-md fixed top-0 left-0 right-0 w-full z-[99999]"
       style={{
         position: 'fixed',
         top: '0',
@@ -156,13 +183,8 @@ const Header = () => {
         margin: '0',
         padding: '0',
         zIndex: '99999',
-        transform: 'translateZ(0)',
-        backfaceVisibility: 'hidden',
-        willChange: 'transform',
         boxSizing: 'border-box',
-        WebkitTransform: 'translateZ(0)',
-        WebkitBackfaceVisibility: 'hidden',
-        WebkitPosition: 'fixed'
+        cursor: isTopSectionCollapsed ? 'pointer' : 'auto'
       }}
     >
       {/* Collapsible: top contact bar + logo row. Slides away on scroll-down, drops back on scroll-up. */}
@@ -175,13 +197,13 @@ const Header = () => {
       >
       {/* Top contact bar */}
       <div className="py-0 px-4 w-full" style={{ margin: '0', padding: '0 1rem', width: '100%' }}>
-        <div className="max-w-7xl mx-auto flex justify-between items-center text-sm text-olive">
+        <div className="header-line-top max-w-7xl mx-auto flex justify-between items-center text-xs text-olive py-1.5 border-b border-olive/10">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1">
               <Phone className="h-4 w-4" />
-              <button 
+              <button
                 onClick={() => handlePhoneClick('(571)-276-7014')}
-                className="hover:underline transition-all duration-200 cursor-pointer"
+                className="glow-text hover:underline transition-all duration-200 cursor-pointer"
               >
                 (571)-276-7014
               </button>
@@ -233,130 +255,81 @@ const Header = () => {
                   const modalContent = document.createElement('div');
                   modalContent.style.cssText = `
                     background: #dbd6b2;
-                    border-radius: 12px;
-                    padding: 24px;
+                    border: 1px solid rgba(38, 44, 32, 0.15);
+                    border-radius: 28px;
+                    padding: 32px 28px;
                     max-width: 320px;
                     width: 100%;
-                    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+                    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
                   `;
-                  
+
                   modalContent.innerHTML = `
-                    <h3 style="margin: 0 0 24px 0; font-size: 18px; font-weight: 600; color: #505e47; line-height: 1.6; text-align: center;">
+                    <h3 style="margin: 0 0 28px 0; font-size: 20px; font-weight: 700; color: #505e47; text-align: center; font-family: inherit;">
                       Choose Navigation App
                     </h3>
-                    <div style="margin: 0 0 16px 0; height: 1px;"></div>
-                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div style="display: flex; flex-direction: column; gap: 14px;">
                       ${navigationOptions.map(option => `
-                        <button 
-                          onclick="window.open('${option.url}', '_blank'); document.body.removeChild(document.querySelector('[data-navigation-modal]'))"
+                        <button
+                          onclick="window.open('${option.url}', '_blank'); document.body.removeChild(document.querySelector('[data-navigation-modal]')); window.headerComponent?.setIsNavigationModalOpen(false);"
                           style="
-                            display: flex;
-                            align-items: center;
-                           gap: 8px;
-                            padding: 12px 16px;
-                            border: 2px solid #505e47;
-                            border-radius: 8px;
-                            background: #f5f3e8;
+                            display: block;
+                            width: 100%;
+                            padding: 16px 20px;
+                            border: none;
+                            border-radius: 9999px;
+                            background: #505e47;
+                            color: #dbd6b2;
                             cursor: pointer;
-                            transition: all 0.2s;
-                            font-size: 16px;
-                            font-weight: 500;
-                            color: #505e47;
-                           margin: 0;
+                            transition: background-color 0.2s;
+                            font-size: 13px;
+                            font-weight: 700;
+                            letter-spacing: 0.15em;
+                            text-transform: uppercase;
+                            text-align: center;
+                            margin: 0;
                           "
-                          onmouseover="this.style.borderColor='#3a4a35'; this.style.backgroundColor='#dbd6b2'"
-                          onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#f5f3e8'"
+                          onmouseover="this.style.backgroundColor='#3a4531'"
+                          onmouseout="this.style.backgroundColor='#505e47'"
                         >
-                         <span style="font-size: 20px; margin-right: 12px;">${option.icon}</span>
-                         <span style="flex: 1;">Open in ${option.name}</span>
+                          Open in ${option.name}
                         </button>
                       `).join('')}
                     </div>
-                    <button 
-                      onclick="document.body.removeChild(document.querySelector('[data-navigation-modal]'))"
+                    <button
+                      onclick="document.body.removeChild(document.querySelector('[data-navigation-modal]')); window.headerComponent?.setIsNavigationModalOpen(false);"
                       style="
-                        margin-top: 16px;
+                        display: block;
                         width: 100%;
-                        padding: 10px;
-                        border: 1px solid #505e47;
-                        border-radius: 6px;
-                        background: #dbd6b2;
+                        margin-top: 18px;
+                        padding: 14px 20px;
+                        border: 1.5px solid #505e47;
+                        border-radius: 9999px;
+                        background: transparent;
                         cursor: pointer;
+                        transition: background-color 0.2s;
                         font-size: 14px;
+                        font-weight: 500;
                         color: #505e47;
+                        text-align: center;
                       "
-                      onmouseover="this.style.backgroundColor='#dbd6b2'"
-                      onmouseout="this.style.backgroundColor='#f5f3e8'"
+                      onmouseover="this.style.backgroundColor='rgba(80, 94, 71, 0.08)'"
+                      onmouseout="this.style.backgroundColor='transparent'"
                     >
                       Cancel
                     </button>
                   `;
-                  
+
                   modal.appendChild(modalContent);
                   modal.setAttribute('data-navigation-modal', 'true');
-                  
+
                   // Close modal when clicking outside
                   modal.addEventListener('click', (e) => {
                     if (e.target === modal) {
                       document.body.removeChild(modal);
-                     setIsNavigationModalOpen(false);
-                     setIsNavigationModalOpen(false);
                       setIsNavigationModalOpen(false);
                     }
                   });
-                  
-                  // Update all onclick handlers to close modal and reset state
-                  modalContent.innerHTML = `
-                    <h3 style="margin: 0 0 24px 0; font-size: 18px; font-weight: 600; color: #505e47; line-height: 1.6; text-align: center;">
-                      Choose Navigation App
-                    </h3>
-                    <div style="margin: 0 0 16px 0; height: 1px;"></div>
-                    <div style="display: flex; flex-direction: column; gap: 20px;">
-                      ${navigationOptions.map(option => `
-                        <button 
-                          onclick="window.open('${option.url}', '_blank'); document.body.removeChild(document.querySelector('[data-navigation-modal]')); window.headerComponent?.setIsNavigationModalOpen(false);"
-                          style="
-                            display: flex;
-                            align-items: center;
-                           gap: 8px;
-                            padding: 12px 16px;
-                            border: 2px solid #505e47;
-                            border-radius: 8px;
-                            background: #dbd6b2;
-                            cursor: pointer;
-                            transition: all 0.2s;
-                            font-size: 16px;
-                            font-weight: 500;
-                            color: #505e47;
-                           margin: 0;
-                          "
-                          onmouseover="this.style.borderColor='#3a4a35'; this.style.backgroundColor='#c9c4a0'"
-                          onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#dbd6b2'"
-                          <span style="font-size: 20px; background: transparent; color: inherit;">${option.icon}</span>
-                         <span style="background: transparent; color: inherit;">Open in ${option.name}</span>
-                        </button>
-                      `).join('')}
-                    </div>
-                    <button 
-                     onclick="document.body.removeChild(document.querySelector('[data-navigation-modal]')); if(window.headerComponent) window.headerComponent.setIsNavigationModalOpen(false);"
-                      style="
-                        margin-top: 16px;
-                        width: 100%;
-                        padding: 10px;
-                        border: 1px solid #505e47;
-                        border-radius: 6px;
-                        background: #dbd6b2;
-                        cursor: pointer;
-                        font-size: 14px;
-                        color: #505e47;
-                      "
-                      onmouseover="this.style.backgroundColor='#c9c4a0'"
-                      onmouseout="this.style.backgroundColor='#dbd6b2'"
-                    >
-                      Cancel
-                    </button>
-                  `;
-                  
+
                   document.body.appendChild(modal);
                   
                   // Add document-wide click listener to close modal
@@ -380,7 +353,7 @@ const Header = () => {
                   // Expose state setter to global scope for onclick handlers
                   window.headerComponent = { setIsNavigationModalOpen };
                 }}
-                className={`hover:underline transition-all duration-200 ${isNavigationModalOpen ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+                className={`glow-text hover:underline transition-all duration-200 ${isNavigationModalOpen ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
               >
                 <span>Salons by JC, 3865 Wilson Blvd, room 4, Arlington, VA 22203</span>
               </button>
@@ -428,59 +401,65 @@ const Header = () => {
                 const modalContent = document.createElement('div');
                 modalContent.style.cssText = `
                   background: #dbd6b2;
-                  border-radius: 12px;
-                  padding: 24px;
-                  max-width: 400px;
+                  border: 1px solid rgba(38, 44, 32, 0.15);
+                  border-radius: 28px;
+                  padding: 32px 28px;
+                  max-width: 320px;
                   width: 100%;
-                  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+                  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
                 `;
-                
+
                 modalContent.innerHTML = `
-                  <h3 style="margin: 0 0 24px 0; font-size: 18px; font-weight: 600; color: #505e47; line-height: 1.6; text-align: center;">
+                  <h3 style="margin: 0 0 28px 0; font-size: 20px; font-weight: 700; color: #505e47; text-align: center; font-family: inherit;">
                     Choose Navigation App
                   </h3>
-                  <div style="margin: 0 0 16px 0; height: 1px;"></div>
-                  <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <div style="display: flex; flex-direction: column; gap: 14px;">
                     ${navigationOptions.map(option => `
-                      <button 
+                      <button
                         onclick="window.open('${option.url}', '_blank'); document.body.removeChild(document.querySelector('[data-navigation-modal]'))"
                         style="
-                          display: flex;
-                          align-items: center;
-                          gap: 12px;
-                          padding: 12px 16px;
-                          border: 2px solid #505e47;
-                          border-radius: 8px;
-                          background: #dbd6b2;
+                          display: block;
+                          width: 100%;
+                          padding: 16px 20px;
+                          border: none;
+                          border-radius: 9999px;
+                          background: #505e47;
+                          color: #dbd6b2;
                           cursor: pointer;
-                          transition: all 0.2s;
-                          font-size: 16px;
-                          font-weight: 500;
-                          color: #505e47;
+                          transition: background-color 0.2s;
+                          font-size: 13px;
+                          font-weight: 700;
+                          letter-spacing: 0.15em;
+                          text-transform: uppercase;
+                          text-align: center;
+                          margin: 0;
                         "
-                        onmouseover="this.style.borderColor='#3a4a35'; this.style.backgroundColor='#c9c4a0'"
-                        onmouseout="this.style.borderColor='#505e47'; this.style.backgroundColor='#dbd6b2'"
+                        onmouseover="this.style.backgroundColor='#3a4531'"
+                        onmouseout="this.style.backgroundColor='#505e47'"
                       >
-                        <span style="font-size: 20px; background: transparent; color: inherit;">${option.icon}</span>
-                        <span style="background: transparent; color: inherit;">Open in ${option.name}</span>
+                        Open in ${option.name}
                       </button>
                     `).join('')}
                   </div>
-                  <button 
+                  <button
                     onclick="document.body.removeChild(document.querySelector('[data-navigation-modal]'))"
                     style="
-                      margin-top: 16px;
+                      display: block;
                       width: 100%;
-                      padding: 10px;
-                      border: 1px solid #505e47;
-                      border-radius: 6px;
-                      background: #dbd6b2;
+                      margin-top: 18px;
+                      padding: 14px 20px;
+                      border: 1.5px solid #505e47;
+                      border-radius: 9999px;
+                      background: transparent;
                       cursor: pointer;
+                      transition: background-color 0.2s;
                       font-size: 14px;
+                      font-weight: 500;
                       color: #505e47;
+                      text-align: center;
                     "
-                    onmouseover="this.style.backgroundColor='#c9c4a0'"
-                    onmouseout="this.style.backgroundColor='#dbd6b2'"
+                    onmouseover="this.style.backgroundColor='rgba(80, 94, 71, 0.08)'"
+                    onmouseout="this.style.backgroundColor='transparent'"
                   >
                     Cancel
                   </button>
@@ -515,7 +494,7 @@ const Header = () => {
                   document.addEventListener('click', handleDocumentClick);
                 }, 100);
               }}
-              className="cursor-pointer hover:underline hover:text-olive transition-all duration-200"
+              className="glow-text cursor-pointer hover:underline hover:text-olive transition-all duration-200"
               aria-label="Open BeYou BeautyHub location in navigation app"
               title="Click to choose navigation app"
             >
@@ -524,56 +503,60 @@ const Header = () => {
           </div>
           <div className="text-right">
             <div 
-              className="text-right text-sm leading-tight cursor-pointer hover:text-olive transition-colors duration-200"
+              className="glow-text text-right text-sm leading-tight cursor-pointer hover:text-olive transition-colors duration-200"
               onClick={() => {
-                // Scroll to contact section first
+                // ONE smooth scroll straight to the final position (the Hours
+                // block centered on screen). The old version chained a second
+                // smooth scroll off a timer while the first was still moving,
+                // which showed as a harsh jump near the end.
                 const contactSection = document.getElementById('contact');
-                if (contactSection) {
+                if (!contactSection) return;
+                const hoursDiv = contactSection
+                  .querySelector('.space-y-6')
+                  ?.querySelector('div:first-child') as HTMLElement | null;
+                if (!hoursDiv) {
                   contactSection.scrollIntoView({ behavior: 'smooth' });
-                  
-                  // After scrolling, find and highlight the Hours div
-                  setTimeout(() => {
-                    // Find the Hours div in the Contact section (now the first div in the space-y-6 container)
-                    const contactInfoContainer = contactSection.querySelector('.space-y-6');
-                    const hoursDiv = contactInfoContainer?.querySelector('div:first-child'); // The Hours div is now the first child
-                    if (hoursDiv) {
-                      // Center the Hours div on screen
-                      const rect = hoursDiv.getBoundingClientRect();
-                      const viewportHeight = window.innerHeight;
-                      const elementHeight = rect.height;
-                      const scrollOffset = window.scrollY + rect.top - (viewportHeight / 2) + (elementHeight / 2);
-                      
-                      window.scrollTo({
-                        top: scrollOffset,
-                        behavior: 'smooth'
-                      });
-                      
-                      // Add blinking highlight effect
-                      const originalStyle = hoursDiv.getAttribute('style') || '';
-                      let blinkCount = 0;
-                      const maxBlinks = 6;
-                      
-                      const blink = () => {
-                        if (blinkCount < maxBlinks) {
-                          const isHighlighted = blinkCount % 2 === 0;
-                          (hoursDiv as HTMLElement).style.cssText = originalStyle + 
-                            (isHighlighted ? 
-                              '; background-color: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 8px; transition: all 0.3s ease;' : 
-                              '; transition: all 0.3s ease;'
-                            );
-                          blinkCount++;
-                          setTimeout(blink, 400);
-                        } else {
-                          // Reset to original style
-                          (hoursDiv as HTMLElement).style.cssText = originalStyle;
-                        }
-                      };
-                      
-                      // Start blinking after a short delay
-                      setTimeout(blink, 500);
-                    }
-                  }, 800); // Wait for scroll to complete
+                  return;
                 }
+
+                // Element positions are stable, so the centered target can be
+                // computed up front in absolute document coordinates.
+                const rect = hoursDiv.getBoundingClientRect();
+                const target = Math.round(
+                  window.scrollY + rect.top - window.innerHeight / 2 + rect.height / 2,
+                );
+                window.scrollTo({ top: target, behavior: 'smooth' });
+
+                // Soft highlight once the scroll has actually settled —
+                // `scrollend` where supported, scroll-position stability as
+                // the fallback. Never both (guarded by `done`).
+                let done = false;
+                const startHighlight = () => {
+                  if (done) return;
+                  done = true;
+                  window.removeEventListener('scrollend', startHighlight);
+                  clearInterval(stabilityPoll);
+                  hoursDiv.classList.remove('schedule-highlight');
+                  void hoursDiv.offsetWidth; // restart the animation if re-clicked
+                  hoursDiv.classList.add('schedule-highlight');
+                  hoursDiv.addEventListener(
+                    'animationend',
+                    () => hoursDiv.classList.remove('schedule-highlight'),
+                    { once: true },
+                  );
+                };
+                window.addEventListener('scrollend', startHighlight, { once: true });
+                let lastY = -1;
+                let stableTicks = 0;
+                const stabilityPoll = setInterval(() => {
+                  if (window.scrollY === lastY) {
+                    stableTicks += 1;
+                    if (stableTicks >= 3) startHighlight();
+                  } else {
+                    stableTicks = 0;
+                    lastY = window.scrollY;
+                  }
+                }, 120);
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -597,7 +580,7 @@ const Header = () => {
           <div className="font-playfair font-bold text-olive relative w-full flex justify-center items-center">
             <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl tracking-wider leading-none flex items-end">
               <span className="flex items-center">
-                <span>BE</span>
+                <span className="glow-text glow-text-lg">BE</span>
                 <button
                   onClick={() => scrollToSection('home')}
                   className="hover:opacity-70 transition-opacity duration-200 cursor-pointer mx-2 sm:mx-3 relative"
@@ -606,12 +589,12 @@ const Header = () => {
                   <img
                     src="/images/tryLogo-1.png"
                     alt="BeYou BeautyHub Logo"
-                    className="h-12 w-auto sm:h-16 md:h-20 object-contain transition-all duration-200 ease-in-out hover:scale-105"
+                    className="logo-glow h-12 w-auto sm:h-16 md:h-20 object-contain transition-all duration-200 ease-in-out hover:scale-105"
                     loading="eager"
                     decoding="async"
                   />
                 </button>
-                <span>YOU</span>
+                <span className="glow-text glow-text-lg">YOU</span>
               </span>
               <span 
                 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-light tracking-wide"
@@ -620,7 +603,7 @@ const Header = () => {
                   transition: 'opacity 0.3s ease-out'
                 }}
               >
-                <span className="text-xs sm:text-sm lg:text-base xl:text-lg font-playfair">Beauty Hub</span>
+                <span className="glow-text text-xs sm:text-sm lg:text-base xl:text-lg font-playfair">Beauty Hub</span>
               </span>
               </div>
             </div>
@@ -630,8 +613,8 @@ const Header = () => {
 
       {/* Horizontal Navigation Bar — always visible; sits at the very top once the section above collapses */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="border-t border-olive/20 py-0 mt-0">
-          <nav className="flex justify-center items-center gap-2 sm:gap-4 lg:gap-6 max-w-4xl mx-auto px-1 py-2 overflow-x-auto font-montserrat min-h-[48px]">
+        <div className="header-line-bottom border-t border-olive/20 py-0 mt-0">
+          <nav className="flex justify-center items-center gap-0.5 sm:gap-4 lg:gap-6 max-w-4xl mx-auto px-1 py-2 overflow-x-auto font-montserrat min-h-[48px]">
             {['Home', 'Services', 'About', 'Gallery', 'Contact'].map((item) => {
               const isPressed = pressedNavItem === item;
               const releasePress = () => {
@@ -643,10 +626,20 @@ const Header = () => {
               return (
                 <button
                   key={item}
-                  onClick={() => scrollToSection(item.toLowerCase())}
+                  onClick={() => {
+                    flashNav(item);
+                    // Home returns to the very top, where the header always
+                    // shows expanded — reopen it directly. The landscape-phone
+                    // scroll rule can't do it: Home lands at scrollY ≈ 20
+                    // (hero top minus scroll-padding), above its ≤10 gate.
+                    if (item === 'Home') setIsTopSectionCollapsed(false);
+                    scrollToSection(item.toLowerCase());
+                  }}
                   onTouchStart={() => setPressedNavItem(item)}
                   onTouchEnd={(e) => {
                     e.preventDefault();
+                    flashNav(item);
+                    if (item === 'Home') setIsTopSectionCollapsed(false);
                     scrollToSection(item.toLowerCase());
                     releasePress();
                   }}
@@ -659,8 +652,10 @@ const Header = () => {
                     userSelect: 'none',
                     WebkitUserSelect: 'none'
                   }}
-                  className={`shadow-md hover:bg-olive hover:text-warm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-150 font-medium cursor-pointer px-3 sm:px-4 py-1 sm:py-1.5 rounded-full focus:outline-none focus:ring-2 focus:ring-olive/40 text-xs sm:text-sm whitespace-nowrap flex-shrink-0 select-none min-h-[32px] flex items-center ${
-                    isPressed ? 'bg-olive text-warm scale-95 shadow-md' : 'bg-warm text-olive'
+                  className={`${flashedNavItem === item ? 'nav-flash ' : ''}glow-text relative font-montserrat font-semibold uppercase tracking-[0.1em] sm:tracking-[0.18em] cursor-pointer px-2 sm:px-4 py-2 text-[10px] sm:text-xs whitespace-nowrap flex-shrink-0 select-none min-h-[32px] flex items-center transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-olive/40 rounded-sm after:content-[''] after:absolute after:left-2 after:right-2 sm:after:left-4 sm:after:right-4 after:bottom-1 after:h-px after:bg-olive after:origin-left after:transition-transform after:duration-300 ${
+                    isPressed
+                      ? 'text-olive-deep after:scale-x-100'
+                      : 'text-olive after:scale-x-0 hover:after:scale-x-100 hover:text-olive-deep'
                   }`}
                 >
                   {item}

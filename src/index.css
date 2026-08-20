@@ -1,440 +1,664 @@
-/* Beauty Salon Typography - Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Edu+NSW+ACT+Foundation:wght@400;500;600;700&display=swap');
+/* BeYou BeautyHub — editorial design system */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap');
 
-/* Complete CSS reset and optimization */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-* {
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  outline: 0 !important;
-  box-sizing: border-box !important;
+:root {
+  --olive: #505e47;
+  --olive-deep: #3a4531;
+  --olive-ink: #262c20;
+  --warm: #dbd6b2;
+  --cream: #f5f2e6;
+  --hairline: rgba(80, 94, 71, 0.22);
 }
 
-/* Eliminate all potential white space sources */
+/* ---------------------------------------------------------------------------
+   Base document. min-height (NOT height) on html/body is required for
+   window.scrollY / scroll events to fire — do not change to height: 100%.
+   scroll-padding-top keeps anchored sections clear of the fixed header.
+--------------------------------------------------------------------------- */
 html {
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  min-height: 100% !important;
-  overflow-x: hidden !important;
-  -webkit-overflow-scrolling: touch !important;
-  scroll-behavior: smooth !important;
-  scroll-padding-top: 180px !important;
+  min-height: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  scroll-padding-top: 140px;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  min-height: 100% !important;
-  overflow-x: hidden !important;
-  max-width: 100vw !important;
-  -webkit-overflow-scrolling: touch !important;
-  scroll-behavior: smooth !important;
+  min-height: 100%;
+  overflow-x: hidden;
+  max-width: 100vw;
+  background: var(--cream);
+  color: var(--olive-ink);
+  font-family: 'Montserrat', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 #root {
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  min-height: 100vh !important;
-  width: 100% !important;
-  max-width: 100vw !important;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100vw;
 }
 
-/* Aggressive header positioning */
+/* ---------------------------------------------------------------------------
+   Fixed header. The React side (Header.tsx) additionally enforces these as
+   inline styles against mobile rendering quirks; this is the CSS backstop.
+   Scoped to `header` only — never add bare utility-class selectors here
+   (see CLAUDE.md: the old .bg-warm collision).
+--------------------------------------------------------------------------- */
 header {
-  position: fixed !important;
-  top: 0 !important;
-  bottom: auto !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100vw !important;
-  max-width: 100vw !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  z-index: 2147483647 !important;
-  transform: translateZ(0) !important;
-  backface-visibility: hidden !important;
-  will-change: transform !important;
-  box-sizing: border-box !important;
-  -webkit-transform: translateZ(0) !important;
-  -webkit-backface-visibility: hidden !important;
-  contain: layout style paint !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  overflow-y: visible !important;
-  overflow-x: hidden !important;
-  pointer-events: auto !important;
-  transition: none !important;
-  animation: none !important;
-  transform-style: preserve-3d !important;
-  perspective: 1000px !important;
-  isolation: isolate !important;
-  mix-blend-mode: normal !important;
-  -webkit-position: fixed !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  max-width: 100vw;
+  z-index: 99999;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
-/* ULTIMATE NUCLEAR OPTION - Force header visibility with maximum specificity */
-header,
-header.bg-warm,
-header[class*="bg-warm"],
-*[class*="Header"],
-header[style],
-header[class],
-div[class*="header"],
-div[class*="Header"] {
-  position: fixed !important;
-  top: 0 !important;
-  bottom: auto !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100vw !important;
-  max-width: 100vw !important;
-  z-index: 2147483647 !important;
-  transform: translate3d(0, 0, 0) !important;
-  -webkit-transform: translate3d(0, 0, 0) !important;
-  backface-visibility: hidden !important;
-  -webkit-backface-visibility: hidden !important;
-  contain: layout style paint !important;
-  will-change: transform !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  transition: none !important;
-  animation: none !important;
-  transform-style: preserve-3d !important;
-  isolation: isolate !important;
-  mix-blend-mode: normal !important;
+/* Header surface: an editorial "spotlight" — a soft sheen along the top,
+   luminous cream around the wordmark, deepening through the intro screen's
+   warm tones into a rich vignette at the edges. */
+.header-surface {
+  border-radius: 0 0 18px 18px;
+  /* One surface for every device — same translucency, same blur, same
+     shadow. Alphas sit in the middle: airier than the old desktop, more
+     solid than the blur-less mobile was. */
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 253, 244, 0.5) 0%,
+      rgba(255, 253, 244, 0) 32%
+    ),
+    radial-gradient(
+      120% 200% at 50% 40%,
+      rgba(248, 245, 233, 0.84) 0%,
+      rgba(236, 229, 199, 0.82) 45%,
+      rgba(196, 187, 136, 0.86) 74%,
+      rgba(138, 129, 82, 0.9) 100%
+    );
+  /* Elevation: hairline seam + two soft olive shadow plumes, so the header
+     reads as a solid surface floating above the page. */
+  box-shadow:
+    0 1px 0 rgba(80, 94, 71, 0.14),
+    0 6px 16px rgba(58, 69, 49, 0.16),
+    0 20px 44px rgba(58, 69, 49, 0.12);
 }
 
-/* Prevent any parent elements from hiding the header */
-body, html, #root, main, section, div {
-  transform: none !important;
+/* ---------------------------------------------------------------------------
+   Hero canvas top fade: the image (and its tint overlay) dissolve to
+   transparent at the very top — the zone tucked behind the header bar.
+   Mobile and desktop are tuned separately: the mobile hero extends the
+   full ~128px under the header (fade must finish before the rounded
+   corner zone at ~110px stays visible); the desktop hero meets the bar's
+   bottom edge, so it gets a shorter, gentler blend.
+--------------------------------------------------------------------------- */
+.hero-canvas-fade {
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 1) 108px
+  );
+  mask-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 1) 108px
+  );
 }
 
-/* Force header to always be on top of everything */
-header::before,
-header::after {
-  content: '' !important;
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  height: 0 !important;
-  z-index: 2147483646 !important;
-  pointer-events: none !important;
-}
-
-/* Prevent any element from overriding header position */
-header * {
-  position: relative !important;
-  z-index: inherit !important;
-}
-
-/* Prevent scroll-based transforms from affecting header */
-@keyframes keepHeaderVisible {
-  0%, 100% {
-    position: fixed !important;
-    top: 0 !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    z-index: 2147483647 !important;
+@media (min-width: 768px) {
+  .hero-canvas-fade {
+    -webkit-mask-image: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 1) 56px
+    );
+    mask-image: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 1) 56px
+    );
   }
 }
 
-header {
-  animation: keepHeaderVisible 0.1s infinite !important;
-}
+/* Phones held sideways hit the md breakpoint (width >= 768px) but keep a
+   short viewport, so the desktop fade shows as a pale band under the bar
+   instead of hiding behind it. Kill the fade for that orientation only —
+   portrait phones and real desktops are untouched. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hero-canvas-fade {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
 
-/* Browser-specific overrides */
-@-moz-document url-prefix() {
-  /* Firefox specific */
-  header {
-    position: fixed !important;
-    top: 0 !important;
-    z-index: 99999 !important;
+  /* Make the "hero tucked ~20px under the bar" view the page's true top:
+     pull the hero up by (header height − 140px scroll anchor), so a Home
+     click lands at scrollY 0 and there is nothing higher to scroll to.
+     The id selector outranks Tailwind's md:mt-0 (both are !important). */
+  #home {
+    margin-top: calc(140px - var(--header-h, 160px)) !important;
+  }
+
+  /* The hero image's own md:mt-28 offset (tuned for a fully-tucked-behind-
+     header desktop/tablet hero) assumes the ~112px it pushes down stays
+     hidden under the header. Here the section above is barely tucked at
+     all (~20px, not header height), so that same offset would push the
+     image well past the header's bottom edge and expose a gap of bare
+     background. Drop back to flush-with-container, matching how this
+     orientation always positioned the image before that offset existed. */
+  #home [data-hero-image] {
+    margin-top: 0 !important;
+    height: 100% !important;
   }
 }
 
-/* Safari specific */
-@supports (-webkit-appearance: none) {
-  header {
-    position: fixed !important;
-    top: 0 !important;
-    -webkit-transform: translate3d(0, 0, 0) !important;
+/* ---------------------------------------------------------------------------
+   Typography helpers (used across components)
+--------------------------------------------------------------------------- */
+.font-playfair {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-montserrat {
+  font-family: 'Montserrat', system-ui, sans-serif;
+}
+
+/* Editorial micro-label: tiny uppercase tag above headings */
+.micro-label {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--olive);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.micro-label::before {
+  content: '';
+  width: 2rem;
+  height: 1px;
+  background: var(--olive);
+  opacity: 0.6;
+}
+
+/* Hairline rules */
+.hairline {
+  border-color: var(--hairline);
+}
+
+/* ---------------------------------------------------------------------------
+   Cursor glow for primary buttons (.glow-btn) — a soft round light follows
+   the pointer, clipped INSIDE the button. Coordinates come from
+   src/lib/cursorGlow.ts. Hover-capable devices only.
+   Default light is warm (for olive/dark buttons); add .glow-dark on
+   light-surfaced buttons for an olive-tinted light instead.
+--------------------------------------------------------------------------- */
+.glow-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+@media (hover: hover) {
+  .glow-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    background: radial-gradient(
+      120px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+      var(--glow-color, rgba(255, 252, 235, 0.5)),
+      transparent 65%
+    );
+    pointer-events: none;
+  }
+
+  .glow-btn:hover::before {
+    opacity: 1;
   }
 }
 
-/* Chrome/Edge specific */
-@supports (background: -webkit-named-image(i)) {
-  header {
-    position: fixed !important;
-    top: 0 !important;
-    transform: translate3d(0, 0, 0) !important;
+.glow-dark {
+  --glow-color: rgba(80, 94, 71, 0.22);
+}
+
+/* ---------------------------------------------------------------------------
+   Ambient attention-grabbing sweep (.glow-sweep) — a light band travels
+   left-to-right across the button on its own, with NO hover/interaction
+   required, unlike .glow-btn's cursor-follow glow above (a separate
+   pseudo-element — ::after vs ::before — so the two layer independently on
+   the same button). 4s loop: 1s sweeping across (0%–25% of the keyframes),
+   then held off-screen for the remaining 3s before repeating. Relies on
+   .glow-btn's `overflow: hidden` to stay clipped inside the button's
+   rounded shape.
+
+   On hover, this pauses and fades out (below) so it doesn't fight visually
+   with .glow-btn's cursor-follow glow — the ambient sweep is specifically
+   for grabbing attention while the button ISN'T being interacted with.
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .glow-sweep::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      100deg,
+      transparent 20%,
+      rgba(255, 252, 235, 0.237) 50%,
+      transparent 80%
+    );
+    transform: translateX(-120%);
+    pointer-events: none;
+    animation: glow-sweep-loop 4s ease-in-out infinite;
+    transition: opacity 0.25s ease;
   }
 }
 
-/* Internet Explorer fallback */
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-  header {
-    position: fixed !important;
-    top: 0 !important;
-    z-index: 99999 !important;
+@keyframes glow-sweep-loop {
+  0% {
+    transform: translateX(-120%);
+  }
+  25% {
+    transform: translateX(120%);
+  }
+  100% {
+    transform: translateX(120%);
   }
 }
 
-/* Mobile-specific sticky header fixes */
-@media screen and (max-width: 768px) {
-  header {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100vw !important;
-    z-index: 9999 !important;
-    -webkit-transform: translate3d(0, 0, 0) !important;
-    transform: translate3d(0, 0, 0) !important;
-    -webkit-backface-visibility: hidden !important;
-    backface-visibility: hidden !important;
-  }
-  
-  /* iOS Safari specific fixes */
-  @supports (-webkit-overflow-scrolling: touch) {
-    header {
-      position: fixed !important;
-      -webkit-transform: translate3d(0, 0, 0) !important;
-      transform: translate3d(0, 0, 0) !important;
-    }
+@media (hover: hover) {
+  .glow-sweep:hover::after {
+    animation-play-state: paused;
+    opacity: 0;
   }
 }
 
-/* Android Chrome specific fixes */
-@media screen and (max-width: 768px) and (-webkit-min-device-pixel-ratio: 1) {
-  header {
-    position: fixed !important;
-    top: 0 !important;
-    transform: translateZ(0) !important;
+/* Cursor light inside TEXT (header wordmark, nav links, contact bar).
+   On hover the glyphs become the mask for a radial gradient: a lighter
+   sage-gold spot at the cursor, the normal olive everywhere else — so the
+   light appears strictly inside the letterforms.
+   !important needed because Tailwind runs with important: true. */
+@media (hover: hover) {
+  .glow-text:hover {
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    color: transparent !important;
+    background-image: radial-gradient(
+      var(--glow-text-r, 80px) circle at var(--glow-x, 50%) var(--glow-y, 50%),
+      var(--glow-text-hi, #9db07f),
+      var(--glow-text-base, #505e47) 78%
+    );
   }
 }
 
-/* Hardware acceleration for smooth scrolling */
-* {
-  -webkit-transform: translateZ(0) !important;
-  -moz-transform: translateZ(0) !important;
-  -ms-transform: translateZ(0) !important;
-  -o-transform: translateZ(0) !important;
-  transform: translateZ(0) !important;
+/* Touch counterpart (no media gate): cursorGlow.ts adds .glow-touch while a
+   finger rests on or slides across the text, with --glow-x/y at the touch
+   point — the same light desktop users get from hovering. */
+.glow-text.glow-touch {
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  background-image: radial-gradient(
+    var(--glow-text-r, 80px) circle at var(--glow-x, 50%) var(--glow-y, 50%),
+    var(--glow-text-hi, #9db07f),
+    var(--glow-text-base, #505e47) 78%
+  );
 }
 
-/* Optimize images for better scroll performance */
+/* Larger light for the big wordmark letters */
+.glow-text-lg {
+  --glow-text-r: 160px;
+}
+
+/* Soft shadows hugging the header's two hairlines: strongest at the center,
+   melting away toward the edges (and away from the line). Pure decoration —
+   pointer-events none, zero layout impact. */
+.header-line-top {
+  position: relative;
+}
+.header-line-top::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 16px;
+  pointer-events: none;
+  background: radial-gradient(
+    58% 100% at 50% 100%,
+    rgba(58, 69, 49, 0.16),
+    rgba(58, 69, 49, 0) 72%
+  );
+}
+
+.header-line-bottom {
+  position: relative;
+}
+.header-line-bottom::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 16px;
+  pointer-events: none;
+  background: radial-gradient(
+    58% 100% at 50% 0%,
+    rgba(58, 69, 49, 0.16),
+    rgba(58, 69, 49, 0) 72%
+  );
+}
+
+/* Image counterpart of .glow-text for the header logo: a sage light that
+   hugs the artwork's strokes (drop-shadow follows the PNG alpha). */
+@media (hover: hover) {
+  .logo-glow {
+    transition: filter 0.3s ease;
+  }
+  .logo-glow:hover {
+    filter: brightness(1.12) drop-shadow(0 0 8px rgba(157, 176, 127, 0.75))
+      drop-shadow(0 0 20px rgba(157, 176, 127, 0.4));
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   First-visit intro (IntroOverlay.tsx): brand phrases morph one into the
+   next on a black veil; the last word's own morph-out doubles as the
+   reveal, fading together with the veil to uncover the landing page.
+--------------------------------------------------------------------------- */
+/* Lock on <html>: viewport scrolling belongs to the root element, so
+   overflow:hidden on body alone would NOT stop wheel scrolling. Removed in
+   IntroOverlay.tsx's handleReveal — same moment the header/hero become
+   visible and INTRO_DONE_EVENT fires — not handleDone, so the page doesn't
+   stay frozen for the ~1.35s it then takes the veil to finish fading out
+   on top of content the user can already see and interact with. */
+html.intro-lock,
+html.intro-lock body {
+  overflow: hidden;
+}
+
+/* The header's force-visible loop sets inline styles; !important CSS is the
+   only thing that outranks them. Hidden during the intro, revealed the
+   instant the reveal (last word's morph-out + veil fade) begins. */
+body.intro-active header {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+}
+
+.intro-bg {
+  position: absolute;
+  inset: 0;
+  background: #000000;
+}
+
+/* Centers PhraseMorph's phrase — not a hard boundary, the text isn't
+   clipped to it (overflow is visible), just a stable anchor point. */
+.intro-stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92vw, 900px);
+  height: clamp(140px, 26vw, 260px);
+}
+
+/* Blinking typewriter caret — used by the Testimonials "and counting" line,
+   not just the intro. */
+.intro-caret {
+  display: inline-block;
+  width: 0.55ch;
+  height: 1.05em;
+  margin-left: 2px;
+  background: #4c6035;
+  vertical-align: text-bottom;
+  animation: intro-caret-blink 1s steps(1) infinite;
+}
+
+@keyframes intro-caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Footer "Made with ♥" heart: two quick beats, then rest — repeating every
+   5s (the pulses live in the first 16% of the cycle). */
+.heart-beat {
+  animation: heart-beat 5s ease-in-out infinite;
+  transform-origin: 50% 50%;
+}
+
+@keyframes heart-beat {
+  0%,
+  16%,
+  100% {
+    transform: scale(1);
+  }
+  4%,
+  12% {
+    transform: scale(1.35);
+  }
+  8% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heart-beat {
+    animation: none;
+  }
+}
+
+/* Landscape phones (short viewport): shrink the stage box's own height to
+   match — PhraseMorph's font size independently caps by viewport height
+   too (see intro/metrics.ts), this just keeps the anchor box itself
+   proportionate. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .intro-stage {
+    height: min(140px, 55svh);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Nav click feedback: a brief pillow-shaped light — bright warm core,
+   transparent edges — that blooms and fades right after the click.
+   (Replaces the sticky focus box for mouse users; keyboard focus keeps a
+   visible ring via focus-visible.)
+--------------------------------------------------------------------------- */
+.nav-flash::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: radial-gradient(
+    55% 85% at 50% 50%,
+    rgba(228, 222, 186, 0.55) 0%,
+    rgba(219, 214, 178, 0.28) 55%,
+    rgba(219, 214, 178, 0) 100%
+  );
+  pointer-events: none;
+  animation: nav-flash 0.8s ease-out 1 both;
+}
+
+@keyframes nav-flash {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  22% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-flash::before {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   "Our schedule" → Hours highlight: one soft warm-gradient breath, at home
+   on the olive Get In Touch card. Padding + negative margin keep the glow
+   inset without shifting surrounding layout.
+--------------------------------------------------------------------------- */
+.schedule-highlight {
+  position: relative;
+  padding: 12px 14px;
+  margin: -12px -14px;
+  isolation: isolate; /* keeps the ::before layer above the card behind it */
+}
+
+/* Frame and inner glow live on ONE layer whose opacity fades — they appear
+   and vanish together, pixel-locked, with ~1.5s in / ~1s hold / ~1.5s out. */
+.schedule-highlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    rgba(219, 214, 178, 0.26),
+    rgba(245, 242, 230, 0.1) 60%,
+    rgba(219, 214, 178, 0.18)
+  );
+  box-shadow:
+    0 0 0 1px rgba(219, 214, 178, 0.35),
+    0 0 30px rgba(219, 214, 178, 0.22);
+  opacity: 0;
+  animation: schedule-glow 4s cubic-bezier(0.45, 0, 0.55, 1) 1 both;
+}
+
+@keyframes schedule-glow {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  38%,
+  62% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .schedule-highlight::before {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Texture + polish
+--------------------------------------------------------------------------- */
+/* Subtle film grain over everything except header/modals (pointer-safe) */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: var(--olive);
+  color: var(--warm);
+}
+
+/* Slim branded scrollbar (WebKit) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--olive);
+  border-radius: 5px;
+  border: 2px solid var(--cream);
+}
+
 img {
-  will-change: transform !important;
-  backface-visibility: hidden !important;
-  -webkit-backface-visibility: hidden !important;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
-/* Optimize animations and transitions */
-.transition-all,
-.transition-colors,
-.transition-transform {
-  will-change: transform, opacity !important;
-}
-
-/* Gallery modal navigation improvements */
+/* ---------------------------------------------------------------------------
+   Gallery modal on touch devices: arrows/counter always visible, big targets
+--------------------------------------------------------------------------- */
 @media (max-width: 768px) {
-  /* Make navigation arrows always visible on mobile */
-  .group .opacity-0.group-hover\\:opacity-100 {
+  .group .opacity-0.group-hover\:opacity-100 {
     opacity: 0.7 !important;
   }
-  
-  /* Larger touch targets on mobile */
-  .group button[aria-label="Previous image"],
-  .group button[aria-label="Next image"] {
+
+  .group button[aria-label='Previous image'],
+  .group button[aria-label='Next image'] {
     min-width: 56px !important;
     min-height: 56px !important;
     padding: 16px !important;
   }
-  
-  /* Always show image counter on mobile */
-  .group div:has(+ img) {
-    opacity: 0.8 !important;
-  }
 }
 
-/* Smooth transitions for gallery navigation */
-.group img {
-  transition: opacity 0.2s ease-in-out;
-}
-
-/* Prevent text selection during swipe gestures */
+/* Prevent text selection during swipe gestures in the gallery */
 .group {
   -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Fix for responsive mode white screen */
-@media screen and (max-width: 1024px) {
-  html, body, #root {
-    min-height: 100vh !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: 0 !important;
-    outline: 0 !important;
-  }
-  
-  body {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-  }
-  
+/* ---------------------------------------------------------------------------
+   Motion accessibility: kill smooth scroll + CSS loops for reduced motion.
+   (GSAP effects check the same media query in src/lib/useReveal.ts.)
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
   html {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
+    scroll-behavior: auto;
   }
-  
-  #root {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
+  .animate-marquee,
+  .animate-flash {
+    animation: none !important;
   }
 }
 
-/* Ensure all containers respect viewport width */
-.container, .max-w-7xl {
-  max-width: 100% !important;
-  padding-left: 1rem !important;
-  padding-right: 1rem !important;
-  margin: 0 !important;
-}
-
-@media (max-width: 640px) {
-  .container, .max-w-7xl {
-    padding-left: 0.75rem !important;
-    padding-right: 0.75rem !important;
-    margin: 0 !important;
-  }
-  
-  body {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    min-height: 100vh !important;
-    background: transparent !important;
-  }
-  
-  html {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-  }
-  
-  #root {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-  }
-}
-
-/* Fix for responsive preview issues */
-@media (max-width: 768px) {
-  .min-h-screen {
-    min-height: 100vh !important;
-  }
-  
-  section {
-    width: 100% !important;
-    max-width: 100vw !important;
-    margin: 0 !important;
-  }
-  
-  body {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-  }
-  
-  html {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-  }
-  
-  #root {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-  }
-}
-
-/* Additional reset for iframe environments */
-html[data-iframe] {
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-}
-
-body[data-iframe] {
-  margin: 0 !important;
-  padding-top: 120px !important;
-  border: 0 !important;
-}
-
-/* Tailwind base styles */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Custom font classes for beauty salon branding */
-.font-playfair {
-  font-family: 'Playfair Display', serif;
-}
-
-.font-montserrat {
-  font-family: 'Montserrat', sans-serif;
-}
-
-.font-handwriting {
-  font-family: 'Edu NSW ACT Foundation', cursive, sans-serif;
-}
-
-/* High-quality image rendering */
-img {
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: -o-crisp-edges;
-  image-rendering: crisp-edges;
-  image-rendering: optimizeQuality;
-  -ms-interpolation-mode: bicubic;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-/* Specific fix for high-DPI displays */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  img {
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: optimizeQuality;
-  }
+/* ---------------------------------------------------------------------------
+   Custom sparkle cursor (SparkleCursor.tsx). `cursor` is an INHERITED
+   property, so setting it here on <html> only affects elements that don't
+   declare their own value — every native interactive element already does
+   (Tailwind Preflight sets `cursor: pointer` on button/[role=button]; the
+   UA stylesheet sets it on links, and `auto` — itself an explicit value,
+   not "unset" — on text inputs/textareas/selects), and so does any custom
+   element carrying Tailwind's `cursor-pointer` utility. No `!important` or
+   wildcard `*` needed: those elements simply never inherit this rule, which
+   is exactly what lets them keep showing their own native shape while
+   everything else falls back to the sparkle. SparkleCursor.tsx reads each
+   hovered element's OWN computed cursor to decide when to hide itself, so
+   the two mechanisms are self-consistent by construction.
+--------------------------------------------------------------------------- */
+.no-native-cursor {
+  cursor: none;
 }
