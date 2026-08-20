@@ -322,9 +322,23 @@ export default function RoundCarousel({
                     decoding="async"
                   />
                 </div>
-                {/* Back face — visible through the ring at some rotations, dimmed */}
+                {/* Back face — visible through the ring at some rotations, dimmed.
+                    loading="lazy" + decoding="async" matter here even though
+                    the src is shared with the front face: without them this
+                    tag was eager, forcing the browser to fetch/decode all 8
+                    back faces the instant the component mounted — regardless
+                    of scroll position — competing with everything else on
+                    the page for bandwidth and CPU. */}
                 <div style={{ ...faceBase, transform: 'rotateY(180deg)', filter: `brightness(${innerDim / 10})` }}>
-                  <img src={image.src} alt="" style={imgStyle} draggable={false} aria-hidden="true" />
+                  <img
+                    src={image.src}
+                    alt=""
+                    style={imgStyle}
+                    draggable={false}
+                    aria-hidden="true"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
               </div>
             ))}
