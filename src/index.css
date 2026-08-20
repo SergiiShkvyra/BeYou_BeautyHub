@@ -589,17 +589,25 @@ body::after {
   color: var(--warm);
 }
 
-/* Slim branded scrollbar (WebKit) */
+/* Slim branded scrollbar (WebKit/Chromium). Explicit `cursor: auto` on the
+   thumb/track: the site hides the native pointer everywhere else in favor
+   of SparkleCursor's glyph (html.no-native-cursor { cursor: none }, an
+   INHERITED property) — without overriding it here, Chromium can carry
+   that `none` onto a custom-styled scrollbar too, leaving the pointer
+   invisible while hovering it. auto restores the OS's normal pointer,
+   independent of the page's ambient cursor setting. */
 ::-webkit-scrollbar {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
   background: var(--cream);
+  cursor: auto;
 }
 ::-webkit-scrollbar-thumb {
   background: var(--olive);
   border-radius: 5px;
   border: 2px solid var(--cream);
+  cursor: auto;
 }
 
 img {

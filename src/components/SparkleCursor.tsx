@@ -28,6 +28,17 @@ import { Sparkle } from 'lucide-react';
  * per event: touch (and pen) pointermoves are ignored outright rather than
  * moving/showing the glyph and then hiding it again, which is what caused
  * it to visibly glitch under a fingertip on touch devices.
+ *
+ * The native (WebKit-skinned) scrollbar is outside the DOM entirely, so no
+ * pointermove ever lands on it — the glyph simply stops receiving position
+ * updates and is left frozen wherever it last was, right at the content
+ * edge. `pointerleave` on <html> is supposed to catch that and hide it, but
+ * that relies on the browser actually firing it the instant the pointer
+ * crosses into the scrollbar, which isn't guaranteed on every platform/
+ * version. `onMove` ALSO checks the coordinate directly on every event: if
+ * clientX has reached document.documentElement.clientWidth (the edge where
+ * the scrollbar's own gutter begins), it hides immediately — a same-frame
+ * guard that doesn't depend on a separate leave event ever firing.
  */
 export default function SparkleCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
@@ -46,6 +57,17 @@ export default function SparkleCursor() {
     let lastTarget: Element | null = null;
     const onMove = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse') return;
+
+      // Reached the scrollbar's own gutter: hide outright and skip the
+      // position/target update below, regardless of whether a pointerleave
+      // follows. Recomputed every event since window resizing (or content
+      // adding/removing the scrollbar) changes the boundary.
+      if (e.clientX >= document.documentElement.clientWidth) {
+        el.style.opacity = '0';
+        lastTarget = null; // force a fresh target check on re-entry
+        return;
+      }
+
       el.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
 
       const target = e.target as Element | null;
