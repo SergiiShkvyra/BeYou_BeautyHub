@@ -475,6 +475,7 @@ export default function GalleryZoom({
                         style={imgStyle}
                         draggable={false}
                         aria-hidden="true"
+                        decoding="async"
                       />
                     </div>
                   </div>
