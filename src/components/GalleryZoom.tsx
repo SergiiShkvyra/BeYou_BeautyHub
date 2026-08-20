@@ -33,7 +33,8 @@ const TILT = -16; // deg the whole ring is tipped toward the viewer
 const SPACING = 1;
 const CORNER = 16;
 const INNER_DIM = 7; // back faces are dimmed to this tenth of full brightness
-const ASPECT = 460 / 309; // the carousel's card proportions
+const ASPECT = 1.2; // the carousel's card proportions — keep in sync with
+// Gallery.tsx's imageWidth/imageHeight ratio (currently 460/383 etc., 1.2:1)
 const PERSPECTIVE_RATIO = 900 / 460; // perspective per px of card width
 
 const SNAP_MS = 520;

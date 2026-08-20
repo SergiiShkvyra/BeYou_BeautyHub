@@ -8,35 +8,35 @@ import GalleryZoom from './GalleryZoom';
 // however many images are listed here.
 const images = [
   {
-    src: '/images/gallery/shutterstock_2611101815.jpg',
+    src: '/images/gallery/IMG_01.jpg',
     alt: 'Professional eyelash extension work showcasing volume and length'
   },
   {
-    src: '/images/gallery/shutterstock_2293561195.jpg',
+    src: '/images/gallery/IMG_02.JPG',
     alt: 'Beautiful eyebrow shaping and tinting results'
   },
   {
-    src: '/images/gallery/shutterstock_1759325294.jpg',
+    src: '/images/gallery/IMG_03.jpg',
     alt: 'Professional lash lift and tint transformation'
   },
   {
-    src: '/images/gallery/shutterstock_2266301635.jpg',
+    src: '/images/gallery/IMG_04.JPG',
     alt: 'Volume lash extensions creating dramatic eye enhancement'
   },
   {
-    src: '/images/gallery/shutterstock_2464025333.jpg',
+    src: '/images/gallery/IMG_05.jpg',
     alt: 'Natural lash enhancement with professional techniques'
   },
   {
-    src: '/images/gallery/shutterstock_2546341347.jpg',
+    src: '/images/gallery/IMG_06.JPG',
     alt: 'Beautiful brow lamination and shaping results'
   },
   {
-    src: '/images/gallery/shutterstock_2219565153.jpg',
+    src: '/images/gallery/IMG_07.jpg',
     alt: 'Professional eyebrow tinting and design work'
   },
   {
-    src: '/images/gallery/shutterstock_1983104336.jpg',
+    src: '/images/gallery/IMG_08.JPG',
     alt: 'Stunning lash extension transformation showcasing our expertise'
   }
 ];
@@ -64,7 +64,9 @@ const Gallery = () => {
   const isSmall = viewportWidth < 640;
   const isMedium = viewportWidth >= 640 && viewportWidth < 1024;
   const imageWidth = isSmall ? 220 : isMedium ? 340 : 460;
-  const imageHeight = isSmall ? 148 : isMedium ? 228 : 309;
+  // 1.2:1 — the new gallery photos are square (often 2-row grid collages),
+  // and the previous ~1.49:1 frame cropped a third of their height away.
+  const imageHeight = isSmall ? 183 : isMedium ? 283 : 383;
 
   return (
     <section id="gallery" ref={scope} className="py-24 sm:py-32 bg-cream overflow-hidden">
