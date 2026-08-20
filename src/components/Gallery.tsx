@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useReveal, revealChildren } from '../lib/useReveal';
 import RoundCarousel from './RoundCarousel';
+import GalleryZoom from './GalleryZoom';
 
 // Swap pictures by replacing the files in public/images/gallery (keep the
 // filenames) or by editing the entries below — the carousel adapts to
@@ -55,6 +56,11 @@ const Gallery = () => {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
+  // Which picture is zoomed in (null = carousel only), and the carousel card
+  // box it grew out of — the zoom animates from and back to that geometry.
+  const [zoomIndex, setZoomIndex] = useState<number | null>(null);
+  const [zoomOrigin, setZoomOrigin] = useState<DOMRect | null>(null);
+
   const isSmall = viewportWidth < 640;
   const isMedium = viewportWidth >= 640 && viewportWidth < 1024;
   const imageWidth = isSmall ? 220 : isMedium ? 340 : 460;
@@ -92,9 +98,25 @@ const Gallery = () => {
             cornerRadius={16}
             innerDim={7}
             background="transparent"
+            onImageClick={(i, rect) => {
+              setZoomOrigin(rect);
+              setZoomIndex(i);
+            }}
+            // Frozen while zoomed, and kept aimed at the picture on screen so
+            // closing lands the ring on whatever the visitor navigated to.
+            paused={zoomIndex !== null}
+            focusIndex={zoomIndex}
           />
         </div>
       </div>
+
+      <GalleryZoom
+        images={images}
+        index={zoomIndex}
+        originRect={zoomOrigin}
+        onClose={() => setZoomIndex(null)}
+        onIndexChange={setZoomIndex}
+      />
     </section>
   );
 };

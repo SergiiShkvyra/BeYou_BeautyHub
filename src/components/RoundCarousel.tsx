@@ -1,4 +1,10 @@
-import { useEffect, useRef, type CSSProperties, type PointerEvent } from 'react';
+import {
+  useEffect,
+  useRef,
+  type CSSProperties,
+  type KeyboardEvent,
+  type PointerEvent,
+} from 'react';
 import { prefersReducedMotion } from '../lib/useReveal';
 
 interface RoundCarouselImage {
@@ -20,12 +26,25 @@ interface RoundCarouselProps {
   cornerRadius?: number;
   innerDim?: number;
   background?: string;
+  /** Fires when the FRONT card is tapped/clicked (not dragged), with that
+   *  image's index and the on-screen box it occupies — the caller uses the
+   *  box as the starting geometry for a zoom animation. The hit zone only
+   *  covers the front card, so this is exactly "the picture in the middle". */
+  onImageClick?: (index: number, rect: DOMRect) => void;
+  /** Freezes the ambient auto-spin and ignores drags (used while the zoomed
+   *  view is open). A pending focus snap still runs. */
+  paused?: boolean;
+  /** Rotates the ring so this index ends up facing front. Kept in sync with
+   *  the zoomed view so closing it lands on the picture being viewed. */
+  focusIndex?: number | null;
 }
 
 const COAST_DECAY = 0.9; // per-frame momentum falloff after a drag release
 const COAST_STOP_THRESHOLD = 2; // deg/sec below which coasting is considered settled
 const PAUSE_MS = 1000; // hold still this long after a drag-released spin settles
 const RAMP_MS = 1400; // then ease back up to the steady auto-spin speed
+const TAP_SLOP = 10; // px of pointer travel still counted as a tap, not a drag
+const TAP_MAX_MS = 600; // longer than this and it's a hold, not a tap
 
 /**
  * 3D ring of images that auto-spins slowly and can be grabbed and flicked
@@ -52,6 +71,9 @@ export default function RoundCarousel({
   cornerRadius = 10,
   innerDim = 7,
   background = '#FFFBE4',
+  onImageClick,
+  paused = false,
+  focusIndex = null,
 }: RoundCarouselProps) {
   const count = images.length;
 
@@ -61,13 +83,32 @@ export default function RoundCarousel({
   const velRef = useRef(0);
   const lastRef = useRef(0);
   const dragRef = useRef({ active: false, x: 0 });
+  // Distinguishes a tap (open the image) from a drag (spin the ring):
+  // total pointer travel under the threshold + a short hold = tap.
+  const tapRef = useRef({ startX: 0, startY: 0, moved: 0, t: 0 });
   const phaseRef = useRef<'auto' | 'coasting' | 'paused' | 'ramping'>('auto');
   const phaseTimeRef = useRef(0);
+  const pausedRef = useRef(paused);
+  const targetRotRef = useRef<number | null>(null);
 
   const angle = 360 / count;
   const factor = 1 + spacing * 0.15;
   const radius = (imageWidth * factor) / (2 * Math.tan(Math.PI / count));
   const degPerSec = speed * 6 * (direction === 'left' ? -1 : 1);
+
+  useEffect(() => {
+    pausedRef.current = paused;
+  }, [paused]);
+
+  // Aim the ring at a specific card. The target is expressed in the same
+  // unwrapped degrees the rotation already accumulated (nearest equivalent
+  // turn), so the ring takes the short way around instead of unwinding.
+  useEffect(() => {
+    if (focusIndex == null) return;
+    const desired = -focusIndex * angle;
+    const turns = Math.round((rotYRef.current - desired) / 360);
+    targetRotRef.current = desired + turns * 360;
+  }, [focusIndex, angle]);
 
   useEffect(() => {
     const ring = ringRef.current;
@@ -82,7 +123,25 @@ export default function RoundCarousel({
       lastRef.current = now;
       const f = Math.min(dt, 0.1);
 
-      if (!dragRef.current.active) {
+      // A pending focus snap outranks everything else (it runs even while
+      // paused — that's how closing the zoomed view lands the ring on the
+      // picture the visitor was looking at).
+      if (targetRotRef.current !== null && !dragRef.current.active) {
+        const diff = targetRotRef.current - rotYRef.current;
+        if (Math.abs(diff) < 0.15) {
+          rotYRef.current = targetRotRef.current;
+          targetRotRef.current = null;
+          phaseRef.current = 'paused';
+          phaseTimeRef.current = now;
+        } else {
+          rotYRef.current += diff * Math.min(1, f * 7);
+        }
+        apply();
+        rafRef.current = requestAnimationFrame(draw);
+        return;
+      }
+
+      if (!dragRef.current.active && !pausedRef.current) {
         if (reduceMotion) {
           // A drag still coasts to a stop; it just never ramps back into
           // ambient auto-spin afterward.
@@ -133,10 +192,22 @@ export default function RoundCarousel({
     return () => cancelAnimationFrame(rafRef.current);
   }, [radius, degPerSec, count]);
 
+  /** Index of the card currently facing the viewer, from the live rotation. */
+  const frontIndex = () => {
+    const steps = Math.round(-rotYRef.current / angle);
+    return ((steps % count) + count) % count;
+  };
+
   const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
-    if (!drag) return;
+    if (!drag || pausedRef.current) return;
     e.currentTarget.setPointerCapture?.(e.pointerId);
     dragRef.current = { active: true, x: e.clientX };
+    tapRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      moved: 0,
+      t: performance.now(),
+    };
     velRef.current = 0;
     phaseRef.current = 'auto'; // cancel any pending pause/ramp from an earlier release
   };
@@ -145,15 +216,34 @@ export default function RoundCarousel({
     if (!d.active) return;
     const dx = e.clientX - d.x;
     d.x = e.clientX;
+    const t = tapRef.current;
+    t.moved = Math.max(
+      t.moved,
+      Math.hypot(e.clientX - t.startX, e.clientY - t.startY),
+    );
     const k = 0.3 * sensitivity;
     rotYRef.current += dx * k;
     velRef.current = dx * k * 60;
   };
   const onPointerUp = (e: PointerEvent<HTMLDivElement>) => {
     e.currentTarget.releasePointerCapture?.(e.pointerId);
+    const wasDragging = dragRef.current.active;
     dragRef.current.active = false;
     phaseRef.current = 'coasting';
     phaseTimeRef.current = performance.now();
+
+    // Tap (not a drag): open the front image. TAP_SLOP tolerates the small
+    // finger travel every real tap has; the time cap keeps a slow "hold and
+    // nudge" from counting as a tap.
+    const t = tapRef.current;
+    if (
+      wasDragging &&
+      onImageClick &&
+      t.moved <= TAP_SLOP &&
+      performance.now() - t.t <= TAP_MAX_MS
+    ) {
+      onImageClick(frontIndex(), e.currentTarget.getBoundingClientRect());
+    }
   };
 
   const faceBase: CSSProperties = {
@@ -256,13 +346,29 @@ export default function RoundCarousel({
           width: imageWidth,
           height: imageHeight,
           pointerEvents: 'auto',
-          cursor: drag ? 'grab' : 'default',
+          cursor: onImageClick ? 'zoom-in' : drag ? 'grab' : 'default',
           touchAction: 'none',
         }}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
+        {...(onImageClick
+          ? {
+              role: 'button',
+              tabIndex: 0,
+              'aria-label': 'Open the gallery image in full screen',
+              onKeyDown: (e: KeyboardEvent<HTMLDivElement>) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onImageClick(
+                    frontIndex(),
+                    e.currentTarget.getBoundingClientRect(),
+                  );
+                }
+              },
+            }
+          : {})}
       />
     </div>
   );
