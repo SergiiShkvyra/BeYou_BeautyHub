@@ -342,7 +342,16 @@ export default function GalleryZoom({
     height: '100%',
     objectFit: 'cover',
     display: 'block',
-  };
+    // iOS Safari's own long-press callout ("Save to Photos", "Copy", …).
+    // Neither property is in React's CSSProperties types (WebKit-only,
+    // undocumented-in-spec), hence the cast below. Verified unable to be
+    // reproduced or confirmed via any available desktop browser engine —
+    // neither Chromium nor Playwright's WebKit build implement this
+    // property at all (it's tied to iOS's native callout UI, which doesn't
+    // exist on desktop), so this needs a real-iPhone check.
+    WebkitTouchCallout: 'none',
+    WebkitUserSelect: 'none',
+  } as CSSProperties;
 
   return createPortal(
     <div
@@ -466,6 +475,7 @@ export default function GalleryZoom({
                         style={imgStyle}
                         draggable={false}
                         decoding="async"
+                        onContextMenu={(e) => e.preventDefault()}
                       />
                     </div>
                     {/* Back face — seen through the ring at some angles, dimmed */}
@@ -483,6 +493,7 @@ export default function GalleryZoom({
                         draggable={false}
                         aria-hidden="true"
                         decoding="async"
+                        onContextMenu={(e) => e.preventDefault()}
                       />
                     </div>
                   </div>

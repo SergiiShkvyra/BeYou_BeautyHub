@@ -266,7 +266,16 @@ export default function RoundCarousel({
     height: '100%',
     objectFit: 'cover',
     display: 'block',
-  };
+    // iOS Safari's own long-press callout ("Save to Photos", "Copy", …).
+    // Neither property is in React's CSSProperties types (WebKit-only,
+    // undocumented-in-spec), hence the cast below. Verified unable to be
+    // reproduced or confirmed via any available desktop browser engine —
+    // neither Chromium nor Playwright's WebKit build implement this
+    // property at all (it's tied to iOS's native callout UI, which doesn't
+    // exist on desktop), so this needs a real-iPhone check.
+    WebkitTouchCallout: 'none',
+    WebkitUserSelect: 'none',
+  } as CSSProperties;
 
   return (
     <div
@@ -327,6 +336,7 @@ export default function RoundCarousel({
                     draggable={false}
                     loading="lazy"
                     decoding="async"
+                    onContextMenu={(e) => e.preventDefault()}
                   />
                 </div>
                 {/* Back face — visible through the ring at some rotations, dimmed.
@@ -345,6 +355,7 @@ export default function RoundCarousel({
                     aria-hidden="true"
                     loading="lazy"
                     decoding="async"
+                    onContextMenu={(e) => e.preventDefault()}
                   />
                 </div>
               </div>
@@ -374,6 +385,11 @@ export default function RoundCarousel({
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
+        // This zone is the actual topmost element under the front card (see
+        // the comment above), so a real right-click lands here, not on the
+        // <img> underneath — the img's own onContextMenu never fires without
+        // this.
+        onContextMenu={(e) => e.preventDefault()}
         {...(onImageClick
           ? {
               role: 'button',
