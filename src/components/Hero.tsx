@@ -32,6 +32,33 @@ const Hero = () => {
         0.85,
       );
 
+    const fades = Array.from(
+      section.querySelectorAll<HTMLElement>('[data-hero-fade]'),
+    );
+
+    // "Book Appointment" ambient glow sweep (.glow-sweep, see index.css):
+    // its CSS animation starts ticking on its own clock the instant the
+    // class is present, which — since this button is hidden (opacity 0)
+    // until its data-hero-fade turn — meant the first sweep could already
+    // be mid-cycle, or between cycles, by the time the visitor actually
+    // sees the button. The class is left off in JSX and added here instead,
+    // timed to the exact moment this button's own fade-in tween finishes
+    // (its slot in the stagger, 0.85s base + 0.12s per preceding fade
+    // element, plus that tween's own 0.9s duration) — so the first sweep
+    // starts fresh right after the button becomes visible, not before.
+    const bookBtn = section.querySelector<HTMLElement>('[data-book-btn]');
+    if (bookBtn) {
+      const btnFadeGroup = bookBtn.closest<HTMLElement>('[data-hero-fade]');
+      const fadeIndex = Math.max(0, fades.indexOf(btnFadeGroup as HTMLElement));
+      const revealEnd = 0.85 + fadeIndex * 0.12 + 0.9;
+      // 0.5s earlier than the fade's exact completion: with power3.out
+      // easing the button is already ~80%+ opaque well before the tween's
+      // technical end (the ease has a long, slow final tail), so firing
+      // here still reads as "right after it becomes visible" while feeling
+      // more immediate.
+      tl.add(() => bookBtn.classList.add('glow-sweep'), revealEnd - 0.5);
+    }
+
     // Stat counters: zeroed while the entrance plays, then counting up to
     // their targets only AFTER the rest of the hero animation has finished
     // (appended at the timeline's end). ~1s ease-out rendering whole
@@ -74,9 +101,6 @@ const Hero = () => {
       // (its slot in the [data-hero-fade] stagger: base 0.85s + 0.12s per
       // preceding fade element) — the numbers are already rolling as they
       // become visible, never sitting at a static 0.
-      const fades = Array.from(
-        section.querySelectorAll<HTMLElement>('[data-hero-fade]'),
-      );
       const statsIndex = Math.max(
         0,
         fades.indexOf(section.querySelector('[data-hero-stats]') as HTMLElement),
@@ -169,13 +193,17 @@ const Hero = () => {
 
             <div data-hero-fade className="flex flex-col sm:flex-row gap-4">
               <button
+                data-book-btn
                 onClick={() =>
                   window.open(
                     'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-gt6tu55b',
                     '_blank',
                   )
                 }
-                className="glow-btn glow-sweep group bg-olive text-warm px-9 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.18em] transition-all duration-300 hover:bg-olive hover:text-warm hover:-translate-y-0.5"
+                // No glow-sweep here in the markup: it's added by the reveal
+                // timeline once the button has actually faded into view (see
+                // the comment above where `bookBtn.classList.add` runs).
+                className="glow-btn group bg-olive text-warm px-9 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.18em] transition-all duration-300 hover:bg-olive hover:text-warm hover:-translate-y-0.5"
               >
                 Book Appointment
               </button>
