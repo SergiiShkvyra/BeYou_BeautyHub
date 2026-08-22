@@ -329,6 +329,13 @@ export default function GalleryZoom({
     borderRadius: CORNER,
     overflow: 'hidden',
     backfaceVisibility: 'hidden',
+    // Safari-only bug (reproduced in WebKit): border-radius + overflow:hidden
+    // fails to clip — square corners — and the face flickers/z-fights while
+    // the ring rotates, when a continuously 3D-transformed element like this
+    // isn't hinted to its own stable compositing layer. will-change forces
+    // that persistent layer; Chromium/Firefox already render this correctly
+    // and are unaffected by the hint.
+    willChange: 'transform',
   };
   const imgStyle: CSSProperties = {
     width: '100%',
