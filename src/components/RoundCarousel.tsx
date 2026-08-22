@@ -327,6 +327,7 @@ export default function RoundCarousel({
                     draggable={false}
                     loading="lazy"
                     decoding="async"
+                    onContextMenu={(e) => e.preventDefault()}
                   />
                 </div>
                 {/* Back face — visible through the ring at some rotations, dimmed.
@@ -345,6 +346,7 @@ export default function RoundCarousel({
                     aria-hidden="true"
                     loading="lazy"
                     decoding="async"
+                    onContextMenu={(e) => e.preventDefault()}
                   />
                 </div>
               </div>
@@ -374,6 +376,11 @@ export default function RoundCarousel({
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
+        // This zone is the actual topmost element under the front card (see
+        // the comment above), so a real right-click lands here, not on the
+        // <img> underneath — the img's own onContextMenu never fires without
+        // this.
+        onContextMenu={(e) => e.preventDefault()}
         {...(onImageClick
           ? {
               role: 'button',

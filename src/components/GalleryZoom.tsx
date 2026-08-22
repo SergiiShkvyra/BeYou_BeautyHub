@@ -466,6 +466,7 @@ export default function GalleryZoom({
                         style={imgStyle}
                         draggable={false}
                         decoding="async"
+                        onContextMenu={(e) => e.preventDefault()}
                       />
                     </div>
                     {/* Back face — seen through the ring at some angles, dimmed */}
@@ -483,6 +484,7 @@ export default function GalleryZoom({
                         draggable={false}
                         aria-hidden="true"
                         decoding="async"
+                        onContextMenu={(e) => e.preventDefault()}
                       />
                     </div>
                   </div>
