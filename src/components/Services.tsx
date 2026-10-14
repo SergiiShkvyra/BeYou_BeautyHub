@@ -6,7 +6,7 @@ const Services = () => {
   const services = [
     {
       icon: <Sparkles className="h-6 w-6" />,
-      title: 'Signature Korean Lash lift',
+      title: 'Signature Korean Lash Lift',
       description: 'The luxury treatment-focused lash lift using advanced Korean technology to safely lift, nourish, and strengthen your natural lashes while creating a beautifully defined, long-lasting curl.',
       price: 'From $115',
       duration: '60 min',
@@ -19,7 +19,7 @@ const Services = () => {
       icon: <Sparkles className="h-6 w-6" />,
       title: 'Brow Lamination + Tweezing',
       description: 'Lamination combined with tweezing for a well-groomed look.',
-      price: 'From $75',
+      price: 'From $80',
       duration: '45-60 min',
       features: ['Creates a fuller, thicker brow look', 'Smooths and tames unruly hairs', 'Enhances natural brow symmetry', 'Long-lasting results (up to 6–8 weeks)'],
       bookingUrl: 'https://www.fresha.com/book-now/beyou-beautyhub-j4ur9xlp/services?lid=2613695&eid=4605333&oiid=sv%3A22827507&share&pId=2531140'
@@ -37,16 +37,16 @@ const Services = () => {
       icon: <Eye className="h-6 w-6" />,
       title: 'L&L Combo Deluxe',
       description: 'Elevating your look with premium lash and brow treatments.',
-      price: 'From $190',
+      price: 'From $195',
       duration: '1 h 45 min',
       features: ['Say goodbye to mascara! Get naturally lifted, darker, and healthier lashes with a nourishing Botox boost for extra shine and strength.', 'Transform your brows with a fuller, perfectly shaped, and defined look. Symmetry, smoothness, and rich color — all in one treatment.'],
       bookingUrl: 'https://www.fresha.com/book-now/beyou-beautyhub-j4ur9xlp/services?lid=2613695&eid=4605333&oiid=sv%3A22827944&share&pId=2531140'
     },
     {
       icon: <Eye className="h-6 w-6" />,
-      title: 'Lash Lift + Tinting',
+      title: 'Lash Lift + Tint',
       description: 'A lash lift with tinting for a long-lasting, mascara-free look.',
-      price: 'From $80',
+      price: 'From $85',
       duration: '60-75 min',
       features: ['Natural curl', 'Color enhancement', 'No maintenance needed', '6-8 week results'],
       bookingUrl: 'https://www.fresha.com/book-now/beyou-beautyhub-j4ur9xlp/services?lid=2613695&eid=4605333&oiid=sv%3A22827620&share&pId=2531140'
@@ -56,7 +56,7 @@ const Services = () => {
       title: 'And Many More...',
       description: 'Explore our full range of beauty services including individual treatments and consultations.',
       price: 'From $25',
-      features: ['Lash Titing', 'Brow Tinting', 'Tweezing', 'Free Consultation'],
+      features: ['Lash Tint', 'Brow Tint', 'Tweezing', 'Free Consultation'],
       bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?pId=2531140'
     }
   ];
