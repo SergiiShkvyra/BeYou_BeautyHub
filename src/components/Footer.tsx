@@ -8,28 +8,48 @@ import { createLogoSpin } from '../lib/logoSpin';
 // "Made with ♥" icon. Elements live on <body> (position: fixed) and remove
 // themselves when their tween ends; skipped under prefers-reduced-motion
 // like every other animation on the site.
+//
+// Crispness: each heart is drawn at its LARGEST on-screen size (15px × the
+// max zoom) and scaled DOWN from there, never up — enlarging a small glyph
+// stretches its pixels into soft, jagged edges. For the same reason the
+// tweens stay 2D (force3D: false, no will-change): a GPU layer is rasterized
+// once, at the tiny starting scale, and then blown up as it grows.
+const HEART_BASE_PX = 15;
+const HEART_MAX_ZOOM = 2.4;
 const burstHearts = (origin: HTMLElement) => {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const rect = origin.getBoundingClientRect();
   const cx = rect.left + rect.width / 2;
   const cy = rect.top + rect.height / 2;
   const colors = ['#dbd6b2', '#f5f2e6', '#c9b98a'];
+  // Zoom levels expressed relative to the full-size glyph.
+  const zoom = (z: number) => z / HEART_MAX_ZOOM;
   for (let i = 0; i < 7; i++) {
     const el = document.createElement('span');
     el.textContent = '♥';
     el.setAttribute('aria-hidden', 'true');
     el.style.cssText =
       `position:fixed;left:${cx}px;top:${cy}px;` +
-      `color:${colors[i % colors.length]};font-size:15px;line-height:1;` +
-      'pointer-events:none;z-index:100000;will-change:transform,opacity;';
+      `color:${colors[i % colors.length]};` +
+      `font-size:${HEART_BASE_PX * HEART_MAX_ZOOM}px;line-height:1;` +
+      'pointer-events:none;z-index:100000;';
     document.body.appendChild(el);
 
     const rise = gsap.utils.random(1.1, 1.6);
-    const tl = gsap.timeline({ delay: i * 0.07, onComplete: () => el.remove() });
+    const tl = gsap.timeline({
+      delay: i * 0.07,
+      defaults: { force3D: false },
+      onComplete: () => el.remove(),
+    });
     tl.fromTo(
       el,
-      { xPercent: -50, yPercent: -50, scale: 0.35, opacity: 0 },
-      { opacity: 1, scale: gsap.utils.random(1.5, 2.4), duration: 0.25, ease: 'power1.out' },
+      { xPercent: -50, yPercent: -50, scale: zoom(0.35), opacity: 0 },
+      {
+        opacity: 1,
+        scale: zoom(gsap.utils.random(1.5, HEART_MAX_ZOOM)),
+        duration: 0.25,
+        ease: 'power1.out',
+      },
       0,
     )
       .to(
