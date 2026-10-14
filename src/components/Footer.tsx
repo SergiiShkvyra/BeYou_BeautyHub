@@ -3,6 +3,7 @@ import { Heart, Instagram, Facebook, MapPin, Phone, Mail, X } from 'lucide-react
 import { scrollToSection, handlePhoneClick, copyEmailToClipboard } from '../utils/interactions';
 import { useReveal, ScrollTrigger, gsap } from '../lib/useReveal';
 import { createLogoSpin } from '../lib/logoSpin';
+import MedalLogo from './MedalLogo';
 
 // Easter egg: a small burst of hearts rising and zooming from the
 // "Made with ♥" icon. Elements live on <body> (position: fixed) and remove
@@ -86,7 +87,11 @@ const Footer = () => {
       footer.querySelectorAll<HTMLElement>('[data-footer-logo]'),
     );
     const cleanups = logos.map((logo) => {
-      const spin = createLogoSpin(logo);
+      // 3D medal build (MedalLogo): glint on both faces, rim shown mid-spin.
+      const spin = createLogoSpin(logo, {
+        faces: Array.from(logo.querySelectorAll<HTMLElement>('[data-medal-face]')),
+        depth: logo.querySelector<HTMLElement>('[data-medal-depth]'),
+      });
       // Plays ONCE on the first genuine scroll-into-view, then the trigger
       // retires — later visits don't re-spin; only a click replays. The
       // manual flag (instead of `once: true`) keeps the old robustness:
@@ -152,15 +157,7 @@ const Footer = () => {
               
               {/* Logo for mobile - positioned next to Quick Links */}
               <div className="lg:hidden ml-8 flex-shrink-0">
-                <img
-                  data-footer-logo
-                  src="/images/logoPSD-2.png"
-                  alt="BeYou BeautyHub Logo"
-                  className="h-44 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-200 will-change-transform cursor-pointer"
-                  title="Spin me"
-                  loading="lazy"
-                  decoding="async"
-                />
+                <MedalLogo heightClass="h-44" />
               </div>
             </div>
           </div>
@@ -334,15 +331,7 @@ const Footer = () => {
 
           {/* Logo for desktop only */}
           <div className="hidden lg:flex justify-end">
-            <img
-              data-footer-logo
-              src="/images/logoPSD-2.png"
-              alt="BeYou BeautyHub Logo"
-              className="h-48 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-200 will-change-transform cursor-pointer"
-              title="Spin me"
-              loading="lazy"
-              decoding="async"
-            />
+            <MedalLogo heightClass="h-48" />
           </div>
         </div>
       </div>
