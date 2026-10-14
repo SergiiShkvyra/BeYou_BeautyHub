@@ -4,7 +4,7 @@
 const ITEMS = [
   'Signature Korean Lash Lift',
   'Brow Lamination + Tweezing',
-  'Mapping + tweezing',
+  'Mapping + Tweezing',
   'L&L Combo Deluxe',
   'Lash Lift + Tint',
 ];

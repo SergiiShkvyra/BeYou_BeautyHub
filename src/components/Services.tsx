@@ -26,7 +26,7 @@ const Services = () => {
     },
     {
       icon: <Sparkles className="h-6 w-6" />,
-      title: 'Mapping + tweezing',
+      title: 'Mapping + Tweezing',
       description: 'A technique for defining the perfect shape with precise tweezing for symmetry.',
       price: 'From $40',
       duration: '40-45 min',
