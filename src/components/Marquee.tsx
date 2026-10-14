@@ -2,11 +2,11 @@
 // service names only — no new copy. Hidden from assistive tech and ignored
 // by tests (spans, not headings).
 const ITEMS = [
-  'Signature Korean Lash lift',
+  'Signature Korean Lash Lift',
   'Brow Lamination + Tweezing',
-  'Mapping + tweezing',
+  'Mapping + Tweezing',
   'L&L Combo Deluxe',
-  'Lash Lift + Tinting',
+  'Lash Lift + Tint',
 ];
 
 const Strip = () => (
