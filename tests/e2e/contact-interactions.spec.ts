@@ -19,7 +19,7 @@ function trackDialogs(page: Page) {
   return messages;
 }
 
-test.describe('phone & email interactions (desktop)', () => {
+test.describe('phone & email interactions (desktop)', { tag: '@critical' }, () => {
   // Playwright requires the destructuring pattern even when no fixture is used.
   // eslint-disable-next-line no-empty-pattern
   test.beforeEach(async ({}, testInfo) => {

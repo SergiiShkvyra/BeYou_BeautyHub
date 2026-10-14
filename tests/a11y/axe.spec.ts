@@ -6,7 +6,7 @@ import { gotoHome } from '../e2e/helpers';
 // Policy: CRITICAL violations fail the suite; serious/moderate/minor are
 // attached to the HTML report as a findings list to fix over time.
 
-test.describe('accessibility (axe-core)', () => {
+test.describe('accessibility (axe-core)', { tag: '@extended' }, () => {
   test('page has no critical WCAG A/AA violations', async ({ page }, testInfo) => {
     await gotoHome(page);
     await page.waitForLoadState('networkidle');

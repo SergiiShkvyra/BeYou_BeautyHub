@@ -21,7 +21,7 @@ async function fillForm(page: Page, data: Partial<typeof VALID>) {
 const submitButton = (page: Page) =>
   page.getByRole('button', { name: /send email/i });
 
-test.describe('booking form (EmailJS mocked — no real emails sent)', () => {
+test.describe('booking form (EmailJS mocked — no real emails sent)', { tag: '@critical' }, () => {
   test('happy path: submits, shows success, clears the form', async ({ page }) => {
     const captured = await mockEmailJS(page);
     await gotoHome(page);

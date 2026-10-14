@@ -18,7 +18,7 @@ async function expectModalContents(page: Page) {
   await expect(modal(page).getByRole('button', { name: 'Cancel' })).toBeVisible();
 }
 
-test.describe('navigation-app picker modals', () => {
+test.describe('navigation-app picker modals', { tag: '@critical' }, () => {
   test('Contact section: opens, lists all 3 apps, Cancel closes', async ({ page }) => {
     await gotoHome(page);
     await page

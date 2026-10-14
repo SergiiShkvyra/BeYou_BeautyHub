@@ -7,13 +7,17 @@ import { test, expect } from '../e2e/fixtures';
 // Run deliberately with:  npm run test:links
 // Read-only: loads booking pages, never completes a booking.
 
-const SERVICES = [
-  { title: 'Signature Korean Lash lift', id: '27974629' },
+// `title` is our card title (Services.tsx). `freshaName` is how Fresha's own
+// cart labels the service, when that differs from our title — Fresha's names
+// are edited separately in the Fresha dashboard, so they can drift.
+const SERVICES: { title: string; id: string; freshaName?: string | RegExp }[] = [
+  { title: 'Signature Korean Lash Lift', id: '27974629' },
   { title: 'Brow Lamination + Tweezing', id: '22827507' },
-  { title: 'Mapping + tweezing', id: '22827454' },
+  { title: 'Mapping + Tweezing', id: '22827454' },
   { title: 'L&L Combo Deluxe', id: '22827944' },
-  { title: 'Lash Lift + Tinting', id: '22827620' },
-] as const;
+  // Fresha shows "Lash Lift& Tint" (sic) — tolerate the spacing around "&".
+  { title: 'Lash Lift + Tint', id: '22827620', freshaName: /Lash Lift\s*&\s*Tint/i },
+];
 
 const deepLink = (id: string) =>
   `https://www.fresha.com/book-now/beyou-beautyhub-j4ur9xlp/services?lid=2613695&eid=4605333&oiid=sv%3A${id}&share=true&pId=2531140`;
@@ -25,7 +29,7 @@ test.describe('Fresha booking deep links (LIVE)', () => {
   // Third-party SPA over real network: give it room.
   test.setTimeout(90_000);
 
-  for (const { title, id } of SERVICES) {
+  for (const { title, id, freshaName = title } of SERVICES) {
     test(`"${title}" lands in the Fresha cart preselected (sv:${id})`, async ({
       page,
     }) => {
@@ -41,7 +45,7 @@ test.describe('Fresha booking deep links (LIVE)', () => {
         .toBe(`sv:${id}`);
 
       // The cart page shows the selected service by name plus checkout UI.
-      await expect(page.getByText(title).first()).toBeVisible({ timeout: 30_000 });
+      await expect(page.getByText(freshaName).first()).toBeVisible({ timeout: 30_000 });
       await expect(page.getByText(/^Total$/).first()).toBeVisible({
         timeout: 15_000,
       });

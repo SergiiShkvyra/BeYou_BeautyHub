@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures';
 import { gotoHome, SECTION_IDS } from './helpers';
 
-test.describe('smoke', () => {
+test.describe('smoke', { tag: '@smoke' }, () => {
   test('page loads with the expected title', async ({ page }) => {
     await gotoHome(page);
     await expect(page).toHaveTitle(/BeYou Beauty Hub/i);

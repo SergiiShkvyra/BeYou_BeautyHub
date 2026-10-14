@@ -39,14 +39,26 @@ export async function mockEmailJS(
 /**
  * Replace window.open before the page loads so clicking "Open in Google Maps"
  * etc. records the URL instead of opening a real tab to an external site.
+ *
+ * Returns a fake tab rather than null, so code that opens a blank tab and
+ * then navigates it (`window.open('about:blank').location.href = url`, as the
+ * Testimonials Fresha link does) is recorded too, instead of falling back to
+ * navigating the page under test away.
  */
 export async function stubWindowOpen(page: Page) {
   await page.addInitScript(() => {
-    (window as unknown as { __openedUrls: string[] }).__openedUrls = [];
+    const w = window as unknown as {
+      __openedUrls: string[];
+      __openedTabs: { location: { href: string } }[];
+    };
+    w.__openedUrls = [];
+    w.__openedTabs = [];
     window.open = ((url: string) => {
-      (window as unknown as { __openedUrls: string[] }).__openedUrls.push(String(url));
-      return null;
-    }) as typeof window.open;
+      w.__openedUrls.push(String(url));
+      const tab = { opener: null, location: { href: String(url) }, close() {}, focus() {} };
+      w.__openedTabs.push(tab);
+      return tab;
+    }) as unknown as typeof window.open;
   });
 }
 
@@ -55,6 +67,42 @@ export async function getOpenedUrls(page: Page): Promise<string[]> {
     () => (window as unknown as { __openedUrls: string[] }).__openedUrls ?? [],
   );
 }
+
+/** Where each opened tab ended up (after any `tab.location.href = …`). */
+export async function getOpenedTabLocations(page: Page): Promise<string[]> {
+  return page.evaluate(() =>
+    ((window as unknown as { __openedTabs: { location: { href: string } }[] })
+      .__openedTabs ?? []).map((t) => t.location.href),
+  );
+}
+
+/** True on projects whose viewport hides the desktop header address (<640px). */
+export function isNarrow(page: Page) {
+  return page.viewportSize()!.width < 640;
+}
+
+// The salon's identity in each maps provider — what every "Open in …"
+// button must point at, whichever of the 4 picker instances it lives in.
+export const MAPS_PLACE = {
+  'Google Maps': {
+    host: 'www.google.com',
+    marker: '0x89b64b00159324fd:0x8b1970ecf4fc771f',
+  },
+  'Apple Maps': { host: 'maps.apple.com', marker: 'place-id=I90D4B8468B267FB6' },
+  Waze: { host: 'www.waze.com', marker: 'to=place.ChIJ_SSTFQBLtokRH3f89OxwGYs' },
+} as const;
+
+// External destinations, pinned on purpose: an accidental edit to any of
+// these links in the components must fail a test.
+export const LINKS = {
+  freshaVenueBooking:
+    'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-gt6tu55b',
+  freshaReviews:
+    'https://www.fresha.com/a/be-you-beauty-hub-arlington-3865-wilson-boulevard-sochrclt?pId=2531140&reviews=true',
+  instagramFooter: 'https://www.instagram.com/beyou_beautyhub',
+  instagramAbout: 'https://www.instagram.com/beyou_beautyhub/#',
+  facebook: 'https://www.facebook.com/share/15Py4Ci4CV',
+} as const;
 
 /** Instantly scroll the window and give the header's rAF-throttled scroll handler a beat. */
 export async function scrollWindowTo(page: Page, y: number) {
