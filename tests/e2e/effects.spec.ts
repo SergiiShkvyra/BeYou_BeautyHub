@@ -132,16 +132,30 @@ test.describe('full motion', { tag: '@extended' }, () => {
     const logo = page.locator('footer [data-footer-logo]').locator('visible=true').first();
     await expect(logo).toBeVisible();
     await logo.scrollIntoViewIfNeeded();
+    // The spin is drawn by the 3D medal (a WebGL <canvas> swapped in over
+    // the <img>, lib/medalView.ts) where WebGL works, else by a CSS rotation
+    // of the logo itself.
+    const state = () =>
+      logo.evaluate((el) => {
+        const canvas = el.querySelector<HTMLCanvasElement>('[data-medal-canvas]')!;
+        if (canvas.style.display === 'block') return '3d';
+        return el.style.transform.includes('rotate') ? 'css' : 'rest';
+      });
+    const hasWebGL = await page.evaluate(
+      () => !!document.createElement('canvas').getContext('webgl2'),
+    );
+
     // Let the first-view spin finish so the click is what's being tested.
-    await expect
-      .poll(() => logo.evaluate((el) => el.style.transform), { timeout: 8_000 })
-      .toBe('');
+    // (After this jump-scroll it may have been the CSS one: the 3D medal is
+    // built in the background once the footer gets near.)
+    await expect.poll(state, { timeout: 8_000 }).toBe('rest');
     await logo.click();
     await expect
-      .poll(() => logo.evaluate((el) => el.style.transform), {
-        message: 'a rotation is applied while spinning',
-      })
-      .toContain('rotate');
+      .poll(state, { message: 'spinning — as the 3D medal wherever WebGL is available' })
+      .toBe(hasWebGL ? '3d' : 'css');
+    // …and it hands back to the plain logo, fully visible, when it's done.
+    await expect.poll(state, { timeout: 8_000 }).toBe('rest');
+    await expect(logo.locator('img')).toHaveCSS('opacity', '1');
   });
 
   test('marquee strip scrolls', async ({ page }) => {
