@@ -3,6 +3,7 @@ import { Heart, Instagram, Facebook, MapPin, Phone, Mail, X } from 'lucide-react
 import { scrollToSection, handlePhoneClick, copyEmailToClipboard } from '../utils/interactions';
 import { useReveal, ScrollTrigger, gsap } from '../lib/useReveal';
 import { createLogoSpin } from '../lib/logoSpin';
+import { createMedalView } from '../lib/medalView';
 import MedalLogo from './MedalLogo';
 
 // Easter egg: a small burst of hearts rising and zooming from the
@@ -87,11 +88,10 @@ const Footer = () => {
       footer.querySelectorAll<HTMLElement>('[data-footer-logo]'),
     );
     const cleanups = logos.map((logo) => {
-      // 3D medal build (MedalLogo): glint on both faces, rim shown mid-spin.
-      const spin = createLogoSpin(logo, {
-        faces: Array.from(logo.querySelectorAll<HTMLElement>('[data-medal-face]')),
-        depth: logo.querySelector<HTMLElement>('[data-medal-depth]'),
-      });
+      // Spins as a real 3D medal (MedalLogo / lib/medalView.ts) once that is
+      // loaded; until then, or without WebGL, as the plain CSS spin.
+      const medal = createMedalView(logo);
+      const spin = createLogoSpin(logo, medal);
       // Plays ONCE on the first genuine scroll-into-view, then the trigger
       // retires — later visits don't re-spin; only a click replays. The
       // manual flag (instead of `once: true`) keeps the old robustness:
@@ -109,7 +109,10 @@ const Footer = () => {
       });
       const replay = () => void spin.restart();
       logo.addEventListener('click', replay);
-      return () => logo.removeEventListener('click', replay);
+      return () => {
+        logo.removeEventListener('click', replay);
+        medal?.dispose();
+      };
     });
     return () => cleanups.forEach((fn) => fn());
   });
