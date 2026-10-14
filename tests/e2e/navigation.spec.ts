@@ -36,7 +36,7 @@ async function expectSectionAtTop(page: Page, section: string) {
     .toBe(true);
 }
 
-test.describe('header navigation', () => {
+test.describe('header navigation', { tag: '@critical' }, () => {
   for (const { label, section } of NAV_ITEMS) {
     test(`nav button "${label}" scrolls to #${section}`, async ({ page }) => {
       await gotoHome(page);
@@ -64,9 +64,55 @@ test.describe('header navigation', () => {
     await page.locator('footer').getByRole('button', { name: 'Services', exact: true }).click();
     await expectSectionAtTop(page, 'services');
   });
+
+  test('Hero "View Services" scrolls to #services', async ({ page }) => {
+    await gotoHome(page);
+    await page.locator('#home').getByRole('button', { name: /Our Most Popular Services/ }).click();
+    await expectSectionAtTop(page, 'services');
+  });
+
+  test('header logo returns to #home', async ({ page }) => {
+    await gotoHome(page);
+    await scrollWindowTo(page, 2000);
+    // dispatchEvent: the logo lives in the top section, which is collapsed
+    // (clipped) at this scroll depth — the handler is what's under test.
+    await page
+      .locator('header')
+      .getByRole('button', { name: 'BeYou BeautyHub - Return to homepage' })
+      .dispatchEvent('click');
+    await expectSectionAtTop(page, 'home');
+  });
+
+  test('"Our schedule" centers the Hours block and highlights it', async ({ page }) => {
+    await gotoHome(page);
+    await page.locator('header').getByRole('button', { name: 'Click to view business hours' }).click();
+
+    const hours = page
+      .locator('#contact')
+      .locator('div', { has: page.getByRole('heading', { name: 'Hours', exact: true }) })
+      .last();
+    await expect
+      .poll(
+        async () => {
+          const box = await hours.boundingBox();
+          if (!box) return Infinity;
+          const viewportMid = page.viewportSize()!.height / 2;
+          return Math.abs(box.y + box.height / 2 - viewportMid);
+        },
+        { message: 'Hours block should come to rest mid-screen', timeout: 10_000 },
+      )
+      // Pages can't always scroll far enough to center the very last
+      // sections exactly; a quarter-viewport tolerance still proves the jump.
+      .toBeLessThan(page.viewportSize()!.height / 4);
+    await expect(
+      page.locator('#contact .schedule-highlight'),
+      'Hours block gets the highlight once scrolling settles',
+    ).toHaveCount(1);
+    await expect(page.locator('#contact .schedule-highlight')).toContainText('Mon-Fri');
+  });
 });
 
-test.describe('header collapse on scroll', () => {
+test.describe('header collapse on scroll', { tag: '@critical' }, () => {
   // The collapse animates max-height on the wrapper div, so the wrapper's
   // rendered height is the ground truth. (Its children keep a non-zero
   // bounding box even when clipped, so element "visibility" can't be used.)

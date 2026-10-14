@@ -9,11 +9,11 @@ import { gotoHome, stubWindowOpen, getOpenedUrls } from './helpers';
 const FRESHA_BOOKING = 'https://www.fresha.com/book-now/beyou-beautyhub-j4ur9xlp/services';
 
 const SERVICE_CARDS = [
-  { title: 'Signature Korean Lash lift', serviceId: '27974629' },
+  { title: 'Signature Korean Lash Lift', serviceId: '27974629' },
   { title: 'Brow Lamination + Tweezing', serviceId: '22827507' },
-  { title: 'Mapping + tweezing', serviceId: '22827454' },
+  { title: 'Mapping + Tweezing', serviceId: '22827454' },
   { title: 'L&L Combo Deluxe', serviceId: '22827944' },
-  { title: 'Lash Lift + Tinting', serviceId: '22827620' },
+  { title: 'Lash Lift + Tint', serviceId: '22827620' },
 ] as const;
 
 const CATCH_ALL = {
@@ -21,7 +21,7 @@ const CATCH_ALL = {
   url: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?pId=2531140',
 } as const;
 
-test.describe('Services section — Fresha booking links', () => {
+test.describe('Services section — Fresha booking links', { tag: '@critical' }, () => {
   test('renders all 6 service cards with a booking button each', async ({ page }) => {
     await gotoHome(page);
     const section = page.locator('#services');

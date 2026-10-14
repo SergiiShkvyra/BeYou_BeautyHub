@@ -9,7 +9,7 @@ import { gotoHome, scrollWindowTo, SECTION_IDS } from '../e2e/helpers';
 // Baselines are OS-specific (font rendering) — they are generated and compared
 // on this machine only, which matches the local-only test strategy.
 
-test.describe('visual regression', () => {
+test.describe('visual regression', { tag: '@extended' }, () => {
   test.beforeEach(async ({ page }) => {
     await gotoHome(page);
     await page.waitForLoadState('networkidle');

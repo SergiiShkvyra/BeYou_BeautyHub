@@ -5,18 +5,44 @@ live site; runs never send real emails (EmailJS is intercepted) and browsers
 run as Playwright's own isolated binaries — incognito-equivalent, fully
 separate from the browsers installed on this machine.
 
-//TODO: made sure that testing framework is alligned with the redesigned website
+## Test suites
+
+Every test group is tagged with one of three labels, and each suite is just
+"run the tests with this label". All of them run on all 5 browser projects
+(Chrome, Firefox, Safari/WebKit, phone portrait, phone landscape).
+
+| Suite | Label | What's in it | Time* |
+|---|---|---|---|
+| **Smoke** | `@smoke` | Page loads, all sections present, header stays pinned, no console errors | ~45 s |
+| **Critical** | `@critical` | Everything a customer uses to book or reach the salon: service-card Fresha links, Hero "Book Appointment", Contact "Book Online", booking form, phone/email/"Text us", every maps picker → Google/Apple/Waze, menu + scroll buttons, header collapse, Instagram/Facebook/Fresha-reviews links | ~3.7 min |
+| **Extended** | `@extended` | Nice-to-have and slow: gallery carousel + zoom, footer policy pop-ups, animations/intro/cursors/marquee, accessibility scan, visual screenshots | ~3 min |
+| **Live links** | (own project) | Loads the REAL Fresha / Instagram / Facebook / maps pages — opt-in, needs internet | ~40 s |
+
+\*On this machine, including the ~25 s site build every run starts with.
+
+### Which one to run when
+
+- **Quick check after a small edit:** `npm run test:smoke`
+- **Before pushing to `main` (i.e. before it goes live):** `npm test` (= unit + smoke + critical)
+- **After visual / animation / gallery changes, or once in a while:** `npm run test:extended`
+- **Everything:** `npm run test:full`
+- **After changing any outside link (Fresha, maps, socials):** `npm run test:links`
 
 ## Commands
 
 | Command | What it does |
 |---|---|
-| `npm test` | Unit tests, then the full E2E/visual/a11y suite |
+| `npm test` | **Fast suite:** unit tests, then smoke + critical on all 5 browsers |
+| `npm run test:smoke` | Smoke only |
+| `npm run test:critical` | Critical only |
+| `npm run test:fast` | Smoke + critical (what `npm test` runs, without the unit tests) |
+| `npm run test:extended` | Extended only (gallery, footer pop-ups, animations, a11y, visual) |
+| `npm run test:full` | Unit tests, then EVERY Playwright test (smoke + critical + extended) |
 | `npm run test:unit` | Vitest unit tests (`src/**/*.test.ts`) |
-| `npm run test:e2e` | Full Playwright suite: builds the site, serves it via `vite preview`, runs all browser projects |
+| `npm run test:e2e` | Every Playwright test (no unit tests): builds the site, serves it via `vite preview`, runs all browser projects |
 | `npm run test:e2e:ui` | Playwright's interactive UI mode — best for debugging |
 | `npm run test:visual:update` | Regenerate visual baselines after an INTENTIONAL design change |
-| `npm run test:links` | LIVE check against the real Fresha site: each booking deep link still preselects the right service (opt-in, needs internet; never runs as part of the normal suite) |
+| `npm run test:links` | LIVE check against the real sites: each Fresha deep link still preselects the right service, and every outside link (Fresha, Instagram, Facebook, Google/Apple Maps, Waze) still lands on a BeYou page (opt-in, needs internet; never runs as part of the normal suite) |
 | `npm run test:traced` | Full suite with a trace recorded for EVERY test (normally only failures get one) — see "Step-by-step screenshots" below |
 | `npm run test:report` | Open the HTML report of the last run |
 
@@ -26,7 +52,19 @@ Run a subset:
 npx playwright test tests/e2e/booking-form.spec.ts   # one file
 npx playwright test --project=chromium               # one browser
 npx playwright test -g "collapse"                    # by title
+npx playwright test --grep @critical --project=chromium   # one suite, one browser (~1 min)
 ```
+
+Extra arguments after `--` pass straight through to Playwright, e.g.
+`npm run test:critical -- --project=chromium` or `npm run test:smoke -- --headed`.
+
+### Adding a new test
+
+Put it inside a `test.describe(...)` block that carries a label, e.g.
+`test.describe('my feature', { tag: '@critical' }, () => { ... })`. A test
+with no label is still run by `npm test` and `npm run test:full`, but by none
+of the single-suite commands — so always give new groups one of `@smoke`,
+`@critical` or `@extended`.
 
 ## Watching a test run in a visible browser
 
@@ -97,14 +135,21 @@ projects:
 - **modals** — all three separately-implemented navigation-app pickers (Header desktop + mobile, Contact, Footer): 3 app options, Cancel, outside-click close, and that choosing an app "opens" the right URL (window.open is stubbed — no real tabs)
 - **contact-interactions** — phone/email copy-to-clipboard with toast + clipboard-content check, "Text us" alert, "Book Online" opens the Fresha URL (request aborted, never actually hits Fresha)
 - **services** — all 6 service cards render; each of the 5 specific cards opens its pinned Fresha deep link with the right `oiid=sv:<id>` preselection param, the catch-all card opens the venue page with no preselection, and no two cards share a URL (window.open stubbed — no real tabs)
+- **external-links** — every button/link that leaves the site, checked for exactly where it goes: all 4 navigation pickers × Google Maps / Apple Maps / Waze (each must point at the salon's place ID in that app), Hero "Book Appointment" and Contact "Book Online" (Fresha), Testimonials "…and counting" (Fresha reviews, opened as a blank tab then redirected so phones stay in the browser), Footer Instagram + Facebook icons (a real new tab opens at the exact address; the site itself is answered with a stub page), About "Learn More About Us" (Instagram). Destination URLs are pinned in `helpers.ts` (`LINKS`, `MAPS_PLACE`) — editing a link in a component must fail a test
+- **navigation** (additions) — Hero "View Services", header logo → top, "Our schedule" centers + highlights the Hours block
+- **gallery** — carousel shows every photo; clicking / Enter on the front card opens the zoom; Next/Previous buttons and arrow keys step through and wrap around; arrows hidden on phones; X / Escape / empty-space click close it; page scroll locked while open; right-click save menu blocked on photos
+- **footer** — Privacy / Terms / Cookie modals: open with content, close via X, bottom Close button, and backdrop click (but not a click inside)
+- **effects** — marquee strip lists exactly the Services card titles (catches renaming one but not the other) and holds still under reduced motion; no intro under reduced motion. A `full motion` block switches animations back ON to test them: the intro plays and reveals the page, a click skips it, Hero "Book Appointment" gets its glow sweep and the stats count up, the footer heart burst cleans up after itself, the footer logo spins on click, the marquee moves. Cursors: sparkle over plain content / native cursor over buttons and the glitter trail waking up (mouse projects), no custom cursor on touch (mobile projects)
 
-**Live link checks** (`tests/live/`, opt-in via `npm run test:links`) — loads each
-Fresha deep link on the REAL Fresha site and verifies the service actually lands
-in the booking cart: the redirected URL carries `offerItems=sv:<id>`, the service
-name is shown, and the cart UI (Total/Continue) renders. Read-only — never
-completes a booking. Kept out of the normal suite because it depends on Fresha
-being up and unchanged; run it after editing booking URLs or once in a while as
-a health check.
+**Live link checks** (`tests/live/`, opt-in via `npm run test:links`) — read-only
+loads of the REAL third-party sites:
+
+- `fresha-links.spec.ts` — each service deep link lands in the Fresha booking cart: the redirected URL carries `offerItems=sv:<id>`, the service name is shown (Fresha's own name, which can differ from the site's — see `freshaName`), and the cart UI (Total/Continue) renders. Never completes a booking.
+- `external-links.spec.ts` — Fresha booking + reviews, Instagram (both links), Facebook, and every maps URL the site's pickers actually open still load with a page title that's recognizably BeYou's.
+
+Kept out of the normal suite because they depend on other sites being up and
+unchanged; run after editing any outbound link, or once in a while as a health
+check.
 
 **Visual regression** (`tests/visual/`) — baseline screenshots of the header
 (expanded + collapsed), every section, and the footer, on desktop + mobile.
