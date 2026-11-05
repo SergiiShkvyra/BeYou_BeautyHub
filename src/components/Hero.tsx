@@ -166,7 +166,7 @@ const Hero = () => {
       {/* Content */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pb-16 sm:pb-20 pt-40">
         <p data-hero-fade className="micro-label !text-warm mb-6">
-          Lash &amp; Brow Studio — Arlington, VA
+          Lash &amp; Brow Studio — Ballston,Arlington, VA
         </p>
 
         <h1 className="font-display text-warm leading-[1.02] mb-8 text-[13vw] sm:text-7xl lg:text-8xl">
