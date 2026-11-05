@@ -9,6 +9,13 @@ import { gotoHome, scrollWindowTo, SECTION_IDS } from '../e2e/helpers';
 // Baselines are OS-specific (font rendering) — they are generated and compared
 // on this machine only, which matches the local-only test strategy.
 
+// The fixed header paints over whichever section is being captured, at an
+// offset that depends on sub-pixel scroll rounding — so it made section/footer
+// shots flaky (and duplicated what the two header tests already cover). Hide it
+// for those shots only. !important beats the force-visible loop's plain inline
+// styles in Header.tsx; this stylesheet exists only during the screenshot.
+const HIDE_HEADER = 'header { visibility: hidden !important; }';
+
 test.describe('visual regression', { tag: '@extended' }, () => {
   test.beforeEach(async ({ page }) => {
     await gotoHome(page);
@@ -33,7 +40,7 @@ test.describe('visual regression', { tag: '@extended' }, () => {
       // Give lazy-loaded images in the section time to decode.
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(300);
-      await expect(section).toHaveScreenshot(`section-${id}.png`);
+      await expect(section).toHaveScreenshot(`section-${id}.png`, { style: HIDE_HEADER });
     });
   }
 
@@ -42,6 +49,6 @@ test.describe('visual regression', { tag: '@extended' }, () => {
     await footer.scrollIntoViewIfNeeded();
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(300);
-    await expect(footer).toHaveScreenshot('footer.png');
+    await expect(footer).toHaveScreenshot('footer.png', { style: HIDE_HEADER });
   });
 });

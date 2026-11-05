@@ -2,6 +2,14 @@ import { useState, useEffect, useRef } from 'react';
 import { Phone, MapPin } from 'lucide-react';
 import { scrollToSection, handlePhoneClick } from '../utils/interactions';
 
+// The raw-DOM navigation modal's inline onclick handlers close it through this
+// global (set when the address button opens the modal). Type-only declaration.
+declare global {
+  interface Window {
+    headerComponent?: { setIsNavigationModalOpen: (open: boolean) => void };
+  }
+}
+
 const Header = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isNavigationModalOpen, setIsNavigationModalOpen] = useState(false);
