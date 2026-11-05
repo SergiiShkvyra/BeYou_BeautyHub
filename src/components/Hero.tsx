@@ -196,7 +196,7 @@ const Hero = () => {
                 data-book-btn
                 onClick={() =>
                   window.open(
-                    'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-gt6tu55b',
+                    'https://www.fresha.com/a/beyou-beauty-hub-arlington-arlington-3865-wilson-boulevard-idzdd7ex',
                     '_blank',
                   )
                 }

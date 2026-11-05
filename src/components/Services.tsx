@@ -57,7 +57,7 @@ const Services = () => {
       description: 'Explore our full range of beauty services including individual treatments and consultations.',
       price: 'From $25',
       features: ['Lash Tint', 'Brow Tint', 'Tweezing', 'Free Consultation'],
-      bookingUrl: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?pId=2531140'
+      bookingUrl: 'https://www.fresha.com/a/beyou-beauty-hub-arlington-arlington-3865-wilson-boulevard-idzdd7ex?pId=2531140'
     }
   ];
 

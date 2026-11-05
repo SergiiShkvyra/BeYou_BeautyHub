@@ -53,7 +53,7 @@ const About = () => {
               <img
                 data-about-image
                 src="/images/about/About_smaller.jpg"
-                alt="Beautiful woman with natural makeup showcasing skincare and beauty"
+                alt="Anastasiia, founder and lash and brow artist of BeYou Beauty Hub in Ballston"
                 className="w-full h-[26rem] lg:h-[34rem] object-cover object-top scale-110 origin-top"
                 loading="lazy"
                 decoding="async"
@@ -79,7 +79,8 @@ const About = () => {
               Your Beauty, <span className="italic text-olive">Our Passion</span>
             </h2>
             <p data-reveal className="text-lg text-olive-ink/75 mb-6 leading-relaxed">
-              Welcome to BeYou — not just a beauty studio, but a space where you’re treated the way we treat ourselves:
+              Welcome to BeYou — I’m Anastasiia, founder and lash &amp; brow artist of this Ballston studio.
+              BeYou is not just a beauty studio, but a space where you’re treated the way we treat ourselves:
               with care, honesty, love, and deep respect.
             </p>
             <p data-reveal className="text-lg text-olive-ink/75 mb-10 leading-relaxed">

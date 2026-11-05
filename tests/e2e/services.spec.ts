@@ -18,7 +18,7 @@ const SERVICE_CARDS = [
 
 const CATCH_ALL = {
   title: 'And Many More...',
-  url: 'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?pId=2531140',
+  url: 'https://www.fresha.com/a/beyou-beauty-hub-arlington-arlington-3865-wilson-boulevard-idzdd7ex?pId=2531140',
 } as const;
 
 test.describe('Services section — Fresha booking links', { tag: '@critical' }, () => {

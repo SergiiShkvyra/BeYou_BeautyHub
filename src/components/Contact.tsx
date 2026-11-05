@@ -300,7 +300,7 @@ const Contact = () => {
             {/* Quick Actions */}
             <div className="mt-8 space-y-4">
               <button
-                onClick={() => window.open('https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-gt6tu55b', '_blank')}
+                onClick={() => window.open('https://www.fresha.com/a/beyou-beauty-hub-arlington-arlington-3865-wilson-boulevard-idzdd7ex', '_blank')}
                 className="glow-btn glow-dark w-full bg-warm text-olive-ink py-4 rounded-full hover:bg-cream transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] flex items-center justify-center space-x-2"
               >
                 <Calendar className="h-4 w-4" />

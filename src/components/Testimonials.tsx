@@ -7,7 +7,7 @@ import { useReveal, revealChildren, gsap } from '../lib/useReveal';
 // ignoring the parameter — so the click handler below deliberately opens
 // this URL via a JS-set navigation, which app-link interception skips.
 const FRESHA_REVIEWS_URL =
-  'https://www.fresha.com/a/be-you-beauty-hub-arlington-3865-wilson-boulevard-sochrclt?pId=2531140&reviews=true';
+  'https://www.fresha.com/a/beyou-beauty-hub-arlington-arlington-3865-wilson-boulevard-idzdd7ex?pId=2531140&reviews=true';
 
 const Testimonials = () => {
   const testimonials = [

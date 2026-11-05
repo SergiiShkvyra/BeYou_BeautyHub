@@ -96,9 +96,9 @@ export const MAPS_PLACE = {
 // these links in the components must fail a test.
 export const LINKS = {
   freshaVenueBooking:
-    'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-gt6tu55b',
+    'https://www.fresha.com/a/beyou-beauty-hub-arlington-arlington-3865-wilson-boulevard-idzdd7ex',
   freshaReviews:
-    'https://www.fresha.com/a/be-you-beauty-hub-arlington-3865-wilson-boulevard-sochrclt?pId=2531140&reviews=true',
+    'https://www.fresha.com/a/beyou-beauty-hub-arlington-arlington-3865-wilson-boulevard-idzdd7ex?pId=2531140&reviews=true',
   instagramFooter: 'https://www.instagram.com/beyou_beautyhub',
   instagramAbout: 'https://www.instagram.com/beyou_beautyhub/#',
   facebook: 'https://www.facebook.com/share/15Py4Ci4CV',

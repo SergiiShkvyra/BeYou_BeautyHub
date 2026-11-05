@@ -23,7 +23,7 @@ const deepLink = (id: string) =>
   `https://www.fresha.com/book-now/beyou-beautyhub-j4ur9xlp/services?lid=2613695&eid=4605333&oiid=sv%3A${id}&share=true&pId=2531140`;
 
 const VENUE_URL =
-  'https://www.fresha.com/a/be-you-beauty-hub-vienna-424-maple-avenue-east-suite-3-amjyvodh?pId=2531140';
+  'https://www.fresha.com/a/beyou-beauty-hub-arlington-arlington-3865-wilson-boulevard-idzdd7ex?pId=2531140';
 
 test.describe('Fresha booking deep links (LIVE)', () => {
   // Third-party SPA over real network: give it room.
@@ -60,7 +60,7 @@ test.describe('Fresha booking deep links (LIVE)', () => {
   }) => {
     await page.goto(VENUE_URL, { waitUntil: 'domcontentloaded' });
 
-    await expect(page).toHaveTitle(/Be You Beauty Hub/i, { timeout: 30_000 });
+    await expect(page).toHaveTitle(/Be ?You Beauty Hub/i, { timeout: 30_000 });
     expect(new URL(page.url()).searchParams.get('offerItems')).toBeNull();
   });
 });
