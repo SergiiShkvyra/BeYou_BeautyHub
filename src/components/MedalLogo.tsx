@@ -19,7 +19,7 @@ export default function MedalLogo({ heightClass }: { heightClass: string }) {
         <img
           data-medal-face
           src={SRC}
-          alt="BeYou BeautyHub Logo"
+          alt="BeYou Beauty Hub Logo"
           className={`${heightClass} block w-auto object-contain`}
           loading="lazy"
           decoding="async"

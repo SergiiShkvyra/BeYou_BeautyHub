@@ -124,7 +124,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="font-display text-2xl text-warm mb-4">BeYou BeautyHub</h3>
+            <h3 className="font-display text-2xl text-warm mb-4">BeYou Beauty Hub</h3>
             <p className="text-warm/70 mb-6 leading-relaxed">
               Enhancing your natural beauty with professional eyelash and eyebrow services. 
               Your confidence is our passion.
@@ -508,7 +508,7 @@ const Footer = () => {
 
                 <p className="text-gray-700 mb-6">
                   TODO: 
-                  At BeYou BeautyHub, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you visit our website or use our services.
+                  At BeYou Beauty Hub, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you visit our website or use our services.
                 </p>
                 
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">1. Information We Collect</h3>
@@ -631,7 +631,7 @@ const Footer = () => {
 
                 <p className="text-gray-700 mb-6">
                   TODO: 
-                  This Cookie Policy explains how BeYou BeautyHub uses cookies and similar technologies when you visit our website. We want to be transparent about how we collect and use data to improve your browsing experience.
+                  This Cookie Policy explains how BeYou Beauty Hub uses cookies and similar technologies when you visit our website. We want to be transparent about how we collect and use data to improve your browsing experience.
                 </p>
                 
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">1. What Are Cookies?</h3>

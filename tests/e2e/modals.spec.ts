@@ -109,7 +109,7 @@ test.describe('navigation-app picker modals', { tag: '@critical' }, () => {
     // the accessible name.
     await page
       .locator('header')
-      .getByRole('button', { name: /Open BeYou BeautyHub location/ })
+      .getByRole('button', { name: /Open BeYou Beauty Hub location/ })
       .click();
 
     await expectModalContents(page);
