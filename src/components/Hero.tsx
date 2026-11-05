@@ -3,9 +3,12 @@ import { scrollToSection } from '../utils/interactions';
 import { useReveal, gsap, ScrollTrigger } from '../lib/useReveal';
 import { introPending, INTRO_DONE_EVENT } from '../lib/introState';
 
-// value is the count-up target; suffix stays static beside it (the markup
-// keeps the full final value, so no-JS / reduced-motion visitors — and the
-// test suite — always see "1400+" etc. without any animation).
+// value is the count-up target, suffix is appended to every frame. Each stat
+// renders twice: a .sr-only span holding the real final text (what crawlers,
+// screen readers and copy/paste get, always, never "0+"), and an aria-hidden
+// .count-display span that PAINTS the number from its data-count attribute via
+// ::before (see index.css), so the animation never touches DOM text. With no
+// JS animation (reduced motion), data-count simply stays at the final value.
 const stats = [
   { icon: Users, value: 1400, suffix: '+', label: 'Happy Clients' },
   { icon: Award, value: 4, suffix: '+', label: 'Years Experience' },
@@ -68,7 +71,11 @@ const Hero = () => {
     const counters = Array.from(
       section.querySelectorAll<HTMLElement>('[data-count-to]'),
     );
-    counters.forEach((el) => (el.textContent = '0'));
+    // Only the painted data-count changes; the .sr-only real value is untouched.
+    const paint = (el: HTMLElement, n: number) => {
+      el.dataset.count = `${n}${el.dataset.suffix ?? ''}`;
+    };
+    counters.forEach((el) => paint(el, 0));
     const startCounters = () => {
       counters.forEach((el) => {
         const target = Number(el.dataset.countTo);
@@ -77,9 +84,7 @@ const Hero = () => {
           v: target,
           duration: 1,
           ease: 'power2.out',
-          onUpdate: () => {
-            el.textContent = String(Math.round(state.v));
-          },
+          onUpdate: () => paint(el, Math.round(state.v)),
         });
       });
     };
@@ -231,8 +236,14 @@ const Hero = () => {
               >
                 <Icon className="h-5 w-5 text-warm/80 mb-2" />
                 <div className="font-display text-3xl sm:text-4xl text-warm leading-none">
-                  <span data-count-to={value}>{value}</span>
-                  {suffix}
+                  <span className="sr-only">{`${value}${suffix}`}</span>
+                  <span
+                    aria-hidden="true"
+                    className="count-display"
+                    data-count-to={value}
+                    data-suffix={suffix}
+                    data-count={`${value}${suffix}`}
+                  />
                 </div>
                 <div className="text-[11px] uppercase tracking-[0.2em] text-cream/90 mt-1">
                   {label}

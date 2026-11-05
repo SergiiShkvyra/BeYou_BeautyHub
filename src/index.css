@@ -193,6 +193,14 @@ header {
   opacity: 0.6;
 }
 
+/* Hero stat counters: the animated number is painted from data-count via a
+   pseudo-element, so it never enters the DOM text. Crawlers and screen
+   readers only ever read the real value from the sibling .sr-only span,
+   never "0+" or a mid-count number. */
+.count-display::before {
+  content: attr(data-count);
+}
+
 /* Hairline rules */
 .hairline {
   border-color: var(--hairline);

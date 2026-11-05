@@ -96,15 +96,28 @@ test.describe('full motion', { tag: '@extended' }, () => {
       'glow sweep is added once the button has faded in',
     ).toHaveClass(/glow-sweep/, { timeout: 10_000 });
 
+    // The DOM text (what crawlers and screen readers read) holds the real
+    // values at all times, even while the painted counters sit at 0 or count.
+    await expect(page.locator('#home [data-hero-stats] .sr-only')).toHaveText([
+      '1400+',
+      '4+',
+      '5',
+    ]);
+
     // Landscape phones count only when the stats row scrolls into view.
     await page.locator('[data-hero-stats]').scrollIntoViewIfNeeded();
     const counters = page.locator('#home [data-count-to]');
-    const targets = await counters.evaluateAll((els) =>
-      els.map((e) => (e as HTMLElement).dataset.countTo),
+    const finals = await counters.evaluateAll((els) =>
+      els.map((e) => {
+        const d = (e as HTMLElement).dataset;
+        return `${d.countTo}${d.suffix ?? ''}`;
+      }),
     );
-    expect(targets.length).toBeGreaterThan(0);
-    for (let i = 0; i < targets.length; i++) {
-      await expect(counters.nth(i)).toHaveText(targets[i]!, { timeout: 10_000 });
+    expect(finals.length).toBeGreaterThan(0);
+    for (let i = 0; i < finals.length; i++) {
+      await expect(counters.nth(i)).toHaveAttribute('data-count', finals[i]!, {
+        timeout: 10_000,
+      });
     }
   });
 
