@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Phone, MapPin } from 'lucide-react';
-import { scrollToSection, handlePhoneClick } from '../utils/interactions';
+import { scrollToSection, handlePhoneClick, PHONE_DISPLAY, PHONE_HREF } from '../utils/interactions';
 
 // The raw-DOM navigation modal's inline onclick handlers close it through this
 // global (set when the address button opens the modal). Type-only declaration.
@@ -209,12 +209,13 @@ const Header = () => {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1">
               <Phone className="h-4 w-4" />
-              <button
-                onClick={() => handlePhoneClick('(571)-276-7014')}
+              <a
+                href={PHONE_HREF}
+                onClick={(e) => handlePhoneClick(e, PHONE_DISPLAY)}
                 className="glow-text hover:underline transition-all duration-200 cursor-pointer"
               >
-                (571)-276-7014
-              </button>
+                {PHONE_DISPLAY}
+              </a>
             </div>
             <div className="hidden sm:flex items-center space-x-1">
               <MapPin className="h-4 w-4" />

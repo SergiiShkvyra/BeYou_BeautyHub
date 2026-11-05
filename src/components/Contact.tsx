@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, Calendar, MessageSquare } from 'lucide-react';
 import emailjs from '@emailjs/browser';
-import { handlePhoneClick, copyEmailToClipboard } from '../utils/interactions';
+import {
+  handlePhoneClick,
+  handleEmailClick,
+  handleTextClick,
+  PHONE_DISPLAY,
+  PHONE_HREF,
+  SMS_HREF,
+  EMAIL,
+  EMAIL_HREF,
+} from '../utils/interactions';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -127,12 +136,13 @@ const Contact = () => {
                 <Phone className="h-5 w-5 text-warm/80 mt-1" />
                 <div>
                   <h4 className="font-semibold text-warm">Phone</h4>
-                  <button
-                    onClick={() => handlePhoneClick('(571)-276-7014')}
-                    className="text-warm hover:text-cream underline-offset-4 hover:underline transition-colors duration-200 cursor-pointer"
+                  <a
+                    href={PHONE_HREF}
+                    onClick={(e) => handlePhoneClick(e, PHONE_DISPLAY)}
+                    className="inline-block text-warm hover:text-cream underline-offset-4 hover:underline transition-colors duration-200 cursor-pointer"
                   >
-                    (571)-276-7014
-                  </button>
+                    {PHONE_DISPLAY}
+                  </a>
                   <p className="text-sm text-warm/80">Call or text us anytime</p>
                 </div>
               </div>
@@ -141,12 +151,13 @@ const Contact = () => {
                 <Mail className="h-5 w-5 text-warm/80 mt-1" />
                 <div>
                   <h4 className="font-semibold text-warm">Email</h4>
-                  <button
-                    onClick={() => copyEmailToClipboard('info@beyoubeautyhub.com')}
-                    className="text-warm hover:text-cream underline-offset-4 hover:underline transition-colors duration-200 cursor-pointer"
+                  <a
+                    href={EMAIL_HREF}
+                    onClick={(e) => handleEmailClick(e, EMAIL)}
+                    className="inline-block text-warm hover:text-cream underline-offset-4 hover:underline transition-colors duration-200 cursor-pointer"
                   >
-                    info@beyoubeautyhub.com
-                  </button>
+                    {EMAIL}
+                  </a>
                   <p className="text-sm text-warm/80">We'll respond within 24 hours</p>
                 </div>
               </div>
@@ -306,100 +317,14 @@ const Contact = () => {
                 <Calendar className="h-4 w-4" />
                 <span>Book Online</span>
               </button>
-              <button 
-                onClick={() => {
-                  const phoneNumber = '5712767014'; // Clean phone number for SMS URL
-                  const formattedNumber = '(571)-276-7014'; // Formatted for display
-                  
-                  // Detect device type
-                  const userAgent = navigator.userAgent.toLowerCase();
-                  const isAndroid = /android/.test(userAgent);
-                  const isIOS = /iphone|ipad|ipod/.test(userAgent);
-                  const isMobile = isAndroid || isIOS || /mobile/.test(userAgent);
-
-                  if (isMobile) {
-                    // SOLUTION: Use proper link creation with user-initiated click
-                    // This bypasses Android's ERR_UNKNOWN_URL_SCHEME restriction
-                    const smsUrl = `sms:${phoneNumber}`;
-                    
-                    try {
-                      // Create a proper link element
-                      const link = document.createElement('a');
-                      link.href = smsUrl;
-                      link.target = '_blank';
-                      link.rel = 'noopener noreferrer';
-                      
-                      // Hide the link but add to DOM (required for some browsers)
-                      link.style.position = 'absolute';
-                      link.style.left = '-9999px';
-                      link.style.top = '-9999px';
-                      link.style.visibility = 'hidden';
-                      document.body.appendChild(link);
-                      
-                      // Create a proper mouse event (simulates real user click)
-                      const clickEvent = new MouseEvent('click', {
-                        bubbles: true,
-                        cancelable: true,
-                        view: window,
-                        button: 0,
-                        buttons: 1,
-                        clientX: 0,
-                        clientY: 0
-                      });
-                      
-                      // Dispatch the event (this bypasses security restrictions)
-                      const eventDispatched = link.dispatchEvent(clickEvent);
-                      
-                      // Clean up the DOM
-                      setTimeout(() => {
-                        if (document.body.contains(link)) {
-                          document.body.removeChild(link);
-                        }
-                      }, 100);
-                      
-                      // Fallback if event dispatch failed
-                      if (!eventDispatched) {
-                        throw new Error('Event dispatch failed');
-                      }
-                      
-                    } catch {
-                      // Graceful fallback with clear instructions
-                      const message = isAndroid 
-                        ? `Unable to open messaging app automatically.\n\nPlease text us at: ${formattedNumber}\n\nSteps:\n1. Open your messaging app (Messages, Samsung Messages, etc.)\n2. Create new message\n3. Enter: ${formattedNumber}`
-                        : `Please text us at: ${formattedNumber}`;
-                      
-                      alert(message);
-                      
-                      // Try to copy number to clipboard as backup
-                      if (navigator.clipboard && navigator.clipboard.writeText) {
-                        navigator.clipboard.writeText(formattedNumber).then(() => {
-                          // Show additional notification that number was copied
-                          setTimeout(() => {
-                            alert('Phone number copied to clipboard!');
-                          }, 500);
-                        }).catch(() => {
-                          // Clipboard failed, but we already showed the manual instructions
-                        });
-                      }
-                    }
-                  } else {
-                    // Desktop - copy to clipboard with instructions
-                    if (navigator.clipboard && navigator.clipboard.writeText) {
-                      navigator.clipboard.writeText(formattedNumber).then(() => {
-                        alert(`Phone number copied to clipboard: ${formattedNumber}\n\nYou can paste this into your preferred messaging application.`);
-                      }).catch(() => {
-                        alert(`Please text us at: ${formattedNumber}`);
-                      });
-                    } else {
-                      alert(`Please text us at: ${formattedNumber}`);
-                    }
-                  }
-                }}
+              <a
+                href={SMS_HREF}
+                onClick={(e) => handleTextClick(e, PHONE_DISPLAY)}
                 className="glow-btn glow-dark w-full border border-warm/60 text-warm py-4 rounded-full hover:bg-warm hover:text-olive-ink transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] flex items-center justify-center space-x-2"
               >
                 <MessageSquare className="h-4 w-4" />
                 <span>Text us</span>
-              </button>
+              </a>
             </div>
           </div>
 

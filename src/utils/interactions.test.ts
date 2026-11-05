@@ -1,14 +1,30 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { scrollToSection, handlePhoneClick, copyEmailToClipboard } from './interactions';
+import {
+  scrollToSection,
+  isTouchActivation,
+  handlePhoneClick,
+  handleEmailClick,
+  handleTextClick,
+  copyEmailToClipboard,
+  PHONE_DISPLAY,
+  PHONE_HREF,
+  SMS_HREF,
+  EMAIL,
+  EMAIL_HREF,
+} from './interactions';
 
-const DESKTOP_UA =
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36';
-const MOBILE_UA =
-  'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1';
+/** A click as the handlers see it: pointerType undefined = browser didn't say. */
+function click(pointerType?: string) {
+  return {
+    preventDefault: vi.fn(),
+    nativeEvent: (pointerType === undefined ? undefined : { pointerType }) as Event | undefined,
+  };
+}
 
-function setUserAgent(ua: string) {
-  Object.defineProperty(window.navigator, 'userAgent', {
-    value: ua,
+/** Stub the (pointer: coarse) media query used when a click has no pointerType. */
+function setCoarsePointer(coarse: boolean) {
+  Object.defineProperty(window, 'matchMedia', {
+    value: (q: string) => ({ matches: coarse && q === '(pointer: coarse)', media: q }),
     configurable: true,
   });
 }
@@ -53,46 +69,118 @@ describe('scrollToSection', () => {
   });
 });
 
+describe('isTouchActivation', () => {
+  it("trusts the click's own pointerType first", () => {
+    setCoarsePointer(false);
+    expect(isTouchActivation(click('touch'))).toBe(true);
+    setCoarsePointer(true); // e.g. a hybrid touchscreen laptop clicked with a mouse
+    expect(isTouchActivation(click('mouse'))).toBe(false);
+  });
+
+  it('falls back to (pointer: coarse) for keyboard/pen/unknown clicks', () => {
+    setCoarsePointer(true);
+    expect(isTouchActivation(click(''))).toBe(true);
+    expect(isTouchActivation(click())).toBe(true);
+    setCoarsePointer(false);
+    expect(isTouchActivation(click('pen'))).toBe(false);
+  });
+});
+
 describe('handlePhoneClick', () => {
-  it('desktop: copies the number and shows a toast that auto-dismisses', async () => {
-    setUserAgent(DESKTOP_UA);
+  it('mouse: blocks the tel: link, copies the number and shows a toast that auto-dismisses', async () => {
     const writeText = vi.fn().mockResolvedValue(undefined);
     setClipboard(writeText);
+    const e = click('mouse');
 
-    handlePhoneClick('(571)-276-7014');
+    handlePhoneClick(e, PHONE_DISPLAY);
     await flushMicrotasks();
 
-    expect(writeText).toHaveBeenCalledWith('(571)-276-7014');
-    expect(document.body.textContent).toContain(
-      'Phone number copied to clipboard!',
-    );
+    expect(e.preventDefault).toHaveBeenCalled();
+    expect(writeText).toHaveBeenCalledWith(PHONE_DISPLAY);
+    expect(document.body.textContent).toContain('Phone number copied to clipboard!');
 
     vi.advanceTimersByTime(3000);
-    expect(document.body.textContent).not.toContain(
-      'Phone number copied to clipboard!',
-    );
+    expect(document.body.textContent).not.toContain('Phone number copied to clipboard!');
   });
 
-  it('desktop: falls back to alert when the clipboard write fails', async () => {
-    setUserAgent(DESKTOP_UA);
-    const writeText = vi.fn().mockRejectedValue(new Error('denied'));
-    setClipboard(writeText);
+  it('mouse: falls back to alert when the clipboard write fails or is missing', async () => {
     const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {});
 
-    handlePhoneClick('(571)-276-7014');
+    setClipboard(vi.fn().mockRejectedValue(new Error('denied')));
+    handlePhoneClick(click('mouse'), PHONE_DISPLAY);
     await flushMicrotasks();
+    expect(alertSpy).toHaveBeenCalledWith('Phone number: ' + PHONE_DISPLAY);
 
-    expect(alertSpy).toHaveBeenCalledWith('Phone number: (571)-276-7014');
+    alertSpy.mockClear();
+    setClipboard(undefined);
+    handlePhoneClick(click('mouse'), PHONE_DISPLAY);
+    expect(alertSpy).toHaveBeenCalledWith('Phone number: ' + PHONE_DISPLAY);
   });
 
-  it('mobile: does not touch the clipboard (opens the dialer instead)', () => {
-    setUserAgent(MOBILE_UA);
+  it('touch: lets the tel: link open the dialer (no preventDefault, no clipboard)', () => {
     const writeText = vi.fn();
     setClipboard(writeText);
+    const e = click('touch');
 
-    handlePhoneClick('(571)-276-7014');
+    handlePhoneClick(e, PHONE_DISPLAY);
 
+    expect(e.preventDefault).not.toHaveBeenCalled();
     expect(writeText).not.toHaveBeenCalled();
+  });
+});
+
+describe('handleEmailClick', () => {
+  it('mouse: blocks the mailto: link and copies the address', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    setClipboard(writeText);
+    const e = click('mouse');
+
+    handleEmailClick(e, EMAIL);
+    await flushMicrotasks();
+
+    expect(e.preventDefault).toHaveBeenCalled();
+    expect(writeText).toHaveBeenCalledWith(EMAIL);
+  });
+
+  it('touch: lets the mailto: link open the mail app', () => {
+    const writeText = vi.fn();
+    setClipboard(writeText);
+    const e = click('touch');
+
+    handleEmailClick(e, EMAIL);
+
+    expect(e.preventDefault).not.toHaveBeenCalled();
+    expect(writeText).not.toHaveBeenCalled();
+  });
+});
+
+describe('handleTextClick', () => {
+  it('mouse: blocks the sms: link, copies the number and explains via alert', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    setClipboard(writeText);
+    const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {});
+    const e = click('mouse');
+
+    handleTextClick(e, PHONE_DISPLAY);
+    await flushMicrotasks();
+
+    expect(e.preventDefault).toHaveBeenCalled();
+    expect(writeText).toHaveBeenCalledWith(PHONE_DISPLAY);
+    expect(alertSpy.mock.calls[0]?.[0]).toContain(PHONE_DISPLAY);
+  });
+
+  it('touch: lets the sms: link open Messages', () => {
+    const e = click('touch');
+    handleTextClick(e, PHONE_DISPLAY);
+    expect(e.preventDefault).not.toHaveBeenCalled();
+  });
+});
+
+describe('contact hrefs', () => {
+  it('are well-formed tel:/sms:/mailto: links for the business', () => {
+    expect(PHONE_HREF).toBe('tel:+15712767014');
+    expect(SMS_HREF).toBe('sms:+15712767014');
+    expect(EMAIL_HREF).toBe('mailto:info@beyoubeautyhub.com');
   });
 });
 

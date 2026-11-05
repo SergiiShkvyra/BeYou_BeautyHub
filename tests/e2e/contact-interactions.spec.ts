@@ -1,9 +1,10 @@
 import { test, expect, Page } from './fixtures';
 import { gotoHome, PHONE_DISPLAY, EMAIL } from './helpers';
 
-// Phone/email interactions branch on the user agent: mobile navigates to
-// tel:/sms:, desktop copies to the clipboard. The desktop branch is what we
-// can meaningfully assert in an automated browser, so mobile projects skip.
+// Phone/email/text are real tel:/mailto:/sms: links (SEO + native long-press
+// menus). A finger tap lets the link open the dialer/mail app/Messages; a
+// mouse or keyboard click is intercepted and copies to the clipboard instead.
+// The copy branch is asserted on desktop projects, the tap branch on mobile.
 
 function isMobileProject(name: string) {
   return name.startsWith('mobile');
@@ -25,7 +26,7 @@ test.describe('phone & email interactions (desktop)', { tag: '@critical' }, () =
   test.beforeEach(async ({}, testInfo) => {
     test.skip(
       isMobileProject(testInfo.project.name),
-      'Mobile UA branches into tel:/sms: navigation instead of clipboard',
+      'Mobile projects tap instead (see the touch describe below)',
     );
   });
 
@@ -37,7 +38,7 @@ test.describe('phone & email interactions (desktop)', { tag: '@critical' }, () =
 
     await page
       .locator('#contact')
-      .getByRole('button', { name: PHONE_DISPLAY })
+      .getByRole('link', { name: PHONE_DISPLAY })
       .click();
 
     // Success shows a toast; if the clipboard API is unavailable the code
@@ -61,7 +62,7 @@ test.describe('phone & email interactions (desktop)', { tag: '@critical' }, () =
   }, testInfo) => {
     await gotoHome(page);
 
-    await page.locator('#contact').getByRole('button', { name: EMAIL }).click();
+    await page.locator('#contact').getByRole('link', { name: EMAIL }).click();
 
     await expect(
       page.getByText(/Email address copied to clipboard!|Email: info@/),
@@ -77,7 +78,7 @@ test.describe('phone & email interactions (desktop)', { tag: '@critical' }, () =
     const dialogs = trackDialogs(page);
     await gotoHome(page);
 
-    await page.getByRole('button', { name: /text us/i }).click();
+    await page.getByRole('link', { name: /text us/i }).click();
 
     await expect
       .poll(() => dialogs.length, { message: 'alert with texting instructions' })
@@ -100,4 +101,54 @@ test.describe('phone & email interactions (desktop)', { tag: '@critical' }, () =
     expect(popup.url()).toContain('fresha.com');
     await popup.close();
   });
+});
+
+const CONTACT_LINKS = [
+  { where: 'header', name: PHONE_DISPLAY, href: 'tel:+15712767014' },
+  { where: '#contact', name: PHONE_DISPLAY, href: 'tel:+15712767014' },
+  { where: '#contact', name: EMAIL, href: 'mailto:' + EMAIL },
+  { where: '#contact', name: /text us/i, href: 'sms:+15712767014' },
+  { where: 'footer', name: PHONE_DISPLAY, href: 'tel:+15712767014' },
+  { where: 'footer', name: EMAIL, href: 'mailto:' + EMAIL },
+] as const;
+
+test.describe('phone, email & text are real links', { tag: '@critical' }, () => {
+  test('every contact link carries the right tel:/mailto:/sms: href', async ({ page }) => {
+    await gotoHome(page);
+    for (const { where, name, href } of CONTACT_LINKS) {
+      await expect(
+        page.locator(where).getByRole('link', { name }),
+        `${where} ${String(name)}`,
+      ).toHaveAttribute('href', href);
+    }
+  });
+});
+
+test.describe('phone, email & text on touch', { tag: '@critical' }, () => {
+  // eslint-disable-next-line no-empty-pattern
+  test.beforeEach(async ({}, testInfo) => {
+    test.skip(!isMobileProject(testInfo.project.name), 'Needs a touch device');
+  });
+
+  for (const { name, href } of CONTACT_LINKS.filter((l) => l.where === '#contact')) {
+    test(`tapping ${String(name)} lets ${href.split(':')[0]}: open natively`, async ({ page }) => {
+      await gotoHome(page);
+      // Record whether the site's handler blocked the link, then block it
+      // ourselves so the test browser never actually launches an app.
+      await page.evaluate(() => {
+        window.addEventListener('click', (e) => {
+          (window as unknown as { __blocked?: boolean }).__blocked = e.defaultPrevented;
+          e.preventDefault();
+        });
+      });
+      const link = page.locator('#contact').getByRole('link', { name });
+      await link.scrollIntoViewIfNeeded();
+      await link.tap();
+
+      await expect
+        .poll(() => page.evaluate(() => (window as unknown as { __blocked?: boolean }).__blocked))
+        .toBe(false);
+      await expect(page.getByText(/copied to clipboard/)).toHaveCount(0);
+    });
+  }
 });
