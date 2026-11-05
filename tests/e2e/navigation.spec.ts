@@ -78,7 +78,7 @@ test.describe('header navigation', { tag: '@critical' }, () => {
     // (clipped) at this scroll depth — the handler is what's under test.
     await page
       .locator('header')
-      .getByRole('button', { name: 'BeYou BeautyHub - Return to homepage' })
+      .getByRole('button', { name: 'BeYou Beauty Hub - Return to homepage' })
       .dispatchEvent('click');
     await expectSectionAtTop(page, 'home');
   });

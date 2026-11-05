@@ -30,7 +30,7 @@ const PICKERS: {
   {
     name: 'Header (mobile)',
     opener: (page) =>
-      page.locator('header').getByRole('button', { name: /Open BeYou BeautyHub location/ }),
+      page.locator('header').getByRole('button', { name: /Open BeYou Beauty Hub location/ }),
     skip: (page) => !isNarrow(page) && 'mobile header location button only renders below 640px',
   },
   {

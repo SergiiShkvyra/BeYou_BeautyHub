@@ -16,8 +16,8 @@ test.describe('outbound links still land on BeYou pages (LIVE)', () => {
   const PAGES = [
     // Old Vienna-address slug — Fresha currently redirects it to the
     // Arlington venue; this fails if that redirect ever goes away.
-    { name: 'Fresha booking (Hero / Contact)', url: LINKS.freshaVenueBooking, title: /Be You Beauty Hub/i },
-    { name: 'Fresha reviews (Testimonials)', url: LINKS.freshaReviews, title: /Be You Beauty Hub/i },
+    { name: 'Fresha booking (Hero / Contact)', url: LINKS.freshaVenueBooking, title: /Be ?You Beauty Hub/i },
+    { name: 'Fresha reviews (Testimonials)', url: LINKS.freshaReviews, title: /Be ?You Beauty Hub/i },
     { name: 'Instagram (Footer)', url: LINKS.instagramFooter, title: /beyou_beautyhub/i },
     { name: 'Instagram (About)', url: LINKS.instagramAbout, title: /beyou_beautyhub/i },
     { name: 'Facebook (Footer)', url: LINKS.facebook, title: /BeYou ?BeautyHub/i },

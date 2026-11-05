@@ -167,7 +167,7 @@ const Header = () => {
   const animationRange = 150; // 200px - 50px
   const scrollProgress = Math.min(Math.max((scrollY - scrollThreshold) / animationRange, 0), 1);
   
-  // Calculate opacity for "BeautyHub" (1 to 0)
+  // Calculate opacity for "Beauty Hub" (1 to 0)
   const beautyHubOpacity = 1 - scrollProgress;
   return (
     <header
@@ -503,7 +503,7 @@ const Header = () => {
                 }, 100);
               }}
               className="glow-text cursor-pointer hover:underline hover:text-olive transition-all duration-200"
-              aria-label="Open BeYou BeautyHub location in navigation app"
+              aria-label="Open BeYou Beauty Hub location in navigation app"
               title="Click to choose navigation app"
             >
               Arlington, VA
@@ -592,11 +592,11 @@ const Header = () => {
                 <button
                   onClick={() => scrollToSection('home')}
                   className="hover:opacity-70 transition-opacity duration-200 cursor-pointer mx-2 sm:mx-3 relative"
-                  aria-label="BeYou BeautyHub - Return to homepage"
+                  aria-label="BeYou Beauty Hub - Return to homepage"
                 >
                   <img
                     src="/images/tryLogo-1.png"
-                    alt="BeYou BeautyHub Logo"
+                    alt="BeYou Beauty Hub Logo"
                     className="logo-glow h-12 w-auto sm:h-16 md:h-20 object-contain transition-all duration-200 ease-in-out hover:scale-105"
                     loading="eager"
                     decoding="async"

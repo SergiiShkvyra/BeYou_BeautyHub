@@ -200,7 +200,7 @@ const Services = () => {
                         ? 'glow-dark bg-warm text-olive-ink hover:bg-cream'
                         : 'bg-olive text-warm hover:bg-olive-deep'
                     }`}
-                    aria-label="Book appointment at Be You Beauty Hub"
+                    aria-label="Book appointment at BeYou Beauty Hub"
                   >
                     Book This Service
                   </button>
