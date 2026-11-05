@@ -1,6 +1,14 @@
 import React from 'react';
 import { Heart, Instagram, Facebook, MapPin, Phone, Mail, X } from 'lucide-react';
-import { scrollToSection, handlePhoneClick, copyEmailToClipboard } from '../utils/interactions';
+import {
+  scrollToSection,
+  handlePhoneClick,
+  handleEmailClick,
+  PHONE_DISPLAY,
+  PHONE_HREF,
+  EMAIL,
+  EMAIL_HREF,
+} from '../utils/interactions';
 import { useReveal, ScrollTrigger, gsap } from '../lib/useReveal';
 import { createLogoSpin } from '../lib/logoSpin';
 import { createMedalView } from '../lib/medalView';
@@ -313,21 +321,23 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="h-5 w-5 text-warm/60" />
-                <button 
-                  onClick={() => handlePhoneClick('(571)-276-7014')}
+                <a
+                  href={PHONE_HREF}
+                  onClick={(e) => handlePhoneClick(e, PHONE_DISPLAY)}
                   className="text-warm/70 text-sm hover:text-cream transition-colors duration-200 cursor-pointer"
                 >
-                  (571)-276-7014
-                </button>
+                  {PHONE_DISPLAY}
+                </a>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-5 w-5 text-warm/60" />
-                <button
-                  onClick={() => copyEmailToClipboard('info@beyoubeautyhub.com')}
+                <a
+                  href={EMAIL_HREF}
+                  onClick={(e) => handleEmailClick(e, EMAIL)}
                   className="text-warm/70 text-sm hover:text-cream transition-colors duration-200 cursor-pointer"
                 >
-                  info@beyoubeautyhub.com
-                </button>
+                  {EMAIL}
+                </a>
               </div>
             </div>
           </div>
