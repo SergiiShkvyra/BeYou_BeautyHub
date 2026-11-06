@@ -154,14 +154,28 @@ const Hero = () => {
             gives on mobile or on wide/short windows. 112px stays safely
             under the measured header height (~160px on tablet/desktop, vs
             ~128px on mobile) in every aspect ratio tested. */}
-        <img
-          data-hero-image
-          src="/images/t2001x1212.jpg"
-          alt="Beautiful eyelash extensions"
-          className="w-full mt-16 h-[calc(100%-4rem)] md:mt-28 md:h-[calc(100%-7rem)] object-cover object-[60%_0%] md:object-[50%_0%]"
-          loading="eager"
-          decoding="async"
-        />
+        {/* Page speed (SEO): AVIF ~76 KB / WebP ~81 KB instead of the 442 KB
+            JPEG, same pixels to the eye; the JPEG stays as the fallback.
+            Full width only — on portrait phones object-fit: cover scales by
+            HEIGHT, so even phones need the full-resolution source. index.html
+            preloads the AVIF so the download starts before React runs. The
+            <picture> wrapper is inline, so the img's % sizes still resolve
+            against the div exactly as before. */}
+        <picture>
+          <source srcSet="/images/hero.avif" type="image/avif" />
+          <source srcSet="/images/hero.webp" type="image/webp" />
+          <img
+            data-hero-image
+            src="/images/t2001x1212.jpg"
+            alt="Beautiful eyelash extensions"
+            className="w-full mt-16 h-[calc(100%-4rem)] md:mt-28 md:h-[calc(100%-7rem)] object-cover object-[60%_0%] md:object-[50%_0%]"
+            width={2001}
+            height={1200}
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+          />
+        </picture>
         {/* Darkens the whole photo, not just the edges — the warm-colored
             copy (label, headline) sits in the middle of the hero too, and
             a fully-clear middle band left it with little contrast there. */}
