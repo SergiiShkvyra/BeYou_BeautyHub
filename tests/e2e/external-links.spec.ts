@@ -3,7 +3,6 @@ import {
   gotoHome,
   stubWindowOpen,
   getOpenedUrls,
-  getOpenedTabLocations,
   isNarrow,
   MAPS_PLACE,
   LINKS,
@@ -100,18 +99,26 @@ test.describe('booking links (Fresha)', { tag: '@critical' }, () => {
     await expect(link).toHaveAttribute('rel', /noopener/);
   });
 
-  test('Testimonials "Leave a review on Fresha" opens Fresha reviews in a new tab', async ({ page }) => {
-    await stubWindowOpen(page);
+  test('Testimonials "Leave a review on Fresha" opens the helper page in a new tab', async ({ page }) => {
     await gotoHome(page);
     const link = page.getByRole('link', { name: 'Leave a review on Fresha' });
-    // The real href is kept for no-JS / middle-click / copy-link.
-    await expect(link).toHaveAttribute('href', LINKS.freshaReviews);
-    await link.click();
+    // Our own domain, so the Fresha app can't claim the tap on phones.
+    await expect(link).toHaveAttribute('href', '/fresha-reviews/');
+    await expect(link).toHaveAttribute('target', '_blank');
+    await expect(link).toHaveAttribute('rel', /noopener/);
+  });
 
-    // Opens a blank tab and THEN points it at Fresha (so phones stay in the
-    // browser instead of the Fresha app) — the page itself must not navigate.
-    expect(await getOpenedTabLocations(page)).toEqual([LINKS.freshaReviews]);
-    expect(page.url()).not.toContain('fresha.com');
+  test('Fresha reviews helper page forwards to the Fresha reviews URL', async ({ page }) => {
+    // Never actually hit Fresha: answer its request locally.
+    await page.route('https://www.fresha.com/**', (route) =>
+      route.fulfill({ status: 200, contentType: 'text/html', body: 'fresha stub' }),
+    );
+    await page.goto('/fresha-reviews/');
+    await expect(page).toHaveURL(LINKS.freshaReviews);
+    // replace(), not a push: Back from Fresha must skip the helper page
+    // (Playwright's starting about:blank is the previous entry here).
+    await page.goBack();
+    expect(page.url()).not.toContain('/fresha-reviews/');
   });
 });
 
