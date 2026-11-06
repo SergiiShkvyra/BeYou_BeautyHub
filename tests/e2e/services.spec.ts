@@ -11,7 +11,7 @@ const FRESHA_BOOKING = 'https://www.fresha.com/book-now/beyou-beautyhub-j4ur9xlp
 const SERVICE_CARDS = [
   { title: 'Signature Korean Lash Lift', serviceId: '27974629' },
   { title: 'Brow Lamination + Tweezing', serviceId: '22827507' },
-  { title: 'Mapping + Tweezing', serviceId: '22827454' },
+  { title: 'Brow Mapping + Tweezing', serviceId: '22827454' },
   { title: 'L&L Combo Deluxe', serviceId: '22827944' },
   { title: 'Lash Lift + Tint', serviceId: '22827620' },
 ] as const;
