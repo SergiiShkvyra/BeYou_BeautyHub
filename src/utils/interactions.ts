@@ -17,6 +17,11 @@ export const SMS_HREF = 'sms:+15712767014';
 export const EMAIL = 'info@beyoubeautyhub.com';
 export const EMAIL_HREF = `mailto:${EMAIL}`;
 
+// "Copied" toasts must sit above the header, which Header.tsx's force-visible
+// loop pins at the maximum z-index. Matching it is enough: the toast is
+// appended to <body> after #root, and equal z-index ties resolve by DOM order.
+const TOAST_Z_INDEX = 2147483647;
+
 /** The bits of a (React) click event the handlers need. */
 type ClickLike = { preventDefault(): void; nativeEvent?: Event };
 
@@ -87,7 +92,7 @@ const copyPhoneToClipboard = (phoneNumber: string) => {
       color: white;
       padding: 12px 20px;
       border-radius: 8px;
-      z-index: 10000;
+      z-index: ${TOAST_Z_INDEX};
       font-size: 14px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     `;
@@ -116,7 +121,7 @@ export const copyEmailToClipboard = (email: string) => {
       color: white;
       padding: 12px 20px;
       border-radius: 8px;
-      z-index: 99999;
+      z-index: ${TOAST_Z_INDEX};
       font-size: 14px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
