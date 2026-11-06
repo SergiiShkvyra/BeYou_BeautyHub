@@ -27,7 +27,10 @@
     <meta name="twitter:card" content="summary_large_image" />
 
     <!-- Structured data: tells search engines and AI tools the business facts.
-         Keep name, address, phone and hours identical to Google and Fresha. -->
+         Keep name, address, phone and hours identical to Google and Fresha.
+         hasOfferCatalog must list only services the page shows as text, with
+         the same names, descriptions and "From $" prices as Services.tsx
+         (Google requires structured data to match visible content). -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -43,7 +46,7 @@
       "description": "Lash and brow studio in Ballston, Arlington, VA offering Korean lash lift, brow lamination and brow mapping.",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "3865 Wilson Blvd, Room 4",
+        "streetAddress": "3865 Wilson Blvd, Suite 100, Room 4",
         "addressLocality": "Arlington",
         "addressRegion": "VA",
         "postalCode": "22203",
@@ -55,6 +58,64 @@
         "longitude": -77.1061316
       },
       "hasMap": "https://www.google.com/maps?cid=10023166608714528543",
+      "areaServed": [
+        { "@type": "Place", "name": "Ballston, Arlington, VA" },
+        { "@type": "Place", "name": "Clarendon, Arlington, VA" },
+        { "@type": "Place", "name": "Courthouse, Arlington, VA" },
+        { "@type": "Place", "name": "Virginia Square, Arlington, VA" },
+        { "@type": "City", "name": "Arlington, VA" }
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Lash and brow services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Signature Korean Lash Lift",
+              "description": "The luxury treatment-focused lash lift using advanced Korean technology to safely lift, nourish, and strengthen your natural lashes while creating a beautifully defined, long-lasting curl."
+            },
+            "priceSpecification": { "@type": "PriceSpecification", "minPrice": 115, "priceCurrency": "USD" }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Lash Lift + Tint",
+              "description": "A lash lift with tinting for a long-lasting, mascara-free look."
+            },
+            "priceSpecification": { "@type": "PriceSpecification", "minPrice": 85, "priceCurrency": "USD" }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Brow Lamination + Tweezing",
+              "description": "Lamination combined with tweezing for a well-groomed look."
+            },
+            "priceSpecification": { "@type": "PriceSpecification", "minPrice": 80, "priceCurrency": "USD" }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Brow Mapping + Tweezing",
+              "description": "A technique for defining the perfect shape with precise tweezing for symmetry."
+            },
+            "priceSpecification": { "@type": "PriceSpecification", "minPrice": 40, "priceCurrency": "USD" }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "L&L Combo Deluxe",
+              "description": "Elevating your look with premium lash and brow treatments."
+            },
+            "priceSpecification": { "@type": "PriceSpecification", "minPrice": 195, "priceCurrency": "USD" }
+          }
+        ]
+      },
       "openingHoursSpecification": [
         {
           "@type": "OpeningHoursSpecification",
@@ -104,7 +165,7 @@
           <li>Free consultation</li>
         </ul>
         <h2>Book and visit</h2>
-        <p>Salons by JC, 3865 Wilson Blvd, Room 4, Arlington, VA 22203</p>
+        <p>Salons by JC – Ballston, 3865 Wilson Blvd, Suite 100, Room 4, Arlington, VA 22203</p>
         <p>Hours: Monday to Friday 10:00 AM to 7:00 PM, Saturday 10:00 AM to 5:00 PM.</p>
         <p>Phone: (571) 276-7014 &middot; Email: info@beyoubeautyhub.com</p>
         <p>

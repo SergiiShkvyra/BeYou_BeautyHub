@@ -315,7 +315,8 @@ const Footer = () => {
                   }}
                   className="text-warm/70 text-sm hover:text-cream transition-colors duration-200 cursor-pointer text-left"
                 >
-                  Salons by JC, 3865 Wilson Blvd, room 4<br />
+                  Salons by JC – Ballston<br />
+                  3865 Wilson Blvd, Suite&nbsp;100, Room&nbsp;4<br />
                   Arlington, VA 22203
                 </button>
               </div>
@@ -586,7 +587,7 @@ const Footer = () => {
                   If you have any questions about this Privacy Policy or how we handle your personal information, please contact us at:
                   <br />• Email: info@beyoubeautyhub.com
                   <br />• Phone: (571)-276-7014
-                  <br />• Address: Salons by JC, 3865 Wilson Blvd, room 4, Arlington, VA 22203
+                  <br />• Address: Salons by JC – Ballston, 3865 Wilson Blvd, Suite 100, Room 4, Arlington, VA 22203
                 </p>
                 
                 <div className="bg-gray-50 p-4 rounded-lg mt-8">
@@ -711,7 +712,7 @@ const Footer = () => {
                   If you have any questions about our use of cookies or this Cookie Policy, please contact us at:
                   <br />• Email: info@beyoubeautyhub.com
                   <br />• Phone: (571)-276-7014
-                  <br />• Address: Salons by JC, 3865 Wilson Blvd, room 4, Arlington, VA 22203
+                  <br />• Address: Salons by JC – Ballston, 3865 Wilson Blvd, Suite 100, Room 4, Arlington, VA 22203
                 </p>
                 
                 <div className="bg-gray-50 p-4 rounded-lg mt-8">

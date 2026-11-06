@@ -301,7 +301,7 @@ const Contact = () => {
                     }}
                     className="text-warm hover:text-cream underline-offset-4 hover:underline transition-colors duration-200 cursor-pointer text-left"
                   >
-                    Salons by JC, 3865 Wilson Blvd, room 4<br />Arlington, VA 22203
+                    Salons by JC – Ballston<br />3865 Wilson Blvd, Suite&nbsp;100, Room&nbsp;4<br />Arlington, VA 22203
                   </button>
                   <p className="hidden text-sm text-warm/80">Free parking available</p>
                 </div>
