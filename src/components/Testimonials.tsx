@@ -1,4 +1,5 @@
 import { Star, Quote } from 'lucide-react';
+import type { MouseEvent } from 'react';
 import { useReveal, revealChildren, gsap } from '../lib/useReveal';
 
 // ?reviews=true lands directly on the Reviews view — but only on the
@@ -8,6 +9,29 @@ import { useReveal, revealChildren, gsap } from '../lib/useReveal';
 // this URL via a JS-set navigation, which app-link interception skips.
 const FRESHA_REVIEWS_URL =
   'https://www.fresha.com/a/beyou-beauty-hub-arlington-arlington-3865-wilson-boulevard-idzdd7ex?pId=2531140&reviews=true';
+
+// Google Business Profile "Ask for reviews" link: opens the write-a-review
+// box directly (verified: resolves to the same place as the site's Maps
+// links, cid 10023166608714528543). Keep the wording next to it neutral
+// ("Leave a review"): Google's policy forbids soliciting only positive
+// reviews.
+const GOOGLE_REVIEW_URL = 'https://g.page/r/CR93_PTscBmLEBM/review';
+
+// Force the BROWSER (not the Fresha app): app links on iOS/Android only
+// trigger on real link taps, so opening a blank tab and setting its
+// location from JS keeps the visitor on fresha.com's web page, where
+// ?reviews=true shows the Reviews view immediately.
+const openFreshaReviews = (e: MouseEvent<HTMLAnchorElement>) => {
+  e.preventDefault();
+  const w = window.open('about:blank', '_blank');
+  if (w) {
+    w.opener = null;
+    w.location.href = FRESHA_REVIEWS_URL;
+  } else {
+    // Popup blocked: same-tab navigation still beats a dead click.
+    window.location.href = FRESHA_REVIEWS_URL;
+  }
+};
 
 const Testimonials = () => {
   const testimonials = [
@@ -57,22 +81,31 @@ const Testimonials = () => {
         const line = row.querySelector('[data-stage-line]');
         const panel = row.querySelector('[data-stage-panel]');
         const typed = row.querySelector<HTMLElement>('[data-typed-text]');
-        // start 'top 70%': the row must be a third of the way up the screen
-        // before its entrance begins — starting at 85% felt like it fired
-        // the moment the row peeked in. Durations are ~1.4x the reference
+        // Review rows: start 'top 70%' — the row must be a third of the way
+        // up the screen before its entrance begins (85% felt like it fired
+        // the moment the row peeked in). Durations are ~1.4x the reference
         // site's for a calmer, more deliberate pace.
+        // The "…and counting" ending is the exception: it's the last thing
+        // in the section and short, so visitors scrolled past it before
+        // 70% was reached — it starts as soon as it's clearly on screen.
         const tl = gsap.timeline({
-          scrollTrigger: { trigger: row, start: 'top 70%', once: true },
+          scrollTrigger: {
+            trigger: row,
+            start: typed ? 'top 90%' : 'top 70%',
+            once: true,
+          },
         });
         tl.from(node, { scale: 0.55, duration: 0.7, ease: 'back.out(1.7)' }, 0)
           .from(node, { opacity: 0, duration: 0.42, ease: 'power1.out' }, 0);
 
         if (typed) {
           // The "…and counting" ending: instead of sliding in, the line
-          // types itself out (40ms/char — a touch brisker than the intro's
-          // 55ms, since this line is longer) starting the moment the badge
-          // pop lands. GSAP-driven so ctx.revert cleans up.
+          // types itself out (20ms/char) starting while the badge pop is
+          // still settling (0.3s in, not after its full 0.7s). GSAP-driven
+          // so ctx.revert cleans up. The review-links line below it fades
+          // in once the typing is done.
           const caret = row.querySelector<HTMLElement>('[data-typed-caret]');
+          const reviewLinks = row.querySelector('[data-review-links]');
           const fullText = (typed.textContent ?? '').trim();
           typed.textContent = '';
           const state = { i: 0 };
@@ -100,8 +133,12 @@ const Testimonials = () => {
                 }
               },
             },
-            0.7,
+            0.3,
           );
+          if (reviewLinks) {
+            // Opacity/transform only (never visibility), per useReveal's rule.
+            tl.from(reviewLinks, { y: 8, opacity: 0, duration: 0.6, ease: 'power2.out' });
+          }
         } else {
           tl.from(
             panel,
@@ -254,39 +291,44 @@ const Testimonials = () => {
               {/* Full text lives in the markup (reduced-motion / no-JS / tests
                   see it as-is); the reveal callback empties it and types it
                   back in. The caret stays hidden except while typing.
-                  The line links to the Fresha reviews section (the
-                  reviews=true param deep-links into Reviews in the Fresha
-                  app on phones via Fresha's own universal-link handling). */}
-              <p className="text-lg">
+                  Plain text, not a link: the review links live on their
+                  own line below. */}
+              <p className="text-lg text-olive-ink/70">
+                <span data-typed-text>
+                  …and counting. Your 5-star experience could be the next one we celebrate.
+                </span>
+                <span data-typed-caret className="intro-caret" hidden />
+              </p>
+              {/* Neutral wording on purpose (no "5-star" here): this line
+                  asks for Google reviews, and Google forbids soliciting only
+                  positive ones. More, fresher Google reviews help local
+                  search ranking; Fresha reviews keep coming in too. */}
+              <p data-review-links className="mt-2 text-sm text-olive-ink/60">
+                Visited us? Leave a review on{' '}
+                {/* nowrap: on phones the pair wraps together, never
+                    stranding "Fresha" alone on the next line. */}
+                <span className="whitespace-nowrap">
+                <a
+                  href={GOOGLE_REVIEW_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Leave a review on Google"
+                  className="font-semibold text-olive underline underline-offset-4 decoration-olive/30 hover:decoration-olive transition-colors duration-200"
+                >
+                  Google
+                </a>
+                <span aria-hidden="true"> · </span>
                 <a
                   href={FRESHA_REVIEWS_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Read all our reviews on Fresha"
-                  onClick={(e) => {
-                    // Force the BROWSER (not the Fresha app): app links on
-                    // iOS/Android only trigger on real link taps, so opening
-                    // a blank tab and setting its location from JS keeps the
-                    // visitor on fresha.com's web page, where ?reviews=true
-                    // shows the Reviews view immediately.
-                    e.preventDefault();
-                    const w = window.open('about:blank', '_blank');
-                    if (w) {
-                      w.opener = null;
-                      w.location.href = FRESHA_REVIEWS_URL;
-                    } else {
-                      // Popup blocked: same-tab navigation still beats a
-                      // dead click.
-                      window.location.href = FRESHA_REVIEWS_URL;
-                    }
-                  }}
-                  className="text-olive-ink/70 hover:text-olive transition-colors duration-200 underline-offset-4 hover:underline"
+                  aria-label="Leave a review on Fresha"
+                  onClick={openFreshaReviews}
+                  className="font-semibold text-olive underline underline-offset-4 decoration-olive/30 hover:decoration-olive transition-colors duration-200"
                 >
-                  <span data-typed-text>
-                    …and counting. Your 5-star experience could be the next one we celebrate.
-                  </span>
+                  Fresha
                 </a>
-                <span data-typed-caret className="intro-caret" hidden />
+                </span>
               </p>
             </div>
           </article>

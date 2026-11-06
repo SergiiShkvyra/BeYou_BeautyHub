@@ -85,10 +85,25 @@ test.describe('booking links (Fresha)', { tag: '@critical' }, () => {
     expect(await getOpenedUrls(page)).toEqual([LINKS.freshaVenueBooking]);
   });
 
-  test('Testimonials "…and counting" opens Fresha reviews in a new tab', async ({ page }) => {
+  test('Testimonials "…and counting" line is plain text, not a link', async ({ page }) => {
+    await gotoHome(page);
+    const line = page.getByText(/…and counting\. Your 5-star experience/);
+    await expect(line).toBeVisible();
+    await expect(line.locator('xpath=ancestor-or-self::a')).toHaveCount(0);
+  });
+
+  test('Testimonials "Leave a review on Google" opens Google in a new tab', async ({ page }) => {
+    await gotoHome(page);
+    const link = page.getByRole('link', { name: 'Leave a review on Google' });
+    await expect(link).toHaveAttribute('href', LINKS.googleReview);
+    await expect(link).toHaveAttribute('target', '_blank');
+    await expect(link).toHaveAttribute('rel', /noopener/);
+  });
+
+  test('Testimonials "Leave a review on Fresha" opens Fresha reviews in a new tab', async ({ page }) => {
     await stubWindowOpen(page);
     await gotoHome(page);
-    const link = page.getByRole('link', { name: 'Read all our reviews on Fresha' });
+    const link = page.getByRole('link', { name: 'Leave a review on Fresha' });
     // The real href is kept for no-JS / middle-click / copy-link.
     await expect(link).toHaveAttribute('href', LINKS.freshaReviews);
     await link.click();

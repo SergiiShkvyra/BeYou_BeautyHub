@@ -99,7 +99,9 @@ export const LINKS = {
     'https://www.fresha.com/a/beyou-beauty-hub-arlington-arlington-3865-wilson-boulevard-idzdd7ex',
   freshaReviews:
     'https://www.fresha.com/a/beyou-beauty-hub-arlington-arlington-3865-wilson-boulevard-idzdd7ex?pId=2531140&reviews=true',
-  instagramFooter: 'https://www.instagram.com/beyou_beautyhub',
+  // Google Business Profile review link (keep in sync with Testimonials.tsx).
+  googleReview: 'https://g.page/r/CR93_PTscBmLEBM/review',
+  instagramFooter:'https://www.instagram.com/beyou_beautyhub',
   instagramAbout: 'https://www.instagram.com/beyou_beautyhub/#',
   facebook: 'https://www.facebook.com/share/15Py4Ci4CV',
 } as const;

@@ -13,7 +13,7 @@ import { test, expect } from '../e2e/fixtures';
 const SERVICES: { title: string; id: string; freshaName?: string | RegExp }[] = [
   { title: 'Signature Korean Lash Lift', id: '27974629' },
   { title: 'Brow Lamination + Tweezing', id: '22827507' },
-  { title: 'Mapping + Tweezing', id: '22827454' },
+  { title: 'Brow Mapping + Tweezing', id: '22827454' },
   { title: 'L&L Combo Deluxe', id: '22827944' },
   // Fresha shows "Lash Lift& Tint" (sic) — tolerate the spacing around "&".
   { title: 'Lash Lift + Tint', id: '22827620', freshaName: /Lash Lift\s*&\s*Tint/i },
