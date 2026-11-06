@@ -364,7 +364,7 @@ const Header = () => {
                 }}
                 className={`glow-text hover:underline transition-all duration-200 ${isNavigationModalOpen ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
               >
-                <span>Salons by JC, 3865 Wilson Blvd, room 4, Arlington, VA 22203</span>
+                <span>Salons by JC – Ballston, 3865 Wilson Blvd, Suite 100, Room 4, Arlington, VA 22203</span>
               </button>
             </div>
           </div>

@@ -14,6 +14,28 @@ test.describe('smoke', { tag: '@smoke' }, () => {
     await expect(h1).toHaveText(/Lash & Brow Studio.*Ballston, Arlington, VA/);
   });
 
+  test('structured-data services match the visible Services section (SEO)', async ({ page }) => {
+    // Google requires JSON-LD to describe visible content: every service and
+    // "From $" price in index.html's hasOfferCatalog must be shown as text.
+    await gotoHome(page);
+    const offers = await page.evaluate(() => {
+      const raw = document.querySelector('script[type="application/ld+json"]')!.textContent!;
+      const data = JSON.parse(raw);
+      return data.hasOfferCatalog.itemListElement.map(
+        (o: { itemOffered: { name: string }; priceSpecification: { minPrice: number } }) => ({
+          name: o.itemOffered.name,
+          price: o.priceSpecification.minPrice,
+        }),
+      );
+    });
+    expect(offers.length).toBeGreaterThan(0);
+    const services = page.locator('#services');
+    for (const { name, price } of offers) {
+      const card = services.locator('div').filter({ hasText: name }).filter({ hasText: `From $${price}` });
+      await expect(card.first(), `${name} — From $${price}`).toBeAttached();
+    }
+  });
+
   test('all anchor sections and the footer are present', async ({ page }) => {
     await gotoHome(page);
     for (const id of SECTION_IDS) {
