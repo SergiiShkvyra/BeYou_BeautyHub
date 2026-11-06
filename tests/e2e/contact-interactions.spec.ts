@@ -20,6 +20,27 @@ function trackDialogs(page: Page) {
   return messages;
 }
 
+/**
+ * The "copied" toast sits in the top-right corner, exactly where the fixed
+ * header lives (z-index 2147483647). Assert the toast is the topmost element
+ * at its own center, i.e. not painted behind the header (a real bug once).
+ */
+async function expectNotCovered(toast: ReturnType<Page['getByText']>) {
+  await expect(toast).toBeVisible();
+  const onTop = await toast.evaluate((el) => {
+    // elementFromPoint skips pointer-events:none elements (the email toast
+    // uses it), so opt the toast in just for this stacking-order check.
+    const toastEl = el as HTMLElement;
+    const prev = toastEl.style.pointerEvents;
+    toastEl.style.pointerEvents = 'auto';
+    const r = toastEl.getBoundingClientRect();
+    const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+    toastEl.style.pointerEvents = prev;
+    return hit === toastEl || toastEl.contains(hit);
+  });
+  expect(onTop, 'toast must not be covered by the header').toBe(true);
+}
+
 test.describe('phone & email interactions (desktop)', { tag: '@critical' }, () => {
   // Playwright requires the destructuring pattern even when no fixture is used.
   // eslint-disable-next-line no-empty-pattern
@@ -54,6 +75,7 @@ test.describe('phone & email interactions (desktop)', { tag: '@critical' }, () =
       // Only chromium supports granting clipboard-read to verify the content.
       const clipboard = await page.evaluate(() => navigator.clipboard.readText());
       expect(clipboard).toBe(PHONE_DISPLAY);
+      await expectNotCovered(toast);
     }
   });
 
@@ -71,6 +93,7 @@ test.describe('phone & email interactions (desktop)', { tag: '@critical' }, () =
     if (testInfo.project.name === 'chromium') {
       const clipboard = await page.evaluate(() => navigator.clipboard.readText());
       expect(clipboard).toBe(EMAIL);
+      await expectNotCovered(page.getByText('Email address copied to clipboard!'));
     }
   });
 
