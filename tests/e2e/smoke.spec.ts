@@ -7,6 +7,13 @@ test.describe('smoke', { tag: '@smoke' }, () => {
     await expect(page).toHaveTitle(/BeYou Beauty Hub/i);
   });
 
+  test('the single <h1> names the services and location (SEO)', async ({ page }) => {
+    await gotoHome(page);
+    const h1 = page.locator('h1');
+    await expect(h1).toHaveCount(1);
+    await expect(h1).toHaveText(/Lash & Brow Studio.*Ballston, Arlington, VA/);
+  });
+
   test('all anchor sections and the footer are present', async ({ page }) => {
     await gotoHome(page);
     for (const id of SECTION_IDS) {

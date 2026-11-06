@@ -170,11 +170,15 @@ const Hero = () => {
 
       {/* Content */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pb-16 sm:pb-20 pt-40">
-        <p data-hero-fade className="micro-label !text-warm mb-6">
+        {/* SEO: the page's single <h1> is this service + location line (what
+            people search for), not the slogan below. Visually unchanged:
+            Tailwind Preflight resets h1 and p identically (inherited size and
+            weight, zero margin), so the classes alone decide the look. */}
+        <h1 data-hero-fade className="micro-label !text-warm mb-6">
           Lash &amp; Brow Studio — Ballston, Arlington, VA
-        </p>
+        </h1>
 
-        <h1 className="font-display text-warm leading-[1.02] mb-8 text-[13vw] sm:text-7xl lg:text-8xl">
+        <p className="font-display text-warm leading-[1.02] mb-8 text-[13vw] sm:text-7xl lg:text-8xl">
           <span className="block overflow-hidden">
             <span data-hero-line className="block">
               {/* One phrase per line on phones; single line from sm up */}
@@ -187,7 +191,7 @@ const Hero = () => {
               BeYou.
             </span>
           </span>
-        </h1>
+        </p>
 
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
           <div className="max-w-xl">
