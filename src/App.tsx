@@ -1,6 +1,5 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { initCursorGlow } from './lib/cursorGlow';
-import GlitterCursor from './components/GlitterCursor';
 import SparkleCursor from './components/SparkleCursor';
 import IntroOverlay from './components/IntroOverlay';
 import Header from './components/Header';
@@ -13,7 +12,41 @@ import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
+// Page speed (SEO): the glitter trail pulls in three.js (~700 KB of the old
+// single bundle). It's mouse-only (it ignores touch, and its render loop is
+// gated on (pointer: fine)), so it's split into its own chunk and only
+// fetched on a fine-pointer device, after the page's `load` event — phones
+// never download it, and on desktop it no longer delays first paint.
+const GlitterCursor = lazy(() => import('./components/GlitterCursor'));
+const FINE_POINTER_QUERY = '(pointer: fine)';
+
+const useDeferredGlitter = () => {
+  const [enabled, setEnabled] = useState(false);
+  useEffect(() => {
+    const fine = window.matchMedia(FINE_POINTER_QUERY);
+    let loaded = document.readyState === 'complete';
+    // Once mounted it stays mounted (it handles pointer changes itself).
+    const update = () => {
+      if (loaded && fine.matches) setEnabled(true);
+    };
+    const onLoad = () => {
+      loaded = true;
+      update();
+    };
+    update();
+    window.addEventListener('load', onLoad, { once: true });
+    fine.addEventListener('change', update);
+    return () => {
+      window.removeEventListener('load', onLoad);
+      fine.removeEventListener('change', update);
+    };
+  }, []);
+  return enabled;
+};
+
 function App() {
+  const glitterEnabled = useDeferredGlitter();
+
   useEffect(() => {
     // Calculate header height for proper body padding
     const calculateHeaderHeight = () => {
@@ -132,7 +165,11 @@ function App() {
           is hidden behind their opaque backgrounds, and the trail silently
           disappears during the intro and over the header bar. */}
       <div className="pointer-events-none fixed inset-0 z-[2147483647]">
-        <GlitterCursor label={false} starColor="#f2c94c" />
+        {glitterEnabled && (
+          <Suspense fallback={null}>
+            <GlitterCursor label={false} starColor="#f2c94c" />
+          </Suspense>
+        )}
       </div>
       {/* Mounted last so it paints above the glitter trail (same z-index,
           later DOM wins the tie). */}

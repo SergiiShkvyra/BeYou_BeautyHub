@@ -50,14 +50,21 @@ const About = () => {
               data-reveal="image"
               className="overflow-hidden rounded-t-[999px] rounded-b-[2rem] shadow-2xl shadow-olive/20"
             >
-              <img
-                data-about-image
-                src="/images/about/About_smaller.jpg"
-                alt="Anastasiia, founder and lash and brow artist of BeYou Beauty Hub in Ballston"
-                className="w-full h-[26rem] lg:h-[34rem] object-cover object-top scale-110 origin-top"
-                loading="lazy"
-                decoding="async"
-              />
+              {/* Page speed (SEO): AVIF ~79 KB / WebP ~95 KB instead of the
+                  760 KB JPEG (kept as fallback). Full size on purpose — the
+                  source is already below the 2x-DPR display size. */}
+              <picture>
+                <source srcSet="/images/about/about.avif" type="image/avif" />
+                <source srcSet="/images/about/about.webp" type="image/webp" />
+                <img
+                  data-about-image
+                  src="/images/about/About_smaller.jpg"
+                  alt="Anastasiia, founder and lash and brow artist of BeYou Beauty Hub in Ballston"
+                  className="w-full h-[26rem] lg:h-[34rem] object-cover object-top scale-110 origin-top"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
             <div
               data-reveal
