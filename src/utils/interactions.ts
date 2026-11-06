@@ -25,15 +25,38 @@ const TOAST_Z_INDEX = 2147483647;
 /** The bits of a (React) click event the handlers need. */
 type ClickLike = { preventDefault(): void; nativeEvent?: Event };
 
+// timeStamp of the most recent real finger touch anywhere on the page.
+// touchstart only ever fires for fingers (never a mouse), on every mobile
+// browser — unlike the click's own pointerType, which iPhone Safari does not
+// report reliably: a tap on the mailto: link still copied on a real iPhone
+// while the tel:/sms: links (same logic) opened natively. Capture + passive:
+// sees every touch first and never delays scrolling.
+let lastTouchStamp = Number.NEGATIVE_INFINITY;
+const TOUCH_TO_CLICK_MS = 1000;
+if (typeof window !== 'undefined') {
+  window.addEventListener(
+    'touchstart',
+    (e) => {
+      lastTouchStamp = e.timeStamp;
+    },
+    { capture: true, passive: true },
+  );
+}
+
 /**
- * Was this click a finger tap? Uses the click's own pointerType when the
- * browser reports it (a hybrid touchscreen laptop can be tapped OR clicked),
- * otherwise (keyboard, pen, older Safari) falls back to whether the device's
- * primary pointer is coarse. Replaces the old user-agent sniff, which treated
- * iPads (they report as Macs) as desktops.
+ * Was this click a finger tap? First: did a real touch start just before
+ * this click (the iPhone-proof signal, compared on the events' own shared
+ * timeStamp clock)? Then the click's own pointerType when the browser
+ * reports it (a hybrid touchscreen laptop can be tapped OR clicked);
+ * otherwise (keyboard, pen, older Safari) whether the device's primary
+ * pointer is coarse. Replaces the old user-agent sniff, which treated iPads
+ * (they report as Macs) as desktops.
  */
 export const isTouchActivation = (e?: ClickLike): boolean => {
-  const pointerType = (e?.nativeEvent as PointerEvent | undefined)?.pointerType;
+  const native = e?.nativeEvent as PointerEvent | undefined;
+  const sinceTouch = (native?.timeStamp ?? Number.NaN) - lastTouchStamp;
+  if (sinceTouch >= 0 && sinceTouch < TOUCH_TO_CLICK_MS) return true;
+  const pointerType = native?.pointerType;
   if (pointerType === 'touch') return true;
   if (pointerType === 'mouse') return false;
   return (

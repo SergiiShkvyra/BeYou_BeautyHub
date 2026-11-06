@@ -1,14 +1,17 @@
 import { Star, Quote } from 'lucide-react';
-import type { MouseEvent } from 'react';
 import { useReveal, revealChildren, gsap } from '../lib/useReveal';
 
-// ?reviews=true lands directly on the Reviews view — but only on the
-// WEBSITE. The Fresha app intercepts direct taps on fresha.com links
-// (universal/app links) and dumps the visitor on the venue screen,
-// ignoring the parameter — so the click handler below deliberately opens
-// this URL via a JS-set navigation, which app-link interception skips.
-const FRESHA_REVIEWS_URL =
-  'https://www.fresha.com/a/beyou-beauty-hub-arlington-arlington-3865-wilson-boulevard-idzdd7ex?pId=2531140&reviews=true';
+// Fresha reviews go through our own helper page, which forwards to
+// fresha.com/a/...?pId=2531140&reviews=true by itself. Why: the Fresha app
+// claims every fresha.com/a/... URL, so a tapped Fresha link on a phone opens
+// the app, which ignores ?reviews=true (no reviews shown). The old trick, a
+// blank tab pointed at Fresha from JS, was still handed to the app on both
+// iPhone and Android, and on iPhone it left the blank tab behind. Tapping a
+// link to OUR domain can't be claimed by any app, and the page's own
+// forward isn't a user tap, so it stays in the browser. See
+// public/fresha-reviews/index.html (it also closes itself if an app still
+// takes over).
+const FRESHA_REVIEWS_HOP = '/fresha-reviews/';
 
 // Google Business Profile "Ask for reviews" link: opens the write-a-review
 // box directly (verified: resolves to the same place as the site's Maps
@@ -16,22 +19,6 @@ const FRESHA_REVIEWS_URL =
 // ("Leave a review"): Google's policy forbids soliciting only positive
 // reviews.
 const GOOGLE_REVIEW_URL = 'https://g.page/r/CR93_PTscBmLEBM/review';
-
-// Force the BROWSER (not the Fresha app): app links on iOS/Android only
-// trigger on real link taps, so opening a blank tab and setting its
-// location from JS keeps the visitor on fresha.com's web page, where
-// ?reviews=true shows the Reviews view immediately.
-const openFreshaReviews = (e: MouseEvent<HTMLAnchorElement>) => {
-  e.preventDefault();
-  const w = window.open('about:blank', '_blank');
-  if (w) {
-    w.opener = null;
-    w.location.href = FRESHA_REVIEWS_URL;
-  } else {
-    // Popup blocked: same-tab navigation still beats a dead click.
-    window.location.href = FRESHA_REVIEWS_URL;
-  }
-};
 
 const Testimonials = () => {
   const testimonials = [
@@ -319,11 +306,10 @@ const Testimonials = () => {
                 </a>
                 <span aria-hidden="true"> · </span>
                 <a
-                  href={FRESHA_REVIEWS_URL}
+                  href={FRESHA_REVIEWS_HOP}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Leave a review on Fresha"
-                  onClick={openFreshaReviews}
                   className="font-semibold text-olive underline underline-offset-4 decoration-olive/30 hover:decoration-olive transition-colors duration-200"
                 >
                   Fresha

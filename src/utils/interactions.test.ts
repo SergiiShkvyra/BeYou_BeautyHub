@@ -70,6 +70,21 @@ describe('scrollToSection', () => {
 });
 
 describe('isTouchActivation', () => {
+  // iPhone Safari: a finger tap whose click event misreports pointerType.
+  it('a real touchstart just before the click wins over a "mouse" pointerType', () => {
+    setCoarsePointer(false);
+    const touch = new Event('touchstart');
+    window.dispatchEvent(touch);
+    const tapClick = (offsetMs: number) => ({
+      preventDefault: vi.fn(),
+      nativeEvent: { pointerType: 'mouse', timeStamp: touch.timeStamp + offsetMs } as unknown as Event,
+    });
+
+    expect(isTouchActivation(tapClick(150))).toBe(true);
+    // A mouse click long after the last touch is still a mouse click.
+    expect(isTouchActivation(tapClick(5000))).toBe(false);
+  });
+
   it("trusts the click's own pointerType first", () => {
     setCoarsePointer(false);
     expect(isTouchActivation(click('touch'))).toBe(true);
